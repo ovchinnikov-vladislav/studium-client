@@ -1,0 +1,145 @@
+.windowStyle {
+    -fx-background-color: linear-gradient(to bottom, #a7c5e2 100%, white );
+}
+
+.labelStyle {
+    -fx-text-fill: #2292e4;
+    -fx-font-size: 12;
+}
+
+.check-box {
+    -fx-text-fill: #2292e4;
+    -fx-font-size: 14;
+}
+
+.labelStyleGrey {
+    -fx-text-fill: grey;
+    -fx-font-size: 20;
+    -fx-cursor: text;
+    -fx-padding: 0 0 0 10;
+}
+
+.labelStyleGrey:focused {
+    -fx-text-fill: white;
+}
+
+.labelStyleTitle {
+    -fx-text-fill: #2292e4;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-font-family: Georgia;
+}
+
+.lineStyle {
+    -fx-stroke-width: 3;
+    -fx-stroke: radial-gradient(focus-distance -100%, center 50% 0%, radius 100%, #eaf4fd, #2292e4);
+}
+
+.borderStyle {
+    -fx-background-color: #eaf4fd;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #4aa6ea;
+}
+
+.borderMainStyle {
+    -fx-background-color: #eaf4fd;
+    -fx-background-radius: 0px 0px 10px 10px;
+    -fx-border-radius: 0px 0px 10px 10px;
+    -fx-border-color: #4aa6ea;
+}
+
+.button {
+    -fx-background-color:
+            #a6b5c9,
+            linear-gradient(grey 0%, #3e5577 20%, #375074 100%),
+            linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
+    -fx-background-insets: 0 0 -1 0, 0, 1;
+    -fx-background-radius: 5, 5, 4;
+    -fx-border-color: #a6b5c9,
+    linear-gradient(grey 0%, #3e5577 20%, #375074 100%),
+    linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
+    -fx-border-radius: 5, 5, 4;
+    -fx-padding: 7 30 7 30;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(169, 169, 169), rgba(255, 249, 249, 249));
+    -fx-text-fill: black;
+    -fx-border-color: #b7b7b7;
+}
+
+.button:disabled {
+    -fx-opacity: 50;
+}
+
+.button:hover, .button:focused {
+    -fx-border-color: #728cb7;
+    -fx-border-radius: 5, 5, 4;
+}
+
+.borderMenuStyle {
+    -fx-background-color: #eaf4fd;
+    -fx-border-color: #4aa6ea;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.buttonMenu {
+    -fx-background-color: #eaf4fd;
+    -fx-border-color:#eaf4fd;
+    -fx-background-insets: 0 0 -1 0, 0, 1;
+    -fx-background-radius: 5, 5, 4;
+    -fx-padding: 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: #0e4874;
+    -fx-pref-height: 20;
+    -fx-min-width: 120;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.buttonMenu:hover, .buttonMenu:focused {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(145, 132, 255, 0.9), rgba(90, 115, 255, 0.87));
+    -fx-text-fill: white;
+    -fx-opacity: 80%;
+}
+
+.buttonMenu:pressed {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(70, 44, 255, 0.87), #2D799C);
+    -fx-text-fille: white;
+}
+
+.buttonMenu:disabled {
+    -fx-opacity: 50%;
+}
+
+.text-field, .password-field {
+    -fx-font-family: Arial;
+    -fx-font-size: 14;
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
+    -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 1, 0, 1, 1);
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(225, 225, 225), rgba(255, 249, 249, 249));
+    -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+}
+
+.combo-box {
+    -fx-font-family: Arial;
+    -fx-font-size: 14;
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
+    -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+    -fx-border-radius: 3;
+}
+
+.table-view {
+    -fx-font-family: Arial;
+    -fx-font-size: 14;
+}
