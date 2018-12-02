@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ProgressIndicator?>
 <GridPane
         xmlns:fx="http://javafx.com/fxml"
         stylesheets="/style/style.css"
@@ -24,22 +25,12 @@
         <RowConstraints prefHeight="20"/>
         <RowConstraints prefHeight="30"/>
         <RowConstraints prefHeight="35"/>
-        <RowConstraints prefHeight="10"/>
-        <RowConstraints prefHeight="30"/>
-        <RowConstraints prefHeight="35"/>
-        <RowConstraints prefHeight="10"/>
-        <RowConstraints prefHeight="30"/>
-        <RowConstraints prefHeight="35"/>
-        <RowConstraints prefHeight="10"/>
-        <RowConstraints prefHeight="30"/>
-        <RowConstraints prefHeight="35"/>
-        <RowConstraints prefHeight="10"/>
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES"/>
     </columnConstraints>
     <Label
-            text="Подключение к БД"
+            text="Подключение к серверу"
             GridPane.halignment="CENTER"
             GridPane.rowIndex="0"
             styleClass="labelStyleTitle"/>
@@ -57,37 +48,15 @@
             text="Введите адрес"
             styleClass="labelStyle"
             GridPane.rowIndex="2"/>
-    <TextField
-            fx:id="dbField"
-            prefHeight="35"
-            GridPane.rowIndex="6"
-            onKeyPressed="#dbFieldKeyPressed"/>
-    <Label
-            text="Введите БД"
-            styleClass="labelStyle"
-            GridPane.rowIndex="5"/>
-    <TextField
-            fx:id="loginField"
-            prefHeight="35"
-            GridPane.rowIndex="9"
-            onKeyPressed="#loginFieldKeyPressed"/>
-    <Label
-            text="Введите логин"
-            styleClass="labelStyle"
-            GridPane.rowIndex="8"/>
-    <PasswordField
-            fx:id="passField"
-            prefHeight="35"
-            GridPane.rowIndex="12"
-            onKeyPressed="#passFieldKeyPressed"/>
-    <Label
-            text="Введите пароль"
-            styleClass="labelStyle"
-            GridPane.rowIndex="11"/>
     <Button
+            fx:id="connectButton"
             text="Подключиться"
             styleClass="button"
-            GridPane.rowIndex="14"
+            GridPane.rowIndex="4"
             GridPane.halignment="CENTER"
             onAction="#connectAction"/>
+    <ProgressIndicator
+            fx:id="progressIndicator"
+            GridPane.rowIndex="4"
+            visible="false"/>
 </GridPane>

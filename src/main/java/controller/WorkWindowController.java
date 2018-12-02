@@ -1,5 +1,8 @@
 package controller;
 
+import engine.RestConnection;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -14,10 +17,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import engine.Database;
+import model.Group;
 import model.User;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.TextFieldTableCell;
 
+import java.util.ArrayList;
 
 
 public class WorkWindowController {
@@ -33,7 +38,12 @@ public class WorkWindowController {
     @FXML private TableColumn accessColumn;
 
     @FXML public void initialize() {
-        usersTable.setItems(Database.getUsers());
+        User[] users = RestConnection.getInstance().getUsers();
+        ObservableList<User> observableList = new SimpleListProperty<>();
+        for (User user : users) {
+            observableList.add(user);
+        }
+        usersTable.setItems(observableList);
         initPosition();
         initGroup();
         initColumnWidth();
@@ -67,7 +77,7 @@ public class WorkWindowController {
     }
 
     @FXML public void groupEditCommit(TableColumn.CellEditEvent<User, String> t) {
-        t.getTableView().getItems().get(t.getTablePosition().getRow()).setGroup(t.getNewValue());
+     //   t.getTableView().getItems().get(t.getTablePosition().getRow()).setGroup(t.getNewValue());
     }
 
     @FXML public void addUserAction(ActionEvent event) {
@@ -110,8 +120,8 @@ public class WorkWindowController {
             @Override
             public ObservableValue call(TableColumn.CellDataFeatures<User, String> param) {
                 User user = param.getValue();
-                String group = user.getGroup();
-                return new SimpleStringProperty(group);
+                Group group = user.getGroup();
+                return new SimpleObjectProperty(group);
             }
         });
         groupColumn.setCellFactory(ComboBoxTableCell.forTableColumn(groupList));

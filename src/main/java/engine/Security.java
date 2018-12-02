@@ -34,34 +34,23 @@ public class Security {
         }
     }
 
-    public static void readFile() throws IOException {
+    public static String readFile() throws IOException {
         final String passCrypt = "Dont hack me";
         ArrayList<String> list = new ArrayList<>();
         String dir = System.getProperty("user.dir");
-        BufferedReader reader = new BufferedReader(new FileReader(dir + "/data/db.config"));
+        BufferedReader reader = new BufferedReader(new FileReader(dir + "/data/connection.config"));
         while (reader.ready()) {
             list.add(reader.readLine());
         }
         reader.close();
-        TextEncryptor encryptor = Encryptors.text(passCrypt, list.get(list.size()-1));
-        if (list.size() == 6) {
-            String[] data = new String[5];
-            for (int i = 0; i < data.length; i++)
-                data[i] = encryptor.decrypt(list.get(i));
-            Database.setUrl("jdbc:mysql://" + data[0] + ":" + data[1] + "/" + data[2]);
-            Database.setUser(data[3]);
-            Database.setPassword(data[4]);
-        } else if (list.size() == 5) {
-            String[] data = new String[4];
-            for (int i = 0; i < data.length; i++)
-                data[i] = encryptor.decrypt(list.get(i));
-            Database.setUrl("jdbc:mysql://" + data[0] + ":3306/" + data[1]);
-            Database.setUser(data[2]);
-            Database.setPassword(data[3]);
+        if (list.size() == 2) {
+            TextEncryptor encryptor = Encryptors.text(passCrypt, list.get(1));
+            return encryptor.decrypt(list.get(0));
         }
+        return "";
     }
 
-    public static void writeFile(String address, String port, String db, String login, String password) throws IOException {
+    public static void writeFile(String address) throws IOException {
         final String passCrypt = "Dont hack me";
         String salt = KeyGenerators.string().generateKey();
         TextEncryptor encryptor = Encryptors.text(passCrypt, salt);
@@ -70,16 +59,8 @@ public class Security {
         if (!file.exists()) {
             file.mkdirs();
         }
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath() + "/db.config"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath() + "/connection.config"));
         writer.write(encryptor.encrypt(address));
-        writer.newLine();
-        writer.write(encryptor.encrypt(port));
-        writer.newLine();
-        writer.write(encryptor.encrypt(db));
-        writer.newLine();
-        writer.write(encryptor.encrypt(login));
-        writer.newLine();
-        writer.write(encryptor.encrypt(password));
         writer.newLine();
         writer.write(salt);
         writer.flush();

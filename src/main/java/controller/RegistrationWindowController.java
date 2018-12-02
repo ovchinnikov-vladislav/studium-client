@@ -49,12 +49,11 @@ public class RegistrationWindowController {
     }
 
     @FXML public void passKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER)
-            LoginWindowController.login(passField, loginField.getText(), passField.getText());
+
     }
 
     @FXML public void loginAction(ActionEvent event) {
-        LoginWindowController.login(passField, loginField.getText(), passField.getText());
+
     }
 
     @FXML public void fioRegKeyReleased(KeyEvent event) {
@@ -96,8 +95,8 @@ public class RegistrationWindowController {
             alert.setHeaderText("Не удалось зарегистироваться");
             alert.setContentText("Проверьте верные ли данные.");
             alert.showAndWait();
-        } else
-            LoginWindowController.login(loginRegField, loginRegField.getText(), passRegField.getText());
+        } //else
+            //LoginWindowController.login(loginRegField, loginRegField.getText(), passRegField.getText());
     }
 
     private void setGroupCheckBoxHandler() {

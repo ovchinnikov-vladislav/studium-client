@@ -83,7 +83,7 @@ public class Database {
     }
 
     public static ObservableList<User> getUsers() {
-        ObservableList<User> users = FXCollections.observableArrayList();
+        /*ObservableList<User> users = FXCollections.observableArrayList();
         try (Connection connection = DriverManager.getConnection(url, user, password);
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("call get_users()")) {
@@ -94,7 +94,8 @@ public class Database {
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
-        return users;
+        return users;*/
+        return null;
     }
 
     public static void setUrl(String url) {
@@ -110,19 +111,19 @@ public class Database {
     }
 
     public static boolean getRightLoginPass(String login, String pass, User userLogin) {
-        System.out.println(url + " " + user + " " + password);
+        /*System.out.println(url + " " + user + " " + password);
         try (Connection connection = DriverManager.getConnection(url, user, password);
                 Statement statement = connection.createStatement()) {
             String query = String.format("CALL login_user('%s', '%s')", login, Security.getMd5(pass));
             try (ResultSet rs = statement.executeQuery(query)) {
                 if (rs.next()) {
-                    userLogin.setID(rs.getInt(1));
+                    userLogin.setIdUser(rs.getInt(1));
                     userLogin.setFio(rs.getString(2));
                     userLogin.setLogin(rs.getString(3));
                     userLogin.setDateReg(rs.getDate(4));
                     userLogin.setPhone(rs.getString(5));
                     userLogin.setEmail(rs.getString(6));
-                    userLogin.setStatus(rs.getInt(7));
+                    userLogin.setStatusPass(rs.getInt(7));
                     userLogin.setPosition(rs.getString(8));
                     userLogin.setAccess(rs.getInt(9));
                     userLogin.setGroup(rs.getString(10));
@@ -131,7 +132,7 @@ public class Database {
             }
         } catch (SQLException exc) {
             exc.printStackTrace();
-        }
+        }*/
         return false;
     }
 

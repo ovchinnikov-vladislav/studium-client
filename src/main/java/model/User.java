@@ -1,166 +1,192 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javafx.beans.property.*;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
-    private IntegerProperty ID = new SimpleIntegerProperty();
-    private StringProperty fio = new SimpleStringProperty();
-    private StringProperty login = new SimpleStringProperty();
-    private ObjectProperty<Date> dateReg = new SimpleObjectProperty<>();
-    private StringProperty phone = new SimpleStringProperty();
-    private StringProperty email = new SimpleStringProperty();
-    private IntegerProperty status = new SimpleIntegerProperty();
-    private StringProperty position = new SimpleStringProperty();
-    private IntegerProperty access = new SimpleIntegerProperty();
-    private StringProperty group = new SimpleStringProperty();
+    private Integer idUser;
+    private String fio;
+    private String login;
+    private String password;
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    private Date dateReg;
+    private String phone;
+    private String email;
+    private Byte statusPass;
+    private String position;
+    private Byte access;
 
-    public User() {}
+    @JsonManagedReference
+    private Group group;
 
-    public User(int ID, String fio, String login, Date dateReg, String phone, String email, int status, String position, int access, String group) {
-        this.ID.set(ID);
-        this.fio.set(fio);
-        this.login.set(login);
-        this.dateReg.set(dateReg);
-        this.phone.set(phone);
-        this.email.set(email);
-        this.status.set(status);
-        this.position.set(position);
-        this.access.set(access);
-        this.group.set(group);
+    @JsonBackReference
+    private Set<Answer> answers;
+
+    @JsonBackReference
+    private Set<Question> questions;
+
+    @JsonBackReference
+    private Set<Test> tests;
+
+    @JsonBackReference
+    private Set<ResultTest> resultTests;
+
+    @JsonBackReference
+    private Set<ResultQuestion> resultQuestions;
+
+    public User() {
     }
 
-    public int getID() {
-        return ID.get();
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public IntegerProperty IDProperty() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID.set(ID);
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     public String getFio() {
-        return fio.get();
-    }
-
-    public StringProperty fioProperty() {
         return fio;
     }
 
     public void setFio(String fio) {
-        this.fio.set(fio);
+        this.fio = fio;
     }
 
     public String getLogin() {
-        return login.get();
-    }
-
-    public StringProperty loginProperty() {
         return login;
     }
 
     public void setLogin(String login) {
-        this.login.set(login);
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Date getDateReg() {
-        return dateReg.get();
-    }
-
-    public ObjectProperty<Date> dateRegProperty() {
         return dateReg;
     }
 
     public void setDateReg(Date dateReg) {
-        this.dateReg.set(dateReg);
+        this.dateReg = dateReg;
     }
 
     public String getPhone() {
-        return phone.get();
-    }
-
-    public StringProperty phoneProperty() {
         return phone;
     }
 
     public void setPhone(String phone) {
-        this.phone.set(phone);
+        this.phone = phone;
     }
 
     public String getEmail() {
-        return email.get();
-    }
-
-    public StringProperty emailProperty() {
         return email;
     }
 
     public void setEmail(String email) {
-        this.email.set(email);
+        this.email = email;
     }
 
-    public int getStatus() {
-        return status.get();
+    public Byte getStatusPass() {
+        return statusPass;
     }
 
-    public IntegerProperty statusProperty() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status.set(status);
+    public void setStatusPass(Byte statusPass) {
+        this.statusPass = statusPass;
     }
 
     public String getPosition() {
-        return position.get();
-    }
-
-    public StringProperty positionProperty() {
         return position;
     }
 
-    public void setPosition(String positition) {
-        this.position.set(positition);
+    public void setPosition(String position) {
+        this.position = position;
     }
 
-    public int getAccess() {
-        return access.get();
-    }
-
-    public IntegerProperty accessProperty() {
+    public Byte getAccess() {
         return access;
     }
 
-    public void setAccess(int access) {
-        this.access.set(access);
+    public void setAccess(Byte access) {
+        this.access = access;
     }
 
-    public String getGroup() {
-        return group.get();
-    }
-
-    public StringProperty groupProperty() {
+    public Group getGroup() {
         return group;
     }
 
-    public void setGroup(String group) {
-        this.group.set(group);
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    public Set<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(Set<Test> tests) {
+        this.tests = tests;
+    }
+
+    public Set<ResultTest> getResultTests() {
+        return resultTests;
+    }
+
+    public void setResultTests(Set<ResultTest> resultTests) {
+        this.resultTests = resultTests;
+    }
+
+    public Set<ResultQuestion> getResultQuestions() {
+        return resultQuestions;
+    }
+
+    public void setResultQuestions(Set<ResultQuestion> resultQuestions) {
+        this.resultQuestions = resultQuestions;
     }
 
     @Override
     public String toString() {
-        return "ID: " + getID() + "\n" +
+        return "ID: " + getIdUser() + "\n" +
                 "FIO: " + getFio() + "\n" +
                 "Login: " + getLogin() + "\n" +
                 "DateReg: " + getDateReg()+ "\n" +
                 "Phone: " + getPhone() + "\n" +
                 "Email: " + getEmail() + "\n" +
-                "Status: " + getStatus() + "\n" +
+                "Status: " + getStatusPass() + "\n" +
                 "Position: " + getPosition() + "\n" +
                 "Access: " + getAccess() + "\n";
     }

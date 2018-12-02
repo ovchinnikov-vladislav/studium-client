@@ -8,12 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 
+import org.springframework.boot.web.client.RestTemplateBuilder;
+
 public class ConnectWindow extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(ConnectWindow.class.getResource("/fxml/connect_window.fxml"));
-        Scene scene = new Scene(root, 300, 350);
+        Scene scene = new Scene(root, 500, 200);
         stage.setScene(scene);
         stage.setTitle("Подключение к БД");
         stage.setResizable(false);
@@ -22,7 +24,7 @@ public class ConnectWindow extends Application {
 
     public static Stage getStage() throws IOException {
         Parent root = FXMLLoader.load(ConnectWindow.class.getResource("/fxml/connect_window.fxml"));
-        Scene scene = new Scene(root, 300, 350);
+        Scene scene = new Scene(root, 500, 200);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Подключение к БД");
