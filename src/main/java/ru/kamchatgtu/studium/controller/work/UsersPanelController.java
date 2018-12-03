@@ -1,0 +1,298 @@
+package ru.kamchatgtu.studium.controller.work;
+
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.util.Callback;
+import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.entity.Group;
+import ru.kamchatgtu.studium.entity.Position;
+import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.restclient.RestConnection;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class UsersPanelController {
+
+    private RestConnection restConnection;
+    //----------------Пользователи--------------------
+    // Поля раздела "Пользователи"
+    private HashMap<User, String> commandsUser;
+    private ObservableList<User> users;
+    private ObservableList<Position> positions;
+    private ObservableList<Group> groups;
+    // Компоненты раздела "Пользователи"
+    @FXML
+    private TableView usersTable;
+    @FXML
+    private TableColumn fioColumn;
+    @FXML
+    private TableColumn loginColumn;
+    @FXML
+    private TableColumn phoneColumn;
+    @FXML
+    private TableColumn dateRegColumn;
+    @FXML
+    private TableColumn emailColumn;
+    @FXML
+    private TableColumn positionColumn;
+    @FXML
+    private TableColumn groupColumn;
+    @FXML
+    private TableColumn resetPass;
+
+    @FXML
+    public void initialize() {
+        restConnection = new RestConnection();
+        commandsUser = new HashMap<>();
+        users = restConnection.getRestUser().getAll();
+        positions = restConnection.getRestPosition().getAll();
+        groups = restConnection.getRestGroup().getAll();
+        usersTable.getItems().addAll(users);
+        initPosition();
+        initGroup();
+        initColumnUserWidth();
+        initResetPassButton();
+        initDate();
+    }
+
+    // Методы раздела "Пользователи"
+    @FXML
+    public void fioEditCommit(TableColumn.CellEditEvent<User, String> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setFio(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void loginEditCommit(TableColumn.CellEditEvent<User, String> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setLogin(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void phoneEditCommit(TableColumn.CellEditEvent<User, String> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setPhone(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void emailEditCommit(TableColumn.CellEditEvent<User, String> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setEmail(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void positionEditCommit(TableColumn.CellEditEvent<User, Position> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setPosition(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void groupEditCommit(TableColumn.CellEditEvent<User, Group> t) {
+        int idRow = t.getTablePosition().getRow();
+        User user = t.getTableView().getItems().get(idRow);
+        user.setGroup(t.getNewValue());
+        if (user.getIdUser() == 0)
+            commandsUser.put(user, "insert");
+        else
+            commandsUser.put(user, "update");
+    }
+
+    @FXML
+    public void addUserAction(ActionEvent event) {
+        User newUser = new User();
+        newUser.setDateAuth(new Date());
+        newUser.setDateReg(new Date());
+        Group group = groups.get(0);
+        if (users.get(0).getLogin() != null && users.get(0).getGroup() != null)
+            users.add(0, newUser);
+        usersTable.setItems(users);
+    }
+
+    @FXML
+    public void deleteUserAction(ActionEvent event) {
+        ObservableList<User> usersSelect = usersTable.getSelectionModel().getSelectedItems();
+        for (User user : usersSelect) {
+            commandsUser.put(user, "delete");
+        }
+        usersTable.getItems().removeAll(usersSelect);
+        users.removeAll(usersSelect);
+    }
+
+    @FXML
+    public void deleteUserKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.DELETE) {
+            ObservableList<User> usersSelect = usersTable.getSelectionModel().getSelectedItems();
+            for (User user : usersSelect) {
+                commandsUser.put(user, "delete");
+            }
+            usersTable.getItems().removeAll(usersSelect);
+            users.removeAll(usersSelect);
+        }
+    }
+
+    @FXML
+    public void saveUserAction(ActionEvent event) {
+        SaveUserTask saveUserTask = new SaveUserTask();
+        //  progressBar.progressProperty().unbind();
+        //  progressBar.progressProperty().bind(saveUserTask.progressProperty());
+        Thread thread = new Thread(saveUserTask);
+        thread.start();
+    }
+
+    private void initPosition() {
+
+        positionColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue>() {
+            @Override
+            public ObservableValue call(TableColumn.CellDataFeatures<User, String> param) {
+                User user = param.getValue();
+                Position position = user.getPosition();
+                if (position != null) {
+                    return position.positionProperty();
+                }
+                return null;
+            }
+        });
+        positionColumn.setCellFactory(ComboBoxTableCell.forTableColumn(positions));
+    }
+
+    private void initResetPassButton() {
+        resetPass.setCellValueFactory(new PropertyValueFactory<>(""));
+
+        Callback<TableColumn<User, String>, TableCell<User, String>> cellFactory =
+                new Callback<TableColumn<User, String>, TableCell<User, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<User, String> param) {
+                        final TableCell<User, String> cell = new TableCell<User, String>() {
+
+                            final Button btn = new Button("Сбросить пароль");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.getStyleClass().addAll("buttonTable");
+                                    btn.setOnAction(event -> {
+                                        User user = getTableView().getItems().get(getIndex());
+                                        user.setStatusPass(0);
+                                        commandsUser.put(user, "update");
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+        resetPass.setCellFactory(cellFactory);
+    }
+
+    private void initGroup() {
+        groupColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, Group>, ObservableValue>() {
+            @Override
+            public ObservableValue call(TableColumn.CellDataFeatures<User, Group> param) {
+                User user = param.getValue();
+                Group group = user.getGroup();
+                return group.nameGroupProperty();
+            }
+        });
+        groupColumn.setCellFactory(ComboBoxTableCell.forTableColumn(groups));
+    }
+
+    private void initDate() {
+        dateRegColumn.setCellFactory(column -> {
+            TableCell<User, Date> cell = new TableCell<User, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell;
+        });
+    }
+
+    private void initColumnUserWidth() {
+        fioColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        loginColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.10));
+        emailColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.24));
+        phoneColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.14));
+        groupColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.14));
+        dateRegColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.09));
+        positionColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.09));
+    }
+
+    private class SaveUserTask extends Task<ObservableList<User>> {
+
+        @Override
+        protected ObservableList<User> call() {
+            ObservableList<User> users = FXCollections.observableArrayList();
+            int i = 0;
+            int count = commandsUser.size();
+            for (Map.Entry<User, String> command : commandsUser.entrySet()) {
+                User user = command.getKey();
+                String com = command.getValue();
+                if ("update".equals(com))
+                    restConnection.getRestUser().update(user);
+                else if ("insert".equals(com)) {
+                    user.setPassword(Security.encryptPass(Security.getRandomPass()));
+                    restConnection.getRestUser().add(user);
+                } else if ("delete".equals(com)) {
+                    restConnection.getRestUser().remove(user);
+                }
+                this.updateProgress(++i, count);
+            }
+            return users;
+        }
+    }
+    //---------------------------------------------
+}

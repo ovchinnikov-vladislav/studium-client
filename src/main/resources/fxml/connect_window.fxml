@@ -1,62 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.ProgressIndicator?>
-<GridPane
-        xmlns:fx="http://javafx.com/fxml"
-        stylesheets="/style/style.css"
-        fx:controller="controller.ConnectWindowController"
-        styleClass="borderStyle"
-        style="-fx-border-radius: 0px">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-border-radius: 0px" styleClass="borderStyle"
+          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ru.kamchatgtu.studium.controller.ConnectWindowController">
     <padding>
         <Insets topRightBottomLeft="15"/>
     </padding>
     <rowConstraints>
         <RowConstraints prefHeight="40"/>
         <RowConstraints prefHeight="20"/>
-        <RowConstraints prefHeight="30"/>
+        <RowConstraints prefHeight="35"/>
+        <RowConstraints prefHeight="10"/>
         <RowConstraints prefHeight="35"/>
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES"/>
     </columnConstraints>
-    <Label
-            text="Подключение к серверу"
-            GridPane.halignment="CENTER"
-            GridPane.rowIndex="0"
-            styleClass="labelStyleTitle"/>
-    <Separator
-            GridPane.rowIndex="1"
-            GridPane.halignment="CENTER"
-            GridPane.valignment="TOP"
-            styleClass="lineStyle"/>
-    <TextField
-            fx:id="addressField"
-            prefHeight="35"
-            GridPane.rowIndex="3"
-            onKeyPressed="#addressFieldKeyPressed"/>
-    <Label
-            text="Введите адрес"
-            styleClass="labelStyle"
-            GridPane.rowIndex="2"/>
-    <Button
-            fx:id="connectButton"
-            text="Подключиться"
-            styleClass="button"
-            GridPane.rowIndex="4"
-            GridPane.halignment="CENTER"
-            onAction="#connectAction"/>
-    <ProgressIndicator
-            fx:id="progressIndicator"
-            GridPane.rowIndex="4"
-            visible="false"/>
+    <Label styleClass="labelStyleTitle" text="Подключение к серверу" GridPane.halignment="CENTER"
+           GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+    <TextField fx:id="addressField" onKeyPressed="#addressFieldKeyPressed" prefHeight="35"
+               promptText="Веб-адрес сервера" styleClass="textFieldMain" GridPane.rowIndex="2"/>
+    <Button fx:id="connectButton" onAction="#connectAction" styleClass="buttonMain" text="Подключиться"
+            GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.valignment="BOTTOM"/>
 </GridPane>

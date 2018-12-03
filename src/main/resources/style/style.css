@@ -1,15 +1,46 @@
 .windowStyle {
-    -fx-background-color: linear-gradient(to bottom, #a7c5e2 100%, white );
+   /* -fx-background-color: linear-gradient(to bottom, #a7c5e2 100%, white ); */
+    -fx-background-color: #f5f5f5;
 }
 
-.labelStyle {
-    -fx-text-fill: #2292e4;
-    -fx-font-size: 12;
+.promo {
+    -fx-background-color: #2292E4
+}
+
+.intro {
+    -fx-text-fill: #074f66;
+    -fx-font-size: 120;
+    -fx-font-weight: bold;
+    -fx-font-family: Arial, sans-serif;
+}
+
+.intro_highlight {
+    -fx-text-fill: #fff;
+    -fx-font-size: 120;
+    -fx-font-weight: bold;
+    -fx-font-family: Arial, sans-serif;
+}
+
+.intro_min {
+    -fx-text-fill: #2292E4;
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+    -fx-font-family: Arial, sans-serif;
+}
+
+.intro_text {
+    -fx-text-fill: #fff;
+    -fx-font-size: 28;
+    -fx-font-family: Arial, sans-serif;
 }
 
 .check-box {
     -fx-text-fill: #2292e4;
     -fx-font-size: 14;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER-LEFT;
 }
 
 .labelStyleGrey {
@@ -24,93 +55,137 @@
 }
 
 .labelStyleTitle {
-    -fx-text-fill: #2292e4;
+    -fx-text-fill: #074F66;
     -fx-font-size: 20;
     -fx-font-weight: bold;
-    -fx-font-family: Georgia;
+    -fx-font-family: 'Loto', arial, sans-serif;
 }
 
 .lineStyle {
     -fx-stroke-width: 3;
-    -fx-stroke: radial-gradient(focus-distance -100%, center 50% 0%, radius 100%, #eaf4fd, #2292e4);
+    -fx-stroke: radial-gradient(focus-distance -100%, center 50% 0%, radius 100%, #fff, #2292e4);
 }
 
 .borderStyle {
-    -fx-background-color: #eaf4fd;
-    -fx-background-radius: 10px;
-    -fx-border-radius: 10px;
-    -fx-border-color: #4aa6ea;
+   /* -fx-background-color: #fff; */
+    -fx-background-color: #fff;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #fff;
+}
+
+.scroll-pane {
+    -fx-background-color: #fff;
+    -fx-border-color: #fff;
 }
 
 .borderMainStyle {
-    -fx-background-color: #eaf4fd;
-    -fx-background-radius: 0px 0px 10px 10px;
-    -fx-border-radius: 0px 0px 10px 10px;
-    -fx-border-color: #4aa6ea;
+    -fx-background-color: #fff;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #fff;
 }
 
-.button {
-    -fx-background-color:
-            #a6b5c9,
-            linear-gradient(grey 0%, #3e5577 20%, #375074 100%),
-            linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
-    -fx-background-insets: 0 0 -1 0, 0, 1;
-    -fx-background-radius: 5, 5, 4;
-    -fx-border-color: #a6b5c9,
-    linear-gradient(grey 0%, #3e5577 20%, #375074 100%),
-    linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
-    -fx-border-radius: 5, 5, 4;
-    -fx-padding: 7 30 7 30;
+.buttonMain, .buttonTable {
+    -fx-background-color: #074f66;
+    -fx-background-radius: 3px;
+    -fx-border-color: #074f66;
+    -fx-border-radius: 3px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14;
+}
+
+.buttonMain:disabled, .buttonTable:disabled {
+    -fx-opacity: 50;
+}
+
+.buttonMain:hover, .buttonTable:hover {
+    -fx-background-color: #053c4e;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-border-color: #053c4e;
+    -fx-text-fill: #fff;
+}
+
+.buttonMain:pressed, .buttonTable:pressed {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(169, 169, 169), rgba(255, 249, 249, 249));
+    -fx-text-fill: black;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-border-color: #b7b7b7;
+}
+
+.buttonRound {
+    -fx-background-color: #074f66;
+    -fx-background-radius: 100;
+    -fx-border-color: #074f66;
+    -fx-border-radius: 50;
     -fx-font-family: "Georgia";
-    -fx-font-size: 16px;
-    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-text-fill: #fff;
 }
 
-.button:pressed {
+.buttonRound:disabled {
+    -fx-background-color: rgba(166, 181, 201, 0.5),
+    linear-gradient(rgba(128, 128, 128, 0.5) 0%, rgba(62, 85, 119, 0.5) 20%, rgba(55, 80, 116, 0.51) 100%),
+    linear-gradient(rgba(118, 138, 165, 0.51) 0%, rgba(132, 156, 187, 0.5) 5%, rgba(88, 119, 162, 0.51) 50%, rgba(72, 106, 154, 0.5) 51%, #4a6c9b 100%);
+}
+
+.buttonRound:hover, .buttonRound:focused {
+    -fx-background-color: #053c4e;
+    -fx-border-color: #053c4e;
+    -fx-border-radius: 50;
+    -fx-text-fill: #fff;
+}
+
+.buttonRound:pressed {
     -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(169, 169, 169), rgba(255, 249, 249, 249));
     -fx-text-fill: black;
     -fx-border-color: #b7b7b7;
 }
 
-.button:disabled {
-    -fx-opacity: 50;
-}
-
-.button:hover, .button:focused {
-    -fx-border-color: #728cb7;
-    -fx-border-radius: 5, 5, 4;
-}
-
 .borderMenuStyle {
-    -fx-background-color: #eaf4fd;
+    -fx-background-color: #fff;
+    -fx-border-color: #fff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);
+}
+
+.borderTest {
+    -fx-background-color: white;
     -fx-border-color: #4aa6ea;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
 }
 
 .buttonMenu {
-    -fx-background-color: #eaf4fd;
-    -fx-border-color:#eaf4fd;
-    -fx-background-insets: 0 0 -1 0, 0, 1;
-    -fx-background-radius: 5, 5, 4;
+    -fx-background-color: #fff;
+    -fx-border-color:#fff;
+    -fx-background-radius: 5;
     -fx-padding: 10;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Arial", sans-serif;
     -fx-font-size: 14;
-    -fx-text-fill: #0e4874;
+    -fx-text-fill: #666666;
     -fx-pref-height: 20;
-    -fx-min-width: 120;
     -fx-text-alignment: center;
     -fx-wrap-text: true;
+    -fx-cursor: hand;
 }
 
-.buttonMenu:hover, .buttonMenu:focused {
-    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(145, 132, 255, 0.9), rgba(90, 115, 255, 0.87));
+.buttonMenu:hover{
+    -fx-background-color: #2292E4;
+    -fx-border-color: #2292E4;
+    -fx-border-radius: 5;
     -fx-text-fill: white;
     -fx-opacity: 80%;
 }
 
 .buttonMenu:pressed {
-    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(70, 44, 255, 0.87), #2D799C);
-    -fx-text-fille: white;
+    -fx-background-color: #2292E4;
+    -fx-text-fill: #074f66;
+    -fx-border-color: #2292E4;
+    -fx-border-radius: 5;
 }
 
 .buttonMenu:disabled {
@@ -118,6 +193,7 @@
 }
 
 .text-field, .password-field {
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.57);
     -fx-font-family: Arial;
     -fx-font-size: 14;
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
@@ -126,20 +202,39 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 1, 0, 1, 1);
 }
 
-.text-field:focused, .password-field:focused {
+.text-field:focused, .combo-box > .text-field:focused, .password-field:focused {
     -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(225, 225, 225), rgba(255, 249, 249, 249));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
 }
 
 .combo-box {
     -fx-font-family: Arial;
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.57);
     -fx-font-size: 14;
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
     -fx-border-radius: 3;
 }
 
+.combo-box > .text-field {
+    -fx-font-family: Arial;
+    -fx-font-size: 14;
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
+    -fx-border-width: 0;
+}
+
 .table-view {
     -fx-font-family: Arial;
     -fx-font-size: 14;
+}
+
+.text-field-table-cell > .text-field {
+    -fx-background-color: white;
+    -fx-border-color: white;
+    -fx-background-radius: 0px;
+    -fx-border-radius: 0px;
+}
+
+.text-field-table-cell {
+    -fx-padding: 0px;
 }

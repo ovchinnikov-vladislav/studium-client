@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ru.kamchatgtu.studium.controller.work.CreateQuesPanelController">
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <padding>
+        <Insets bottom="25" left="50" right="50"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints minHeight="35"/>
+        <RowConstraints minHeight="15"/>
+        <RowConstraints minHeight="35"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="10"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints hgrow="ALWAYS"/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Вопросы" GridPane.columnSpan="6" GridPane.halignment="CENTER"
+           GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+               GridPane.valignment="TOP"/>
+    <ComboBox fx:id="themeBox" editable="true" maxWidth="4000" minHeight="35" promptText="Тема вопроса"
+              GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
+    <ComboBox fx:id="questionBox" editable="true" maxWidth="4000" minHeight="35" promptText="Вопрос"
+              GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
+    <TextField fx:id="questionField" maxWidth="4000" minHeight="35" promptText="Вопрос" visible="false"
+               GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
+    <HBox GridPane.columnIndex="2" GridPane.rowIndex="4">
+        <GridPane.margin>
+            <Insets left="5" top="5"/>
+        </GridPane.margin>
+        <Button fx:id="addQuestionButton" onAction="#addNewQuestionAction" style="-fx-padding: 5px 8px 5px 8px"
+                styleClass="buttonRound" text="+">
+            <HBox.margin>
+                <Insets right="2"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="deleteQuestionButton" disable="true" style="-fx-padding: 5px 9px 5px 9px"
+                styleClass="buttonRound" text="-">
+            <HBox.margin>
+                <Insets right="2"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="saveQuestionButton" disable="true" onAction="#saveQuestionButton"
+                style="-fx-padding: 5px 9px 5px 9px" styleClass="buttonRound" text="s">
+            <HBox.margin>
+                <Insets right="2"/>
+            </HBox.margin>
+        </Button>
+    </HBox>
+    <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
+        <GridPane fx:id="answersPane" hgap="5" style="-fx-border-width: 0px" styleClass="borderStyle" vgap="5">
+            <columnConstraints>
+                <ColumnConstraints maxWidth="20"/>
+                <ColumnConstraints maxWidth="20"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+            </columnConstraints>
+        </GridPane>
+    </ScrollPane>
+    <Button fx:id="addAnswerButton" disable="true" onAction="#addNewAnswerAction" style="-fx-padding: 5px 8px 5px 8px;"
+            styleClass="buttonRound" text="+" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
+        <GridPane.margin>
+            <Insets left="7"/>
+        </GridPane.margin>
+    </Button>
+</GridPane>

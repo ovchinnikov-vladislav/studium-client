@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.shape.Line?>
-<GridPane
-        xmlns:fx="http://javafx.com/fxml"
-        stylesheets="/style/style.css"
-        styleClass="windowStyle"
-        fx:controller="controller.RegistrationWindowController"
-        prefWidth="500"
-        prefHeight="500">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500" prefWidth="500" styleClass="windowStyle"
+          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ru.kamchatgtu.studium.controller.RegistrationWindowController">
     <rowConstraints>
-        <RowConstraints minHeight="50"/>
-        <RowConstraints fx:id="rowSecond"/>
+        <RowConstraints minHeight="75"/>
+        <RowConstraints fx:id="rowSecond" vgrow="ALWAYS"/>
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints percentWidth="100"/>
     </columnConstraints>
-    <GridPane
-            fx:id="borderLogin"
-            visible="false"
-            styleClass="borderMainStyle"
-            minWidth="400"
-            maxWidth="700"
-            GridPane.halignment="CENTER"
-            GridPane.rowIndex="1">
+    <GridPane fx:id="borderLogin" maxWidth="550" maxHeight="220" styleClass="borderMainStyle" visible="false"
+              GridPane.halignment="CENTER" alignment="CENTER" GridPane.rowIndex="1">
         <padding>
-            <Insets left="150" right="150"/>
+            <Insets left="50" right="50"/>
         </padding>
         <rowConstraints>
-            <RowConstraints prefHeight="40"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints minHeight="40"/>
+            <RowConstraints minHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
-            <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
+            <RowConstraints prefHeight="15"/>
             <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="35"/>
         </rowConstraints>
@@ -46,74 +32,40 @@
             <ColumnConstraints hgrow="SOMETIMES"/>
         </columnConstraints>
         <children>
-            <Label
-                    text="Авторизация и вход"
-                    GridPane.halignment="CENTER"
-                    GridPane.rowIndex="0"
-                    styleClass="labelStyleTitle"/>
-            <Separator
-                    GridPane.rowIndex="1"
-                    GridPane.halignment="CENTER"
-                    GridPane.valignment="TOP"
-                    styleClass="lineStyle"/>
-            <TextField
-                    fx:id="loginField"
-                    prefHeight="35"
-                    GridPane.rowIndex="3"
-                    onKeyReleased="#loginKeyReleased"/>
-            <Label
-                    text="Введите логин"
-                    styleClass="labelStyle"
-                    GridPane.rowIndex="2"/>
-            <PasswordField
-                    fx:id="passField"
-                    prefHeight="35"
-                    GridPane.rowIndex="6"
-                    onKeyReleased="#passKeyReleased"/>
-            <Label
-                    text="Введите пароль"
-                    GridPane.rowIndex="5"
-                    styleClass="labelStyle"/>
-            <Button
-                    text="Войти"
-                    GridPane.rowIndex="8"
-                    GridPane.halignment="CENTER"
-                    GridPane.valignment="BOTTOM"
-                    styleClass="button"
-                    onAction="#loginAction"/>
+            <Label styleClass="labelStyleTitle" text="Авторизация и вход" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                   GridPane.rowIndex="0"/>
+            <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                       GridPane.valignment="TOP"/>
+            <TextField fx:id="loginField" onKeyReleased="#loginKeyReleased" prefHeight="35" promptText="Логин/E-mail"
+                       GridPane.rowIndex="2"/>
+            <PasswordField fx:id="passField" onKeyReleased="#passKeyReleased" prefHeight="35" promptText="Пароль"
+                           GridPane.rowIndex="4"/>
+            <Button fx:id="logButton" onAction="#loginAction" styleClass="buttonMain" text="Войти"
+                    GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"/>
+            <ProgressIndicator fx:id="progressLogIndicator" visible="false" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="6" GridPane.valignment="BOTTOM"/>
         </children>
     </GridPane>
-    <GridPane
-            fx:id="borderReg"
-            styleClass="borderMainStyle"
-            minWidth="400"
-            maxWidth="700"
-            GridPane.halignment="CENTER"
-            GridPane.rowIndex="1">
+    <GridPane fx:id="borderReg" maxWidth="550" maxHeight="450" styleClass="borderMainStyle" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+              GridPane.rowIndex="1">
         <padding>
-            <Insets left="150" right="150"/>
+            <Insets left="50" right="50"/>
         </padding>
         <rowConstraints>
-            <RowConstraints prefHeight="40"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints minHeight="40"/>
+            <RowConstraints minHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
-            <RowConstraints prefHeight="20"/>
-            <RowConstraints prefHeight="30"/>
-            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="35"/>
+            <RowConstraints prefHeight="15"/>
             <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="35"/>
         </rowConstraints>
@@ -121,107 +73,41 @@
             <ColumnConstraints hgrow="SOMETIMES"/>
         </columnConstraints>
         <children>
-            <Label
-                    text="Регистрация"
-                    GridPane.halignment="CENTER"
-                    GridPane.rowIndex="0"
-                    styleClass="labelStyleTitle"/>
-            <Separator
-                    GridPane.rowIndex="1"
-                    GridPane.halignment="CENTER"
-                    GridPane.valignment="TOP"
-                    styleClass="lineStyle"/>
-            <TextField
-                    fx:id="fioRegField"
-                    prefHeight="35"
-                    GridPane.rowIndex="3"
-                    onKeyReleased="#fioRegKeyReleased"/>
-            <Label
-                    fx:id="fioRegLabel"
-                    text="Введите ФИО"
-                    styleClass="labelStyle"
-                    GridPane.rowIndex="2"/>
-            <TextField
-                    fx:id="loginRegField"
-                    prefHeight="35"
-                    GridPane.rowIndex="6"
-                    onKeyReleased="#loginRegKeyReleased"/>
-            <Label
-                    fx:id="loginRegLabel"
-                    text="Введите логин"
-                    styleClass="labelStyle"
-                    GridPane.rowIndex="5"/>
-            <PasswordField
-                    fx:id="passRegField"
-                    prefHeight="35"
-                    GridPane.rowIndex="9"
-                    onKeyReleased="#passRegKeyReleased"/>
-            <Label
-                    fx:id="passRegLabel"
-                    text="Введите пароль"
-                    GridPane.rowIndex="8"
-                    styleClass="labelStyle"/>
-            <ComboBox
-                    fx:id="groupBox"
-                    prefHeight="35"
-                    prefWidth="200"
-                    GridPane.halignment="LEFT"
-                    GridPane.rowIndex="12"/>
-            <CheckBox
-                    fx:id="groupCheckBox"
-                    prefHeight="35"
-                    text="Группы нет в списке"
-                    GridPane.halignment="RIGHT"
-                    GridPane.rowIndex="12"/>
-            <Label
-                    fx:id="groupLabel"
-                    text="Выберите группу"
-                    GridPane.rowIndex="11"
-                    styleClass="labelStyle"/>
-            <TextField
-                    fx:id="emailRegField"
-                    prefHeight="35"
-                    GridPane.rowIndex="15"
-                    onKeyReleased="#emailRegKeyReleased"/>
-            <Label
-                    fx:id="emailLabel"
-                    text="Введите E-mail"
-                    GridPane.rowIndex="14"
-                    styleClass="labelStyle"/>
-            <TextField
-                    fx:id="phoneField"
-                    prefHeight="35"
-                    GridPane.rowIndex="18"
-                    onKeyReleased="#phoneKeyReleased"/>
-            <Label
-                    fx:id="phoneLabel"
-                    text="Введите номер телефона"
-                    GridPane.rowIndex="17"
-                    styleClass="labelStyle"/>
-            <Button
-                    text="Зарегистрироваться"
-                    GridPane.rowIndex="20"
-                    GridPane.halignment="CENTER"
-                    GridPane.valignment="BOTTOM"
-                    styleClass="button"
-                    onAction="#regButtonAction"/>
+            <Label styleClass="labelStyleTitle" text="Регистрация" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
+            <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                       GridPane.valignment="TOP"/>
+            <TextField fx:id="fioRegField" onKeyReleased="#fioRegKeyReleased" prefHeight="35"
+                       promptText="ФИО (Пример: Иванов И.И.)" GridPane.rowIndex="2"/>
+            <TextField fx:id="loginRegField" onKeyReleased="#loginRegKeyReleased" prefHeight="35" promptText="Логин"
+                       GridPane.rowIndex="4"/>
+            <PasswordField fx:id="passRegField" onKeyReleased="#passRegKeyReleased" prefHeight="35" promptText="Пароль"
+                           GridPane.rowIndex="6"/>
+            <ComboBox fx:id="groupBox" prefHeight="35" prefWidth="200" promptText="Группа" GridPane.halignment="LEFT"
+                      GridPane.rowIndex="8"/>
+            <CheckBox fx:id="groupCheckBox" prefHeight="35" text="Группы нет в списке" GridPane.halignment="RIGHT"
+                      GridPane.rowIndex="8"/>
+            <TextField fx:id="emailRegField" onKeyReleased="#emailRegKeyReleased" prefHeight="35"
+                       promptText="E-mail (Пример: ivanov@mail.ru)" GridPane.rowIndex="10"/>
+            <TextField fx:id="phoneField" onKeyReleased="#phoneKeyReleased" prefHeight="35"
+                       promptText="Телефон (Пример: 8-914-000-00-00)" GridPane.rowIndex="12"/>
+            <Button fx:id="regButton" onAction="#regButtonAction" styleClass="buttonMain" text="Зарегистрироваться"
+                    GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM"/>
+            <ProgressIndicator fx:id="progressRegIndicator" visible="false" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="14" GridPane.valignment="BOTTOM"/>
         </children>
     </GridPane>
-    <GridPane
-            GridPane.rowIndex="0"
-            alignment="CENTER"
-            styleClass="borderMenuStyle"
-            hgap="5">
-            <Button text="Войти"
-                    GridPane.columnIndex="1"
-                    styleClass="buttonMenu"
-                    onAction="#loginMenuClick"/>
-            <Button text="Регистрация"
-                    GridPane.columnIndex="2"
-                    styleClass="buttonMenu"
-                    onAction="#regMenuClick"/>
-            <Button text="Сброс пароля"
-                    GridPane.columnIndex="3"
-                    styleClass="buttonMenu"/>
+    <GridPane alignment="CENTER" hgap="5" styleClass="borderMenuStyle" GridPane.rowIndex="0">
+        <Button onAction="#loginMenuClick" styleClass="buttonMenu" text="Войти" GridPane.columnIndex="1"/>
+        <Button onAction="#regMenuClick" styleClass="buttonMenu" text="Регистрация" GridPane.columnIndex="2"/>
+        <Button styleClass="buttonMenu" text="Сброс пароля" GridPane.columnIndex="3"/>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+        </rowConstraints>
     </GridPane>
 </GridPane>

@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="IKAS" />
+        <module name="StudiumClient" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
   </component>
 </project>

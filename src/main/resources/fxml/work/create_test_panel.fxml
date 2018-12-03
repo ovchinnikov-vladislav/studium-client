@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ru.kamchatgtu.studium.controller.work.CreateTestPanelController">
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <padding>
+        <Insets bottom="25" left="25" right="25"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="35.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints prefHeight="35"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Создание теста" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+    <TableView fx:id="testTable" editable="true" GridPane.rowIndex="4">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn fx:id="nameTestColumn" minWidth="100" text="Наименование">
+
+            </TableColumn>
+            <TableColumn fx:id="dateEditColumn" minWidth="100" text="Дата создания">
+            </TableColumn>
+            <TableColumn fx:id="timerTestColumn" minWidth="100" text="Время теста">
+
+            </TableColumn>
+            <TableColumn fx:id="userTestColumn" minWidth="100" text="Создал">
+
+            </TableColumn>
+            <TableColumn fx:id="subjectTestColumn" minWidth="100" text="Дисциплина">
+
+            </TableColumn>
+            <TableColumn fx:id="countQuesColumn" minWidth="100" text="Вопросы">
+                <cellValueFactory>
+                    <PropertyValueFactory property="email"/>
+                </cellValueFactory>
+                <cellFactory>
+                    <TextFieldTableCell fx:factory="forTableColumn"/>
+                </cellFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    <GridPane alignment="CENTER" hgap="5" GridPane.rowIndex="6">
+        <Button styleClass="buttonMain" text="Добавить" GridPane.columnIndex="0"/>
+        <Button styleClass="buttonMain" text="Удалить" GridPane.columnIndex="1"/>
+        <Button styleClass="buttonMain" text="Сохранить" GridPane.columnIndex="2"/>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+        </rowConstraints>
+    </GridPane>
+</GridPane>
