@@ -2,12 +2,9 @@ package engine;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
-import model.User;
-import view.connect.ConnectWindow;
+import entity.User;
 
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
 package controller;
 
+import engine.RestConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -40,7 +41,7 @@ public class RegistrationWindowController {
 
     @FXML public void initialize() {
         setGroupCheckBoxHandler();
-        groupBox.getItems().addAll(Database.getGroupsStudent());
+        groupBox.getItems().addAll(RestConnection.getInstance().getGroups());
     }
 
     @FXML public void loginKeyReleased(KeyEvent event) {

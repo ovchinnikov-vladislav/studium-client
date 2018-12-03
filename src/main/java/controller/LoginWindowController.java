@@ -12,9 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import engine.Database;
 import engine.Security;
-import model.User;
+import entity.User;
 import view.registration.RegistrationWindow;
 import view.work.WorkWindow;
 
