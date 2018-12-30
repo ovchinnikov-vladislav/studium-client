@@ -55,7 +55,7 @@
 }
 
 .labelStyleTitle {
-    -fx-text-fill: #074F66;
+    -fx-text-fill: #728cb7;
     -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-font-family: 'Loto', arial, sans-serif;
@@ -87,9 +87,9 @@
 }
 
 .buttonMain, .buttonTable {
-    -fx-background-color: #074f66;
+    -fx-background-color: #728cb7;
     -fx-background-radius: 3px;
-    -fx-border-color: #074f66;
+    -fx-border-color: #728cb7;
     -fx-border-radius: 3px;
     -fx-font-weight: bold;
     -fx-text-fill: #fff;
@@ -101,25 +101,25 @@
 }
 
 .buttonMain:hover, .buttonTable:hover {
-    -fx-background-color: #053c4e;
+    -fx-background-color: #516785;
     -fx-background-radius: 3px;
     -fx-border-radius: 3px;
-    -fx-border-color: #053c4e;
+    -fx-border-color: #516785;
     -fx-text-fill: #fff;
 }
 
 .buttonMain:pressed, .buttonTable:pressed {
-    -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(169, 169, 169), rgba(255, 249, 249, 249));
+    -fx-background-color: #364760;
     -fx-text-fill: black;
     -fx-background-radius: 3px;
     -fx-border-radius: 3px;
-    -fx-border-color: #b7b7b7;
+    -fx-border-color: #364760;
 }
 
 .buttonRound {
-    -fx-background-color: #074f66;
+    -fx-background-color: #728cb7;
     -fx-background-radius: 100;
-    -fx-border-color: #074f66;
+    -fx-border-color: #728cb7;
     -fx-border-radius: 50;
     -fx-font-family: "Georgia";
     -fx-font-size: 12px;
@@ -133,16 +133,16 @@
 }
 
 .buttonRound:hover, .buttonRound:focused {
-    -fx-background-color: #053c4e;
-    -fx-border-color: #053c4e;
+    -fx-background-color: #516785;
+    -fx-border-color: #516785;
     -fx-border-radius: 50;
     -fx-text-fill: #fff;
 }
 
 .buttonRound:pressed {
-    -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(169, 169, 169), rgba(255, 249, 249, 249));
+    -fx-background-color: #364760;
     -fx-text-fill: black;
-    -fx-border-color: #b7b7b7;
+    -fx-border-color: #364760;
 }
 
 .borderMenuStyle {
@@ -183,7 +183,7 @@
 
 .buttonMenu:pressed {
     -fx-background-color: #2292E4;
-    -fx-text-fill: #074f66;
+    -fx-text-fill: #074F66;
     -fx-border-color: #2292E4;
     -fx-border-radius: 5;
 }
@@ -209,7 +209,7 @@
 
 .combo-box {
     -fx-font-family: Arial;
-    -fx-prompt-text-fill: rgba(0, 0, 0, 0.57);
+    -fx-prompt-text-fill: #8B8989;
     -fx-font-size: 14;
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
@@ -228,13 +228,9 @@
     -fx-font-size: 14;
 }
 
-.text-field-table-cell > .text-field {
+.editText {
     -fx-background-color: white;
     -fx-border-color: white;
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;
-}
-
-.text-field-table-cell {
-    -fx-padding: 0px;
 }

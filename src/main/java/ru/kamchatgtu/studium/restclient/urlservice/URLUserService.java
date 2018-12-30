@@ -5,7 +5,7 @@ public class URLUserService {
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";
     public static final String URL_UPDATE = URL + "/update";
-    public static final String URL_LOGIN = URL + "/login";
+    public static final String URL_SIGN_IN = URL + "/sign_in";
     public static final String URL_USER = URL + "/user";
     public static final String URL_USERS = URL + "/users";
     public static final String URL_SEARCH = URL + "/search";

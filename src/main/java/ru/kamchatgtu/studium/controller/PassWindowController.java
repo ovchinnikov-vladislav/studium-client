@@ -6,13 +6,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
 
 import java.io.IOException;
 
-import static ru.kamchatgtu.studium.engine.Security.userLogin;
 
 public class PassWindowController {
 
@@ -44,9 +43,9 @@ public class PassWindowController {
 
     private void change() {
         if (!passFirstField.getText().isEmpty() && !passSecondField.getText().isEmpty() && passSecondField.getText().equals(passFirstField.getText())) {
-            userLogin.setPassword(Security.encryptPass(passFirstField.getText()));
-            userLogin.setStatusPass(1);
-            restConnection.getRestUser().update(userLogin);
+            SecurityAES.USER_LOGIN.setPassword(SecurityAES.encryptPass(passFirstField.getText()));
+            SecurityAES.USER_LOGIN.setStatus(3);
+            restConnection.getRestUser().update(SecurityAES.USER_LOGIN);
             try {
                 WorkWindow.getStage().show();
                 ((Stage) passSecondField.getScene().getWindow()).close();

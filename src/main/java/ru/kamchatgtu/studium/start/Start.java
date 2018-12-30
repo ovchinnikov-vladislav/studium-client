@@ -4,7 +4,7 @@ import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.connect.ConnectWindow;
 import ru.kamchatgtu.studium.view.login.LoginWindow;
@@ -61,7 +61,7 @@ public class Start extends Application {
                 return false;
             } else {
                 try {
-                    RestConnection.setUrl(Security.readFile());
+                    RestConnection.setUrl(SecurityAES.readFile());
                     RestConnection restConnection = new RestConnection();
                     return restConnection.getRestUser().connect();
                 } catch (Exception exc) {

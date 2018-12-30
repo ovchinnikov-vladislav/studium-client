@@ -25,7 +25,7 @@ public class User implements Serializable {
     private ObjectProperty<Date> dateAuth;
     private StringProperty phone;
     private StringProperty email;
-    private IntegerProperty statusPass;
+    private IntegerProperty status;
     private ObjectProperty<Group> group;
     private ObjectProperty<Position> position;
 
@@ -38,7 +38,7 @@ public class User implements Serializable {
         dateAuth = new SimpleObjectProperty<>();
         phone = new SimpleStringProperty();
         email = new SimpleStringProperty();
-        statusPass = new SimpleIntegerProperty();
+        status = new SimpleIntegerProperty();
         group = new SimpleObjectProperty<>();
         group.setValue(new Group());
         position = new SimpleObjectProperty<>();
@@ -56,7 +56,7 @@ public class User implements Serializable {
         setGroup(user.getGroup());
         setPosition(user.getPosition());
         setPassword(user.getPassword());
-        setStatusPass(user.getStatusPass());
+        setStatus(user.getStatus());
     }
 
     public int getIdUser() {
@@ -155,16 +155,16 @@ public class User implements Serializable {
         this.email.set(email);
     }
 
-    public int getStatusPass() {
-        return statusPass.get();
+    public int getStatus() {
+        return status.get();
     }
 
-    public IntegerProperty statusPassProperty() {
-        return statusPass;
+    public void setStatus(int status) {
+        this.status.set(status);
     }
 
-    public void setStatusPass(int statusPass) {
-        this.statusPass.set(statusPass);
+    public IntegerProperty statusProperty() {
+        return status;
     }
 
     public Group getGroup() {
@@ -207,7 +207,7 @@ public class User implements Serializable {
         return ((User) user).idUser.equals(this.idUser) && ((User) user).dateReg.equals(this.dateReg) &&
                 ((User) user).email.equals(this.email) && ((User) user).fio.equals(this.fio) &&
                 ((User) user).login.equals(this.login) && ((User) user).password.equals(this.password) &&
-                ((User) user).phone.equals(this.phone) && ((User) user).statusPass.equals(statusPass) &&
+                ((User) user).phone.equals(this.phone) && ((User) user).status.equals(status) &&
                 ((User) user).dateAuth.equals(this.dateAuth);
     }
 }

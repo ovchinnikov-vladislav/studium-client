@@ -11,7 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
+import ru.kamchatgtu.studium.controller.work.UsersPanelController;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.entity.user.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.login.NewPassWindow;
@@ -69,7 +71,7 @@ public class LoginWindowController {
         stage.close();
     }
 
-    protected class LoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private String login;
         private String pass;
@@ -90,7 +92,16 @@ public class LoginWindowController {
             User user = restConnection.getRestUser().login(login, pass);
             if (user == null)
                 return false;
-            Security.userLogin = user;
+            SecurityAES.USER_LOGIN.setUser(user);
+            int access = SecurityAES.USER_LOGIN.getPosition().getAccess();
+            if (access == 3) {
+
+            } else if (access == 2) {
+                CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            } else if (access == 1) {
+                UsersPanelController.setUsers(restConnection.getRestUser().getAll());
+                UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            }
             return true;
         }
 
@@ -101,7 +112,7 @@ public class LoginWindowController {
             if (aBoolean) {
                 try {
                     Stage thisStage = (Stage) loginButton.getScene().getWindow();
-                    if (Security.userLogin.getStatusPass() != 0) {
+                    if (SecurityAES.USER_LOGIN.getStatus() != 0) {
                         Stage workStage = WorkWindow.getStage();
                         workStage.show();
                     } else {

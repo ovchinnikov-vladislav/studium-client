@@ -24,17 +24,38 @@ public class RestTheme implements AbstractRest<Theme> {
 
     @Override
     public Theme add(Theme theme) {
-        return null;
+        Theme newTheme = null;
+        try {
+            HttpEntity<Theme> request = new HttpEntity<>(theme, headers);
+            newTheme = rest.exchange(url + URLThemeService.URL_ADD, HttpMethod.POST, request, Theme.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return newTheme;
     }
 
     @Override
     public Theme update(Theme theme) {
-        return null;
+        Theme updateTheme = null;
+        try {
+            HttpEntity<Theme> request = new HttpEntity<>(theme, headers);
+            updateTheme = rest.exchange(url + URLThemeService.URL_UPDATE, HttpMethod.PUT, request, Theme.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return updateTheme;
     }
 
     @Override
     public Theme remove(Theme theme) {
-        return null;
+        Theme removeTheme = null;
+        try {
+            HttpEntity<Theme> request = new HttpEntity<>(theme, headers);
+            removeTheme = rest.exchange(url + URLThemeService.URL_DELETE, HttpMethod.DELETE, request, Theme.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return removeTheme;
     }
 
     @Override

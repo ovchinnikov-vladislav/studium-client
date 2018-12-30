@@ -1,15 +1,18 @@
 package ru.kamchatgtu.studium.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
+import javafx.collections.ObservableList;
 import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.restclient.RestConnection;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Question implements Serializable {
+public class Question implements Serializable, Cloneable {
 
     private IntegerProperty idQuestion;
     private StringProperty textQuestion;
@@ -22,6 +25,8 @@ public class Question implements Serializable {
     private StringProperty dirAudio;
     private StringProperty dirVideo;
     private ObjectProperty<User> user;
+    @JsonIgnore
+    private ObservableList<Answer> answers;
 
     public Question() {
         idQuestion = new SimpleIntegerProperty();
@@ -143,8 +148,48 @@ public class Question implements Serializable {
         this.user.set(user);
     }
 
+    public ObservableList<Answer> getAnswers() {
+        RestConnection rest = new RestConnection();
+        answers = rest.getRestAnswer().getAnswersByQuestion(getIdQuestion());
+        return answers;
+    }
+
     @Override
     public String toString() {
         return getTextQuestion();
+    }
+
+    @Override
+    public Object clone() {
+        Question question = new Question();
+        question.setTypeQuestion(getTypeQuestion());
+        question.setTheme(getTheme());
+        question.setDateReg(getDateReg());
+        question.setDirAudio(getDirAudio());
+        question.setDirImage(getDirImage());
+        question.setDirVideo(getDirVideo());
+        question.setIdQuestion(getIdQuestion());
+        question.setTextQuestion(getTextQuestion());
+        question.setUser(getUser());
+        return question;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Question)) return false;
+
+        if (obj == this) return true;
+
+        Question question = (Question) obj;
+        return question.getTextQuestion().equals(this.getTextQuestion()) &&
+                question.getTypeQuestion() == this.getTypeQuestion() &&
+                question.getDateReg().equals(this.getDateReg()) &&
+                question.getIdQuestion() == this.getIdQuestion() &&
+                question.getDirAudio().equals(this.getDirAudio()) &&
+                question.getDirImage().equals(this.getDirImage()) &&
+                question.getDirVideo().equals(this.getDirVideo()) &&
+                question.getTheme().equals(this.getTheme()) &&
+                question.getUser().equals(this.getUser());
     }
 }

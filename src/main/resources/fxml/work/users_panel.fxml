@@ -27,7 +27,8 @@
     </columnConstraints>
     <Label styleClass="labelStyleTitle" text="Пользователи" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
     <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+    <TextField fx:id="searchTextField" maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT"
+               GridPane.rowIndex="2"/>
     <TableView fx:id="usersTable" editable="true" onKeyPressed="#deleteUserKeyReleased" GridPane.rowIndex="4">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -42,42 +43,33 @@
                 <cellValueFactory>
                     <PropertyValueFactory property="fio"/>
                 </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn"/>
-                </cellFactory>
             </TableColumn>
             <TableColumn fx:id="loginColumn" minWidth="100" onEditCommit="#loginEditCommit" text="Логин">
                 <cellValueFactory>
                     <PropertyValueFactory property="login"/>
                 </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn"/>
-                </cellFactory>
             </TableColumn>
-            <TableColumn fx:id="dateRegColumn" minWidth="100" text="Дата регистрации">
+            <TableColumn fx:id="dateRegColumn" minWidth="100" text="Дата регистрации" editable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="dateReg"/>
                 </cellValueFactory>
+                <cellFactory>
+                    <TextFieldTableCell fx:factory="forTableColumn"/>
+                </cellFactory>
             </TableColumn>
             <TableColumn fx:id="phoneColumn" minWidth="100" onEditCommit="#phoneEditCommit" text="Номер телефона">
                 <cellValueFactory>
                     <PropertyValueFactory property="phone"/>
                 </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn"/>
-                </cellFactory>
             </TableColumn>
             <TableColumn fx:id="emailColumn" minWidth="100" onEditCommit="#emailEditCommit" text="E-mail">
                 <cellValueFactory>
                     <PropertyValueFactory property="email"/>
                 </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn"/>
-                </cellFactory>
             </TableColumn>
             <TableColumn fx:id="positionColumn" minWidth="100" onEditCommit="#positionEditCommit" text="Должность"/>
             <TableColumn fx:id="groupColumn" minWidth="100" onEditCommit="#groupEditCommit" text="Группа"/>
-            <TableColumn fx:id="resetPass" maxWidth="150" minWidth="150"/>
+            <TableColumn fx:id="resetPass" maxWidth="74" minWidth="74"/>
         </columns>
     </TableView>
     <GridPane alignment="CENTER" hgap="5" GridPane.rowIndex="6">

@@ -1,21 +1,20 @@
 package ru.kamchatgtu.studium.controller.work;
 
+import com.victorlaerte.asynctask.AsyncTask;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.engine.EditCell;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.entity.Group;
 import ru.kamchatgtu.studium.entity.Position;
 import ru.kamchatgtu.studium.entity.user.User;
@@ -29,13 +28,13 @@ import java.util.Map;
 public class UsersPanelController {
 
     private RestConnection restConnection;
-    //----------------Пользователи--------------------
-    // Поля раздела "Пользователи"
     private HashMap<User, String> commandsUser;
-    private ObservableList<User> users;
-    private ObservableList<Position> positions;
-    private ObservableList<Group> groups;
-    // Компоненты раздела "Пользователи"
+    private static ObservableList<User> users;
+    private static ObservableList<Position> positions;
+    private static ObservableList<Group> groups;
+
+    @FXML
+    private TextField searchTextField;
     @FXML
     private TableView usersTable;
     @FXML
@@ -55,19 +54,8 @@ public class UsersPanelController {
     @FXML
     private TableColumn resetPass;
 
-    @FXML
-    public void initialize() {
-        restConnection = new RestConnection();
-        commandsUser = new HashMap<>();
-        users = restConnection.getRestUser().getAll();
-        positions = restConnection.getRestPosition().getAll();
-        groups = restConnection.getRestGroup().getAll();
-        usersTable.getItems().addAll(users);
-        initPosition();
-        initGroup();
-        initColumnUserWidth();
-        initResetPassButton();
-        initDate();
+    public static void setUsers(ObservableList<User> users) {
+        UsersPanelController.users = users;
     }
 
     // Методы раздела "Пользователи"
@@ -179,8 +167,35 @@ public class UsersPanelController {
         thread.start();
     }
 
-    private void initPosition() {
+    public static void setPositions(ObservableList<Position> positions) {
+        UsersPanelController.positions = positions;
+    }
 
+    @FXML
+    public void initialize() {
+        restConnection = new RestConnection();
+        commandsUser = new HashMap<>();
+        usersTable.setItems(users);
+        initFio();
+        initLogin();
+        initEmail();
+        initPhone();
+        initPosition();
+        initGroup();
+        initResetPassButton();
+        initDate();
+        initSearchUser();
+    }
+
+    private void initFio() {
+        fioColumn.setCellFactory(column -> EditCell.createStringEditCell());
+    }
+
+    private void initLogin() {
+        loginColumn.setCellFactory(column -> EditCell.createStringEditCell());
+    }
+
+    private void initPosition() {
         positionColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue>() {
             @Override
             public ObservableValue call(TableColumn.CellDataFeatures<User, String> param) {
@@ -195,51 +210,12 @@ public class UsersPanelController {
         positionColumn.setCellFactory(ComboBoxTableCell.forTableColumn(positions));
     }
 
-    private void initResetPassButton() {
-        resetPass.setCellValueFactory(new PropertyValueFactory<>(""));
-
-        Callback<TableColumn<User, String>, TableCell<User, String>> cellFactory =
-                new Callback<TableColumn<User, String>, TableCell<User, String>>() {
-                    @Override
-                    public TableCell call(final TableColumn<User, String> param) {
-                        final TableCell<User, String> cell = new TableCell<User, String>() {
-
-                            final Button btn = new Button("Сбросить пароль");
-
-                            @Override
-                            public void updateItem(String item, boolean empty) {
-                                super.updateItem(item, empty);
-                                if (empty) {
-                                    setGraphic(null);
-                                    setText(null);
-                                } else {
-                                    btn.getStyleClass().addAll("buttonTable");
-                                    btn.setOnAction(event -> {
-                                        User user = getTableView().getItems().get(getIndex());
-                                        user.setStatusPass(0);
-                                        commandsUser.put(user, "update");
-                                    });
-                                    setGraphic(btn);
-                                    setText(null);
-                                }
-                            }
-                        };
-                        return cell;
-                    }
-                };
-        resetPass.setCellFactory(cellFactory);
+    private void initEmail() {
+        emailColumn.setCellFactory(column -> EditCell.createStringEditCell());
     }
 
-    private void initGroup() {
-        groupColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, Group>, ObservableValue>() {
-            @Override
-            public ObservableValue call(TableColumn.CellDataFeatures<User, Group> param) {
-                User user = param.getValue();
-                Group group = user.getGroup();
-                return group.nameGroupProperty();
-            }
-        });
-        groupColumn.setCellFactory(ComboBoxTableCell.forTableColumn(groups));
+    private void initPhone() {
+        phoneColumn.setCellFactory(column -> EditCell.createStringEditCell());
     }
 
     private void initDate() {
@@ -261,14 +237,59 @@ public class UsersPanelController {
         });
     }
 
-    private void initColumnUserWidth() {
-        fioColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
-        loginColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.10));
-        emailColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.24));
-        phoneColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.14));
-        groupColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.14));
-        dateRegColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.09));
-        positionColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.09));
+    private void initGroup() {
+        groups = restConnection.getRestGroup().getAll();
+        groupColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, Group>, ObservableValue>() {
+            @Override
+            public ObservableValue call(TableColumn.CellDataFeatures<User, Group> param) {
+                User user = param.getValue();
+                Group group = user.getGroup();
+                return group.nameGroupProperty();
+            }
+        });
+        groupColumn.setCellFactory(ComboBoxTableCell.forTableColumn(groups));
+    }
+
+    private void initResetPassButton() {
+        resetPass.setCellValueFactory(new PropertyValueFactory<>(""));
+
+        Callback<TableColumn<User, String>, TableCell<User, String>> cellFactory =
+                new Callback<TableColumn<User, String>, TableCell<User, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<User, String> param) {
+                        final TableCell<User, String> cell = new TableCell<User, String>() {
+
+                            final Button btn = new Button("Сброс");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.getStyleClass().addAll("buttonTable");
+                                    btn.setOnAction(event -> {
+                                        User user = getTableView().getItems().get(getIndex());
+                                        user.setStatus(0);
+                                        commandsUser.put(user, "update");
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+        resetPass.setCellFactory(cellFactory);
+    }
+
+    private void initSearchUser() {
+        searchTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            SearchTask searchTask = new SearchTask(newValue);
+            searchTask.execute();
+        }));
     }
 
     private class SaveUserTask extends Task<ObservableList<User>> {
@@ -284,7 +305,7 @@ public class UsersPanelController {
                 if ("update".equals(com))
                     restConnection.getRestUser().update(user);
                 else if ("insert".equals(com)) {
-                    user.setPassword(Security.encryptPass(Security.getRandomPass()));
+                    user.setPassword(SecurityAES.encryptPass(SecurityAES.getRandomPass()));
                     restConnection.getRestUser().add(user);
                 } else if ("delete".equals(com)) {
                     restConnection.getRestUser().remove(user);
@@ -292,6 +313,48 @@ public class UsersPanelController {
                 this.updateProgress(++i, count);
             }
             return users;
+        }
+    }
+
+    private class SearchTask extends AsyncTask<Void, Void, ObservableList<User>> {
+
+        private String newValue;
+
+        private SearchTask(String value) {
+            this.newValue = value;
+        }
+
+
+        @Override
+        public void onPreExecute() {
+
+        }
+
+        @Override
+        public ObservableList<User> doInBackground(Void... voids) {
+            User user = new User();
+            user.setFio(newValue);
+            user.setLogin(newValue);
+            user.setEmail(newValue);
+            user.setPhone(newValue);
+            Position position = new Position();
+            position.setPosition(newValue);
+            user.setPosition(position);
+            Group group = new Group();
+            group.setNameGroup(newValue);
+            user.setGroup(group);
+            return restConnection.getRestUser().search(user);
+        }
+
+        @Override
+        public void onPostExecute(ObservableList<User> aUsers) {
+            users.setAll(aUsers);
+            usersTable.setItems(users);
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
         }
     }
     //---------------------------------------------

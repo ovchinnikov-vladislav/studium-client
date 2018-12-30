@@ -1,16 +1,19 @@
 package ru.kamchatgtu.studium.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+import ru.kamchatgtu.studium.restclient.RestConnection;
 
-import java.io.Serializable;
-
-public class Theme implements Serializable {
+public class Theme {
 
     private IntegerProperty idTheme;
     private StringProperty theme;
+    @JsonIgnore
+    private ObservableList<Question> questions;
 
     public Theme() {
         idTheme = new SimpleIntegerProperty();
@@ -41,8 +44,14 @@ public class Theme implements Serializable {
         return theme;
     }
 
+    public ObservableList<Question> getQuestions() {
+        RestConnection rest = new RestConnection();
+        questions = rest.getRestQuestion().getQuestionsByTheme(getIdTheme());
+        return questions;
+    }
+
     @Override
     public String toString() {
-        return theme.getValue();
+        return theme.get();
     }
 }

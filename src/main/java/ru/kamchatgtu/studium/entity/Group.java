@@ -1,20 +1,19 @@
 package ru.kamchatgtu.studium.entity;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Group {
 
     private IntegerProperty idGroup;
     private StringProperty nameGroup;
     private StringProperty direction;
+    private ObjectProperty<Position> position;
 
     public Group() {
         this.idGroup = new SimpleIntegerProperty();
         this.nameGroup = new SimpleStringProperty();
         this.direction = new SimpleStringProperty();
+        this.position = new SimpleObjectProperty<>();
     }
 
     public int getIdGroup() {
@@ -51,6 +50,18 @@ public class Group {
 
     public void setDirection(String direction) {
         this.direction.set(direction);
+    }
+
+    public Position getPosition() {
+        return position.get();
+    }
+
+    public void setPosition(Position position) {
+        this.position.set(position);
+    }
+
+    public ObjectProperty<Position> positionProperty() {
+        return position;
     }
 
     @Override

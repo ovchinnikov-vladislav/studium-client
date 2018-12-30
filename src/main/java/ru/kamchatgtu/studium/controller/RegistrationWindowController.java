@@ -10,12 +10,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
+import ru.kamchatgtu.studium.controller.work.UsersPanelController;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.engine.thread.ErrorTextFieldAsync;
 import ru.kamchatgtu.studium.entity.Group;
 import ru.kamchatgtu.studium.entity.Position;
 import ru.kamchatgtu.studium.entity.user.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
+import ru.kamchatgtu.studium.view.login.NewPassWindow;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
 
 import java.io.IOException;
@@ -52,7 +55,7 @@ public class RegistrationWindowController {
     @FXML public void initialize() {
         restConnection = new RestConnection();
         setGroupCheckBoxHandler();
-        groups = restConnection.getRestGroup().getGroupsByStudent();
+        groups = restConnection.getRestGroup().getGroupsByPosition(3);
         if (groups != null)
             groupBox.getItems().addAll(groups);
         else {
@@ -85,8 +88,7 @@ public class RegistrationWindowController {
     }
 
     private void login(String login, String pass) {
-        LoginWindowController loginWindowController = new LoginWindowController();
-        LoginWindowController.LoginTask task = loginWindowController.new LoginTask(login, pass);
+        LoginTask task = new LoginTask(login, pass);
         task.execute();
     }
 
@@ -122,9 +124,10 @@ public class RegistrationWindowController {
 
     private void registration() {
         User newUser = new User();
+        newUser.setStatus(3);
         newUser.setFio(fioRegField.getText());
         newUser.setLogin(loginRegField.getText());
-        newUser.setPassword(Security.encryptPass(passRegField.getText()));
+        newUser.setPassword(SecurityAES.encryptPass(passRegField.getText()));
         newUser.setEmail(emailRegField.getText());
         newUser.setPhone(phoneField.getText());
         if (!groupCheckBox.isSelected())
@@ -143,7 +146,7 @@ public class RegistrationWindowController {
         newUser.setPosition(position);
         newUser.setDateReg(new Timestamp(new Date().getTime()));
         newUser.setDateAuth(new Timestamp(new Date().getTime()));
-        RegistrationAsync registrationAsync = new RegistrationAsync(newUser, regButton, progressRegIndicator);
+        RegistrationAsync registrationAsync = new RegistrationAsync(newUser);
         registrationAsync.execute();
     }
 
@@ -193,45 +196,116 @@ public class RegistrationWindowController {
         }
     }
 
+    private class LoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private String login;
+        private String pass;
+
+        LoginTask(String login, String pass) {
+            this.login = login;
+            this.pass = pass;
+        }
+
+        @Override
+        public void onPreExecute() {
+            logButton.setVisible(false);
+            progressLogIndicator.setVisible(true);
+        }
+
+        @Override
+        public Boolean doInBackground(Void... voids) {
+            UsersPanelController.setUsers(restConnection.getRestUser().getAll());
+            UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            User user = restConnection.getRestUser().login(login, pass);
+            if (user == null)
+                return false;
+            SecurityAES.USER_LOGIN.setUser(user);
+            int access = SecurityAES.USER_LOGIN.getPosition().getAccess();
+            if (access == 3) {
+
+            } else if (access == 2) {
+                CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            } else if (access == 1) {
+                UsersPanelController.setUsers(restConnection.getRestUser().getAll());
+                UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            }
+            return true;
+        }
+
+        @Override
+        public void onPostExecute(Boolean aBoolean) {
+            logButton.setVisible(true);
+            progressLogIndicator.setVisible(false);
+            if (aBoolean) {
+                try {
+                    Stage thisStage = (Stage) logButton.getScene().getWindow();
+                    if (SecurityAES.USER_LOGIN.getStatus() != 0) {
+                        Stage workStage = WorkWindow.getStage();
+                        workStage.show();
+                    } else {
+                        Stage passStage = NewPassWindow.getStage();
+                        passStage.show();
+                    }
+                    thisStage.close();
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
+        }
+    }
+
     private class RegistrationAsync extends AsyncTask<Void, Void, Boolean> {
 
         private User user;
-        private Button regButton;
-        private ProgressIndicator progressIndicator;
 
-        RegistrationAsync(User user, Button regButton, ProgressIndicator progressIndicator) {
+        RegistrationAsync(User user) {
             this.user = user;
-            this.regButton = regButton;
-            this.progressIndicator = progressIndicator;
         }
 
         @Override
         public void onPreExecute() {
             regButton.setVisible(false);
-            progressIndicator.setVisible(true);
+            progressRegIndicator.setVisible(true);
         }
 
         @Override
         public Boolean doInBackground(Void... voids) {
             User newUser = restConnection.getRestUser().add(user);
+            UsersPanelController.setUsers(restConnection.getRestUser().getAll());
+            UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            SecurityAES.USER_LOGIN.setUser(user);
+            int access = SecurityAES.USER_LOGIN.getPosition().getAccess();
+            if (access == 3) {
+
+            } else if (access == 2) {
+                CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            } else if (access == 1) {
+                UsersPanelController.setUsers(restConnection.getRestUser().getAll());
+                UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            }
             return newUser != null;
         }
 
         @Override
         public void onPostExecute(Boolean aBoolean) {
+            regButton.setVisible(true);
+            progressRegIndicator.setVisible(false);
             if (aBoolean) {
                 try {
-                    Security.userLogin.setUser(user);
-                    Stage stage = (Stage) regButton.getScene().getWindow();
-                    Stage windowStage = WorkWindow.getStage();
-                    windowStage.show();
-                    stage.close();
+                    Stage thisStage = (Stage) regButton.getScene().getWindow();
+                    Stage workStage = WorkWindow.getStage();
+                    workStage.show();
+                    thisStage.close();
                 } catch (IOException exc) {
                     exc.printStackTrace();
                 }
-            } else {
-                regButton.setVisible(true);
-                progressIndicator.setVisible(false);
             }
         }
 

@@ -6,7 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
-import ru.kamchatgtu.studium.engine.Security;
+import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.entity.user.User;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
 import ru.kamchatgtu.studium.restclient.urlservice.URLUserService;
@@ -87,11 +87,26 @@ public class RestUser implements AbstractRest<User> {
         return users;
     }
 
+    public ObservableList<User> search(User user) {
+        ObservableList<User> users = null;
+        try {
+            HttpEntity<User> request = new HttpEntity<>(user, headers);
+            User[] usersArray = rest.exchange(url + URLUserService.URL_SEARCH, HttpMethod.POST, request, User[].class).getBody();
+            if (usersArray != null) {
+                users = FXCollections.observableArrayList();
+                users.addAll(usersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return users;
+    }
+
     public boolean connect() {
         String result = null;
         try {
             HttpEntity<String> request = new HttpEntity<>(headers);
-            result = rest.exchange(url + URLUserService.URL_LOGIN + "?login=admin", HttpMethod.GET, request, String.class).getBody();
+            result = rest.exchange(url + URLUserService.URL_SIGN_IN + "?login=admin", HttpMethod.GET, request, String.class).getBody();
         } catch (Exception exc) {
             exc.printStackTrace();
         }
@@ -102,10 +117,10 @@ public class RestUser implements AbstractRest<User> {
         User user = null;
         try {
             HttpEntity<User> request = new HttpEntity<>(headers);
-            user = rest.exchange(url + URLUserService.URL_LOGIN + "?login=" + login, HttpMethod.GET, request, User.class).getBody();
+            user = rest.exchange(url + URLUserService.URL_SIGN_IN + "?login=" + login, HttpMethod.GET, request, User.class).getBody();
             if (user != null) {
                 String passUser = user.getPassword();
-                passUser = Security.decryptPass(passUser);
+                passUser = SecurityAES.decryptPass(passUser);
                 if (!passUser.equals(password))
                     user = null;
             }

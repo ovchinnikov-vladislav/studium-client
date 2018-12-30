@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER" styleClass="windowStyle"
+          stylesheets="@../../../style/style.css"
+          fx:controller="ru.kamchatgtu.studium.controller.work.question.QuestionDialogController">
+    <padding>
+        <Insets bottom="5" left="25" right="25" top="5"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints prefHeight="30"/>
+        <RowConstraints prefHeight="20"/>
+        <RowConstraints prefHeight="35"/>
+        <RowConstraints prefHeight="15"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="10"/>
+        <RowConstraints prefHeight="35"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <children>
+        <Label styleClass="labelStyleTitle" text="Вопрос" GridPane.halignment="CENTER"
+               GridPane.rowIndex="0"/>
+        <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+        <TextField fx:id="questionField" prefHeight="35" promptText="Вопрос"
+                   GridPane.rowIndex="2"/>
+        <TitledPane collapsible="false" text="Тип вопроса" GridPane.rowIndex="4" GridPane.halignment="CENTER"
+                    maxWidth="300">
+            <fx:define>
+                <ToggleGroup fx:id="answersToggle"/>
+            </fx:define>
+            <VBox>
+                <RadioButton fx:id="oneAnswer" text="Вопрос с одним вариантом ответа" toggleGroup="$answersToggle"
+                             selected="true">
+                    <VBox.margin>
+                        <Insets topRightBottomLeft="3"/>
+                    </VBox.margin>
+                </RadioButton>
+                <RadioButton fx:id="multiAnswer" text="Вопрос с несколькими вариантами ответов"
+                             toggleGroup="$answersToggle">
+                    <VBox.margin>
+                        <Insets topRightBottomLeft="3"/>
+                    </VBox.margin>
+                </RadioButton>
+                <RadioButton fx:id="textAnswer" text="Вопрос с текстовым вариантом ответа" toggleGroup="$answersToggle">
+                    <VBox.margin>
+                        <Insets topRightBottomLeft="3"/>
+                    </VBox.margin>
+                </RadioButton>
+            </VBox>
+        </TitledPane>
+        <HBox fx:id="buttons" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"
+              alignment="CENTER">
+            <Button styleClass="buttonMain" text="Сохранить" onAction="#saveAction">
+            </Button>
+            <Button fx:id="deleteButton" styleClass="buttonMain" text="Удалить">
+                <HBox.margin>
+                    <Insets left="2"/>
+                </HBox.margin>
+            </Button>
+            <Button styleClass="buttonMain" text="Отменить" onAction="#cancelAction">
+                <HBox.margin>
+                    <Insets left="2"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </children>
+</GridPane>
