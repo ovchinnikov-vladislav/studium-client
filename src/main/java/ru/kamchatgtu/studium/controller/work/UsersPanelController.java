@@ -36,7 +36,7 @@ public class UsersPanelController {
     @FXML
     private TextField searchTextField;
     @FXML
-    private TableView usersTable;
+    private TableView<User> usersTable;
     @FXML
     private TableColumn fioColumn;
     @FXML
@@ -272,6 +272,7 @@ public class UsersPanelController {
                                     btn.setOnAction(event -> {
                                         User user = getTableView().getItems().get(getIndex());
                                         user.setStatus(0);
+                                        user.setPassword(SecurityAES.encryptPass("12345"));
                                         commandsUser.put(user, "update");
                                     });
                                     setGraphic(btn);
