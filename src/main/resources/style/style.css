@@ -234,3 +234,35 @@
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;
 }
+
+.userLabel {
+    -fx-font-size: 12;
+    -fx-text-fill: #666666;
+    -fx-cursor: hand;
+}
+
+.userButton {
+    -fx-font-size: 11;
+    -fx-padding: 0px 2px 0px 2px;
+    -fx-background-color: white;
+    -fx-cursor: hand;
+}
+
+.userButton:hover {
+    -fx-background-color: #666666;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-text-fill: white;
+}
+
+.tableNoEditableStyle .table-row-cell:filled:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-table-cell-border-color: derive(-fx-color, 5%);
+}
+
+.tableNoEditableStyle .table-row-cell:odd:filled:selected {
+    -fx-background: -fx-control-inner-background-alt;
+}
+

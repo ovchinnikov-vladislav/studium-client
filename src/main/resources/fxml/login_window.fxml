@@ -16,7 +16,7 @@
         <RowConstraints prefHeight="35"/>
         <RowConstraints prefHeight="15"/>
         <RowConstraints prefHeight="35"/>
-        <RowConstraints prefHeight="10"/>
+        <RowConstraints prefHeight="20"/>
         <RowConstraints prefHeight="35"/>
         <RowConstraints prefHeight="35"/>
     </rowConstraints>
@@ -31,6 +31,8 @@
                    GridPane.rowIndex="2"/>
         <PasswordField fx:id="passField" onKeyPressed="#loginKey" prefHeight="35" promptText="Пароль"
                        GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"/>
+        <Label fx:id="errorLabel" text="Неправильный логин/e-mail или пароль" visible="false" GridPane.rowIndex="5"
+               GridPane.halignment="CENTER" style="-fx-text-fill: red"/>
         <Button fx:id="loginButton" onAction="#loginClick" styleClass="buttonMain" text="Войти"
                 GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"/>
         <ProgressIndicator fx:id="progressIndicator" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="6"

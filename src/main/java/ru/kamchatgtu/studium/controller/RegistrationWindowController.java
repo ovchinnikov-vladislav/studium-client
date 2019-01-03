@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import ru.kamchatgtu.studium.engine.SecurityAES;
-import ru.kamchatgtu.studium.engine.thread.LoginTask;
+import ru.kamchatgtu.studium.engine.thread.LoginAsync;
 import ru.kamchatgtu.studium.engine.thread.RegistrationAsync;
 import ru.kamchatgtu.studium.engine.thread.TestEmailAsync;
 import ru.kamchatgtu.studium.engine.thread.TestLoginAsync;
@@ -45,6 +45,8 @@ public class RegistrationWindowController {
 
     @FXML private Button logButton;
     @FXML private ProgressIndicator progressLogIndicator;
+    @FXML
+    private Label errorLabel;
 
     @FXML public void initialize() {
         setGroupCheckBoxHandler();
@@ -81,7 +83,7 @@ public class RegistrationWindowController {
     }
 
     private void login(String login, String pass) {
-        LoginTask task = new LoginTask(logButton, progressLogIndicator, login, pass);
+        LoginAsync task = new LoginAsync(logButton, progressLogIndicator, errorLabel, login, pass);
         task.execute();
     }
 

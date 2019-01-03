@@ -65,7 +65,18 @@ public class RestQuestion implements AbstractRest<Question> {
 
     @Override
     public ObservableList<Question> getAll() {
-        return null;
+        ObservableList<Question> questions = null;
+        try {
+            HttpEntity<Question[]> request = new HttpEntity<>(headers);
+            Question[] questionsArray = rest.exchange(url + URLQuestionService.URL_QUESTIONS, HttpMethod.GET, request, Question[].class).getBody();
+            if (questionsArray != null) {
+                questions = FXCollections.observableArrayList();
+                questions.addAll(questionsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return questions;
     }
 
     public ObservableList<Question> getQuestionsByTheme(Integer id) {

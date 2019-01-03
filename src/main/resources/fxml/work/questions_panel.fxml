@@ -118,6 +118,9 @@
             </columnConstraints>
         </GridPane>
     </ScrollPane>
+    <Label fx:id="labelAnswer" text="Здесь будут отображаться ответы на вопросы" styleClass="labelStyleGrey"
+           GridPane.columnIndex="1" GridPane.rowIndex="6"
+           GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <Button fx:id="addAnswerButton" onAction="#addNewAnswerAction" style="-fx-padding: 5px 5px 5px 5px;" visible="false"
             styleClass="buttonRound" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
         <GridPane.margin>
@@ -126,6 +129,15 @@
         <graphic>
             <ImageView>
                 <Image url="@../../image/add-circular-button.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="importExcelButton" onAction="#importExcelAction" style="-fx-padding: 4px 3px 2px 3px;"
+            styleClass="buttonRound" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"
+            GridPane.halignment="RIGHT">
+        <graphic>
+            <ImageView>
+                <Image url="@../../image/excel.png"/>
             </ImageView>
         </graphic>
     </Button>

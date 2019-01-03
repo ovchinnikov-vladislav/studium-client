@@ -9,11 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.question.QuestionDialogController;
 import ru.kamchatgtu.studium.controller.work.question.ThemeDialogController;
 import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.thread.ImportExcelTask;
 import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.entity.Theme;
@@ -22,6 +24,7 @@ import ru.kamchatgtu.studium.view.message.Message;
 import ru.kamchatgtu.studium.view.work.question.QuestionDialog;
 import ru.kamchatgtu.studium.view.work.question.ThemeDialog;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +39,8 @@ public class CreateQuesPanelController {
     private static ObservableList<Theme> themes;
     private static ObservableList<Question> questions;
     private ObservableList<Answer> answers;
+    private static ProgressBar progressBar;
+    private static Label taskLabel;
 
     @FXML
     private ComboBox<Theme> themeBox;
@@ -55,6 +60,8 @@ public class CreateQuesPanelController {
     private GridPane answersPane;
     @FXML
     private Button addAnswerButton;
+    @FXML
+    private Label labelAnswer;
 
     public static void setThemes(ObservableList<Theme> themes) {
         CreateQuesPanelController.themes = themes;
@@ -212,27 +219,12 @@ public class CreateQuesPanelController {
         initAnswers();
     }
 
-    private void initTheme() {
-        themeBox.getItems().removeAll(themeBox.getItems());
-        themeBox.getItems().addAll(themes);
-        themeBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            themeBox.getParent().requestFocus();
-            if (newValue != null && !newValue.equals(oldValue)) {
-                selectedTheme = newValue;
-                questionBox.setValue(null);
-                questionBox.getSelectionModel().clearSelection();
-                answersPane.getChildren().removeAll(answersPane.getChildren());
-                addAnswerButton.setVisible(false);
-                editThemeButton.setDisable(false);
-                addQuestionButton.setDisable(false);
-                editQuestionButton.setDisable(false);
-                questions = selectedTheme.getQuestions();
-                questionBox.setDisable(false);
-                questionBox.setItems(null);
-                questionBox.setItems(questions);
-                questionBox.show();
-            }
-        });
+    public static ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public static void setProgressBar(ProgressBar progressBar) {
+        CreateQuesPanelController.progressBar = progressBar;
     }
 
     private void initQuestion() {
@@ -253,29 +245,8 @@ public class CreateQuesPanelController {
         });
     }
 
-    private void initAnswers() {
-
-        answersPane.getChildren().removeAll(answersPane.getChildren());
-        if (answers != null && answers.size() > 0) {
-            String textAnswer = answers.get(answers.size() - 1).getTextAnswer();
-            if (textAnswer != null && !textAnswer.equals("") && selectedQuestion.getTypeQuestion() != 3) {
-                Answer answer = new Answer();
-                answer.setUser(SecurityAES.USER_LOGIN);
-                answers.add(answer);
-            }
-        } else {
-            Answer answer = new Answer();
-            answer.setUser(SecurityAES.USER_LOGIN);
-            answers = FXCollections.observableArrayList();
-            answers.add(answer);
-        }
-        if (selectedQuestion.getTypeQuestion() == 1) {
-            initOneAnswers();
-        } else if (selectedQuestion.getTypeQuestion() == 2) {
-            initMultiAnswers();
-        } else if (selectedQuestion.getTypeQuestion() == 3) {
-            initTextAnswers();
-        }
+    public static Label getTaskLabel() {
+        return taskLabel;
     }
 
     private void initOneAnswers() {
@@ -370,5 +341,82 @@ public class CreateQuesPanelController {
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             saveQuestionButton.setDisable(false);
         });
+    }
+
+    public static void setTaskLabel(Label taskLabel) {
+        CreateQuesPanelController.taskLabel = taskLabel;
+    }
+
+    @FXML
+    public void importExcelAction(ActionEvent event) {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("XLS", "*.xls"),
+                new FileChooser.ExtensionFilter("XLSX", "*.xlsx")
+        );
+        File file = fileChooser.showOpenDialog(((Button) event.getSource()).getScene().getWindow());
+        if (file != null) {
+            ImportExcelTask importExcelTask = new ImportExcelTask(file);
+            taskLabel.setText(" - импортирование вопросов");
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(importExcelTask.progressProperty());
+            Thread thread = new Thread(importExcelTask);
+            thread.start();
+            if (importExcelTask.getValue()) {
+                themes.setAll(restConnection.getRestTheme().getAll());
+                themeBox.setItems(themes);
+                progressBar.setProgress(0);
+                taskLabel.setText("");
+            }
+        }
+    }
+
+    private void initTheme() {
+        themeBox.getItems().removeAll(themeBox.getItems());
+        themeBox.getItems().addAll(themes);
+        themeBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            themeBox.getParent().requestFocus();
+            if (newValue != null && !newValue.equals(oldValue)) {
+                selectedTheme = newValue;
+                questionBox.setValue(null);
+                questionBox.getSelectionModel().clearSelection();
+                answersPane.getChildren().removeAll(answersPane.getChildren());
+                labelAnswer.setVisible(true);
+                addAnswerButton.setVisible(false);
+                editThemeButton.setDisable(false);
+                addQuestionButton.setDisable(false);
+                editQuestionButton.setDisable(false);
+                questions = selectedTheme.getQuestions();
+                questionBox.setDisable(false);
+                questionBox.setItems(null);
+                questionBox.setItems(questions);
+            }
+        });
+    }
+
+    private void initAnswers() {
+
+        answersPane.getChildren().removeAll(answersPane.getChildren());
+        labelAnswer.setVisible(false);
+        if (answers != null && answers.size() > 0) {
+            String textAnswer = answers.get(answers.size() - 1).getTextAnswer();
+            if (textAnswer != null && !textAnswer.equals("") && selectedQuestion.getTypeQuestion() != 3) {
+                Answer answer = new Answer();
+                answer.setUser(SecurityAES.USER_LOGIN);
+                answers.add(answer);
+            }
+        } else {
+            Answer answer = new Answer();
+            answer.setUser(SecurityAES.USER_LOGIN);
+            answers = FXCollections.observableArrayList();
+            answers.add(answer);
+        }
+        if (selectedQuestion.getTypeQuestion() == 1) {
+            initOneAnswers();
+        } else if (selectedQuestion.getTypeQuestion() == 2) {
+            initMultiAnswers();
+        } else if (selectedQuestion.getTypeQuestion() == 3) {
+            initTextAnswers();
+        }
     }
 }

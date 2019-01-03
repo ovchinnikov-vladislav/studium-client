@@ -1,6 +1,7 @@
 package ru.kamchatgtu.studium.controller.work;
 
 import com.victorlaerte.asynctask.AsyncTask;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,11 +33,15 @@ public class UsersPanelController {
     private static ObservableList<User> users;
     private static ObservableList<Position> positions;
     private static ObservableList<Group> groups;
+    private static ProgressBar progressBar;
+    private static Label taskLabel;
 
     @FXML
     private TextField searchTextField;
     @FXML
     private TableView<User> usersTable;
+    @FXML
+    private TableColumn idColumn;
     @FXML
     private TableColumn fioColumn;
     @FXML
@@ -158,33 +163,20 @@ public class UsersPanelController {
         }
     }
 
-    @FXML
-    public void saveUserAction(ActionEvent event) {
-        SaveUserTask saveUserTask = new SaveUserTask();
-        //  progressBar.progressProperty().unbind();
-        //  progressBar.progressProperty().bind(saveUserTask.progressProperty());
-        Thread thread = new Thread(saveUserTask);
-        thread.start();
+    public static ProgressBar getProgressBar() {
+        return progressBar;
     }
 
     public static void setPositions(ObservableList<Position> positions) {
         UsersPanelController.positions = positions;
     }
 
-    @FXML
-    public void initialize() {
-        restConnection = new RestConnection();
-        commandsUser = new HashMap<>();
-        usersTable.setItems(users);
-        initFio();
-        initLogin();
-        initEmail();
-        initPhone();
-        initPosition();
-        initGroup();
-        initResetPassButton();
-        initDate();
-        initSearchUser();
+    public static void setProgressBar(ProgressBar progressBar) {
+        UsersPanelController.progressBar = progressBar;
+    }
+
+    public static Label getTaskLabel() {
+        return taskLabel;
     }
 
     private void initFio() {
@@ -358,5 +350,43 @@ public class UsersPanelController {
 
         }
     }
-    //---------------------------------------------
+
+    public static void setTaskLabel(Label taskLabel) {
+        UsersPanelController.taskLabel = taskLabel;
+    }
+
+    @FXML
+    public void saveUserAction(ActionEvent event) {
+        SaveUserTask saveUserTask = new SaveUserTask();
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(saveUserTask.progressProperty());
+        Thread thread = new Thread(saveUserTask);
+        thread.start();
+    }
+
+    @FXML
+    public void initialize() {
+        restConnection = new RestConnection();
+        commandsUser = new HashMap<>();
+        usersTable.setItems(users);
+        initId();
+        initFio();
+        initLogin();
+        initEmail();
+        initPhone();
+        initPosition();
+        initGroup();
+        initResetPassButton();
+        initDate();
+        initSearchUser();
+    }
+
+    private void initId() {
+        idColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
+                return new ReadOnlyObjectWrapper(usersTable.getItems().indexOf(param.getValue()) + 1);
+            }
+        });
+    }
 }

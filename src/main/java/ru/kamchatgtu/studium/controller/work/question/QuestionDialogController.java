@@ -47,12 +47,8 @@ public class QuestionDialogController {
             buttons.getChildren().remove(deleteButton);
             question = new Question();
         } else {
-            try {
-                Question q = CreateQuesPanelController.getSelectedQuestion();
-                question = (Question) q.clone();
-            } catch (CloneNotSupportedException exc) {
-                exc.printStackTrace();
-            }
+            Question q = CreateQuesPanelController.getSelectedQuestion();
+            question = (Question) q.clone();
         }
         questionField.textProperty().bindBidirectional(question.textQuestionProperty());
         if (question.getTypeQuestion() == 0)

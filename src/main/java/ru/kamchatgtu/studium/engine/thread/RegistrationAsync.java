@@ -40,7 +40,7 @@ public class RegistrationAsync extends AsyncTask<Void, Void, Boolean> {
         UsersPanelController.setPositions(rest.getRestPosition().getAll());
         CreateQuesPanelController.setThemes(rest.getRestTheme().getAll());
         SecurityAES.USER_LOGIN.setUser(user);
-        LoginTask.checkAccess(rest);
+        LoginAsync.checkAccess(rest);
         return newUser != null;
     }
 

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="windowStyle"
+          stylesheets="@../../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ru.kamchatgtu.studium.controller.work.TestWindowController">
+    <rowConstraints>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints minHeight="30"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <GridPane styleClass="borderMainStyle"
+              GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets topRightBottomLeft="10"/>
+        </GridPane.margin>
+        <padding>
+            <Insets bottom="25" left="50" right="50"/>
+        </padding>
+        <rowConstraints>
+            <RowConstraints minHeight="40"/>
+            <RowConstraints minHeight="10"/>
+            <RowConstraints minHeight="35"/>
+            <RowConstraints minHeight="15"/>
+            <RowConstraints minHeight="35"/>
+            <RowConstraints minHeight="15"/>
+            <RowConstraints minHeight="35"/>
+            <RowConstraints minHeight="15"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints minHeight="15"/>
+            <RowConstraints minHeight="35"/>
+            <RowConstraints minHeight="10"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <Label styleClass="labelStyleTitle" text="Создание теста" GridPane.columnSpan="3" GridPane.halignment="CENTER"
+               GridPane.rowIndex="0"/>
+        <Separator styleClass="lineStyle" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                   GridPane.valignment="TOP"/>
+        <TextField promptText="Наименование теста" GridPane.columnIndex="1" GridPane.rowIndex="2" minHeight="35"/>
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints/>
+            </columnConstraints>
+            <ComboBox fx:id="subjectsBox" promptText="Дисциплина" editable="true" minHeight="35" maxWidth="Infinity"/>
+            <HBox GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets left="5" top="5"/>
+                </GridPane.margin>
+                <Button fx:id="addSubjectButton" style="-fx-padding: 5px 5px 5px 5px"
+                        styleClass="buttonRound">
+                    <HBox.margin>
+                        <Insets right="2"/>
+                    </HBox.margin>
+                    <graphic>
+                        <ImageView>
+                            <Image url="@../../image/add-circular-button.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="editSubjectButton" disable="true" style="-fx-padding: 5px 5px 5px 5px"
+                        styleClass="buttonRound">
+                    <HBox.margin>
+                        <Insets right="2"/>
+                    </HBox.margin>
+                    <graphic>
+                        <ImageView>
+                            <Image url="@../../image/edit.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </GridPane>
+        <TextField promptText="Время тестирования" GridPane.columnIndex="1" GridPane.rowIndex="6" maxWidth="250"
+                   minHeight="35"/>
+        <TabPane GridPane.rowIndex="8" GridPane.columnIndex="1"
+                 style="-fx-border-color: #C8C8C8; -fx-border-width: 1px">
+            <Tab text="Группы" closable="false">
+                <GridPane>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10"/>
+                        <RowConstraints minHeight="35"/>
+                        <RowConstraints minHeight="15"/>
+                        <RowConstraints vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <TextField promptText="Поиск" maxWidth="250" minHeight="35" GridPane.rowIndex="1"
+                               GridPane.halignment="RIGHT">
+                        <GridPane.margin>
+                            <Insets right="15"/>
+                        </GridPane.margin>
+                    </TextField>
+                    <TableView fx:id="groupsTable" editable="true" styleClass="tableNoEditableStyle"
+                               GridPane.rowIndex="3">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="idGroupColumn" minWidth="50" maxWidth="50" text="ID"/>
+                            <TableColumn minWidth="200" maxWidth="200" text="Группа">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="nameGroup"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn minWidth="100" text="Направление">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="direction"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="positionColumn" minWidth="100" text="Должность"/>
+                            <TableColumn fx:id="checkSubjectColumn" maxWidth="25" minWidth="25">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="inSubject"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+                </GridPane>
+            </Tab>
+            <Tab text="Вопросы" closable="false">
+                <GridPane>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10"/>
+                        <RowConstraints minHeight="35"/>
+                        <RowConstraints minHeight="15"/>
+                        <RowConstraints vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <TextField promptText="Поиск" maxWidth="250" minHeight="35" GridPane.rowIndex="1"
+                               GridPane.halignment="RIGHT">
+                        <GridPane.margin>
+                            <Insets right="15"/>
+                        </GridPane.margin>
+                    </TextField>
+                    <TableView fx:id="questionsTable" styleClass="tableNoEditableStyle" GridPane.rowIndex="3">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="idQuestionColumn" text="ID" minWidth="50" maxWidth="50"/>
+                            <TableColumn minWidth="200" maxWidth="200" text="Текст вопроса">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="textQuestion"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="themeColumn" minWidth="100" text="Тема вопроса"/>
+                            <TableColumn fx:id="typeColumn" minWidth="100" text="Тип вопроса"/>
+                            <TableColumn fx:id="checkQuestionColumn" maxWidth="25" minWidth="25"/>
+                        </columns>
+                    </TableView>
+                </GridPane>
+            </Tab>
+        </TabPane>
+        <HBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.columnIndex="1">
+            <Button text="Сохранить" styleClass="buttonMain"/>
+            <Button text="Удалить" styleClass="buttonMain">
+                <HBox.margin>
+                    <Insets left="5"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </GridPane>
+    <GridPane alignment="CENTER_LEFT" hgap="5" styleClass="borderMenuStyle" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="0"/>
+    <GridPane styleClass="borderMenuStyle" GridPane.rowIndex="2">
+        <HBox GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets left="20" top="5"/>
+            </GridPane.margin>
+            <Label style="-fx-text-fill: #2292e4" text="Прогресс: "/>
+            <ProgressBar fx:id="progressBar" maxWidth="100" minWidth="100" progress="0"/>
+            <Label fx:id="taskLabel" style="-fx-text-fill: #2292e4"/>
+        </HBox>
+    </GridPane>
+</GridPane>
