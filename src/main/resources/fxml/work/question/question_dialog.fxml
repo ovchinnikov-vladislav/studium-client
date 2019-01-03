@@ -56,7 +56,7 @@
               alignment="CENTER">
             <Button styleClass="buttonMain" text="Сохранить" onAction="#saveAction">
             </Button>
-            <Button fx:id="deleteButton" styleClass="buttonMain" text="Удалить">
+            <Button fx:id="deleteButton" styleClass="buttonMain" text="Удалить" onAction="#deleteAction">
                 <HBox.margin>
                     <Insets left="2"/>
                 </HBox.margin>

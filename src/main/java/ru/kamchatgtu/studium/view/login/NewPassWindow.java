@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ public class NewPassWindow extends Application {
         stage.setScene(scene);
         stage.setTitle("Studium");
         stage.setResizable(false);
+        stage.getIcons().add(new Image("/image/icon.png"));
         stage.show();
         return stage;
     }
@@ -43,6 +45,7 @@ public class NewPassWindow extends Application {
         stage.setScene(scene);
         stage.setTitle("Studium");
         stage.setResizable(false);
+        stage.getIcons().add(new Image("/image/icon.png"));
         stage.show();
     }
 

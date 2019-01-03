@@ -1,19 +1,15 @@
 package ru.kamchatgtu.studium.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import javafx.beans.property.*;
 import ru.kamchatgtu.studium.entity.user.User;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.Objects;
 
 public class Answer {
 
     private IntegerProperty idAnswer;
     private StringProperty textAnswer;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
     private ObjectProperty<Date> dateEdit;
     private StringProperty dirImage;
     private StringProperty dirAudio;
@@ -140,5 +136,25 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question.set(question);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Answer answer = (Answer) o;
+        return Objects.equals(idAnswer.get(), answer.idAnswer.get()) &&
+                Objects.equals(textAnswer.get(), answer.textAnswer.get()) &&
+                Objects.equals(dateEdit.get(), answer.dateEdit.get()) &&
+                Objects.equals(dirImage.get(), answer.dirImage.get()) &&
+                Objects.equals(dirAudio.get(), answer.dirAudio.get()) &&
+                Objects.equals(dirVideo.get(), answer.dirVideo.get()) &&
+                Objects.equals(right.get(), answer.right.get()) &&
+                Objects.equals(user.get(), answer.user.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idAnswer.get(), textAnswer.get(), dateEdit.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), right.get(), user.get());
     }
 }

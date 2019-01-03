@@ -1,24 +1,20 @@
 package ru.kamchatgtu.studium.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import ru.kamchatgtu.studium.entity.user.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class Question implements Serializable, Cloneable {
 
     private IntegerProperty idQuestion;
     private StringProperty textQuestion;
     private ObjectProperty<Theme> theme;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
     private ObjectProperty<Date> dateReg;
     private IntegerProperty typeQuestion;
     private StringProperty dirImage;
@@ -27,6 +23,8 @@ public class Question implements Serializable, Cloneable {
     private ObjectProperty<User> user;
     @JsonIgnore
     private ObservableList<Answer> answers;
+    @JsonIgnore
+    private BooleanProperty inTest;
 
     public Question() {
         idQuestion = new SimpleIntegerProperty();
@@ -38,6 +36,7 @@ public class Question implements Serializable, Cloneable {
         dirAudio = new SimpleStringProperty();
         dirVideo = new SimpleStringProperty();
         user = new SimpleObjectProperty<>();
+        inTest = new SimpleBooleanProperty();
     }
 
     public int getIdQuestion() {
@@ -148,15 +147,34 @@ public class Question implements Serializable, Cloneable {
         this.user.set(user);
     }
 
-    public ObservableList<Answer> getAnswers() {
+    public void initAnswers() {
         RestConnection rest = new RestConnection();
         answers = rest.getRestAnswer().getAnswersByQuestion(getIdQuestion());
+    }
+
+    public ObservableList<Answer> getAnswers() {
         return answers;
+    }
+
+    public void setAnswers(ObservableList<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public boolean isInTest() {
+        return inTest.get();
+    }
+
+    public void setInTest(boolean inTest) {
+        this.inTest.set(inTest);
+    }
+
+    public BooleanProperty inTestProperty() {
+        return inTest;
     }
 
     @Override
     public String toString() {
-        return getTextQuestion();
+        return textQuestion.get();
     }
 
     @Override
@@ -175,21 +193,23 @@ public class Question implements Serializable, Cloneable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof Question)) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return Objects.equals(idQuestion.get(), question.idQuestion.get()) &&
+                Objects.equals(textQuestion.get(), question.textQuestion.get()) &&
+                Objects.equals(theme.get(), question.theme.get()) &&
+                Objects.equals(dateReg.get(), question.dateReg.get()) &&
+                Objects.equals(typeQuestion.get(), question.typeQuestion.get()) &&
+                Objects.equals(dirImage.get(), question.dirImage.get()) &&
+                Objects.equals(dirAudio.get(), question.dirAudio.get()) &&
+                Objects.equals(dirVideo.get(), question.dirVideo.get()) &&
+                Objects.equals(user.get(), question.user.get());
+    }
 
-        if (obj == this) return true;
-
-        Question question = (Question) obj;
-        return question.getTextQuestion().equals(this.getTextQuestion()) &&
-                question.getTypeQuestion() == this.getTypeQuestion() &&
-                question.getDateReg().equals(this.getDateReg()) &&
-                question.getIdQuestion() == this.getIdQuestion() &&
-                question.getDirAudio().equals(this.getDirAudio()) &&
-                question.getDirImage().equals(this.getDirImage()) &&
-                question.getDirVideo().equals(this.getDirVideo()) &&
-                question.getTheme().equals(this.getTheme()) &&
-                question.getUser().equals(this.getUser());
+    @Override
+    public int hashCode() {
+        return Objects.hash(idQuestion.get(), textQuestion.get(), theme.get(), dateReg.get(), typeQuestion.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), user.get());
     }
 }

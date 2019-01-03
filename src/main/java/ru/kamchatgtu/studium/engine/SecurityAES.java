@@ -19,6 +19,18 @@ public class SecurityAES {
 
     public final static User USER_LOGIN = new User();
 
+    public static boolean clearUser() {
+        USER_LOGIN.setPassword(null);
+        USER_LOGIN.setGroup(null);
+        USER_LOGIN.setEmail(null);
+        USER_LOGIN.setFio(null);
+        USER_LOGIN.setLogin(null);
+        USER_LOGIN.setPhone(null);
+        USER_LOGIN.setDateAuth(null);
+        USER_LOGIN.setDateReg(null);
+        return true;
+    }
+
     public static String encryptPass(String password) {
         try {
             byte[] keyStart = "1dj3fcdbgh4jf".getBytes(StandardCharsets.UTF_8);

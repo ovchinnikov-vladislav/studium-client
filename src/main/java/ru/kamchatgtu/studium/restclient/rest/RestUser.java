@@ -17,10 +17,13 @@ public class RestUser implements AbstractRest<User> {
     private HttpHeaders headers;
     private String url;
 
-    public RestUser(HttpHeaders headers, String url) {
+    public RestUser(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

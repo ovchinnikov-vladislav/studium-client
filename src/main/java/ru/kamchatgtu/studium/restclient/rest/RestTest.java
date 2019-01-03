@@ -16,30 +16,61 @@ public class RestTest implements AbstractRest<Test> {
     private HttpHeaders headers;
     private String url;
 
-    public RestTest(HttpHeaders headers, String url) {
+    public RestTest(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public Test add(Test test) {
-        return null;
+        Test newTest = null;
+        try {
+            HttpEntity<Test> request = new HttpEntity<>(test, headers);
+            newTest = rest.exchange(url + URLTestService.URL_ADD, HttpMethod.POST, request, Test.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return newTest;
     }
 
     @Override
     public Test update(Test test) {
-        return null;
+        Test updateTest = null;
+        try {
+            HttpEntity<Test> request = new HttpEntity<>(test, headers);
+            updateTest = rest.exchange(url + URLTestService.URL_UPDATE, HttpMethod.PUT, request, Test.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return updateTest;
     }
 
     @Override
     public Test remove(Test test) {
-        return null;
+        Test removeTest = null;
+        try {
+            HttpEntity<Test> request = new HttpEntity<>(test, headers);
+            removeTest = rest.exchange(url + URLTestService.URL_DELETE, HttpMethod.DELETE, request, Test.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return removeTest;
     }
 
     @Override
     public Test get(Integer id) {
-        return null;
+        Test test = null;
+        try {
+            HttpEntity<Test> request = new HttpEntity<>(headers);
+            test = rest.exchange(url + URLTestService.URL_TEST + "?id=" + id, HttpMethod.GET, request, Test.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return test;
     }
 
     @Override

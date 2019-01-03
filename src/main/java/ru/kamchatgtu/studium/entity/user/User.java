@@ -1,15 +1,12 @@
 package ru.kamchatgtu.studium.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
 import ru.kamchatgtu.studium.entity.Group;
-import ru.kamchatgtu.studium.entity.Position;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class User implements Serializable {
 
@@ -17,17 +14,12 @@ public class User implements Serializable {
     private StringProperty fio;
     private StringProperty login;
     private StringProperty password;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
     private ObjectProperty<Date> dateReg;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
     private ObjectProperty<Date> dateAuth;
     private StringProperty phone;
     private StringProperty email;
     private IntegerProperty status;
     private ObjectProperty<Group> group;
-    private ObjectProperty<Position> position;
 
     public User() {
         idUser = new SimpleIntegerProperty();
@@ -41,7 +33,6 @@ public class User implements Serializable {
         status = new SimpleIntegerProperty();
         group = new SimpleObjectProperty<>();
         group.setValue(new Group());
-        position = new SimpleObjectProperty<>();
     }
 
     @JsonIgnore
@@ -54,7 +45,6 @@ public class User implements Serializable {
         setEmail(user.getEmail());
         setPhone(user.getPhone());
         setGroup(user.getGroup());
-        setPosition(user.getPosition());
         setPassword(user.getPassword());
         setStatus(user.getStatus());
     }
@@ -179,17 +169,6 @@ public class User implements Serializable {
         this.group.set(group);
     }
 
-    public Position getPosition() {
-        return position.get();
-    }
-
-    public void setPosition(Position position) {
-        this.position.set(position);
-    }
-
-    public ObjectProperty<Position> positionProperty() {
-        return position;
-    }
 
     @Override
     public String toString() {
@@ -200,14 +179,24 @@ public class User implements Serializable {
     }
 
     @Override
-    public boolean equals(Object user) {
-        if (user == null) return false;
-        if (!(user instanceof User)) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(idUser.get(), user.idUser.get()) &&
+                Objects.equals(fio.get(), user.fio.get()) &&
+                Objects.equals(login.get(), user.login.get()) &&
+                Objects.equals(password.get(), user.password.get()) &&
+                Objects.equals(dateReg.get(), user.dateReg.get()) &&
+                Objects.equals(dateAuth.get(), user.dateAuth.get()) &&
+                Objects.equals(phone.get(), user.phone.get()) &&
+                Objects.equals(email.get(), user.email.get()) &&
+                Objects.equals(status.get(), user.status.get()) &&
+                Objects.equals(group.get(), user.group.get());
+    }
 
-        return ((User) user).idUser.equals(this.idUser) && ((User) user).dateReg.equals(this.dateReg) &&
-                ((User) user).email.equals(this.email) && ((User) user).fio.equals(this.fio) &&
-                ((User) user).login.equals(this.login) && ((User) user).password.equals(this.password) &&
-                ((User) user).phone.equals(this.phone) && ((User) user).status.equals(status) &&
-                ((User) user).dateAuth.equals(this.dateAuth);
+    @Override
+    public int hashCode() {
+        return Objects.hash(idUser.get(), fio.get(), login.get(), password.get(), dateReg.get(), dateAuth.get(), phone.get(), email.get(), status.get(), group.get());
     }
 }

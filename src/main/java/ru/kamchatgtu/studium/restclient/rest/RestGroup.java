@@ -16,30 +16,61 @@ public class RestGroup implements AbstractRest<Group> {
     private HttpHeaders headers;
     private String url;
 
-    public RestGroup(HttpHeaders headers, String url) {
+    public RestGroup(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public Group add(Group group) {
-        return null;
+        Group newGroup = null;
+        try {
+            HttpEntity<Group> request = new HttpEntity<>(group, headers);
+            newGroup = rest.exchange(url + URLGroupService.URL_ADD, HttpMethod.POST, request, Group.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return newGroup;
     }
 
     @Override
     public Group update(Group group) {
-        return null;
+        Group updateGroup = null;
+        try {
+            HttpEntity<Group> request = new HttpEntity<>(group, headers);
+            updateGroup = rest.exchange(url + URLGroupService.URL_UPDATE, HttpMethod.PUT, request, Group.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return updateGroup;
     }
 
     @Override
     public Group remove(Group group) {
-        return null;
+        Group deleteGroup = null;
+        try {
+            HttpEntity<Group> request = new HttpEntity<>(group, headers);
+            deleteGroup = rest.exchange(url + URLGroupService.URL_DELETE, HttpMethod.DELETE, request, Group.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return deleteGroup;
     }
 
     @Override
     public Group get(Integer id) {
-        return null;
+        Group group = null;
+        try {
+            HttpEntity<Group> request = new HttpEntity<>(headers);
+            group = rest.exchange(url + URLGroupService.URL_GROUP + "?id=" + id, HttpMethod.GET, request, Group.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return group;
     }
 
     @Override

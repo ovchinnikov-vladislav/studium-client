@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -24,6 +25,7 @@ public class QuestionDialog extends Application {
         Scene scene = new Scene(root, width, height);
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/image/icon.png"));
         return stage;
     }
 
@@ -41,6 +43,7 @@ public class QuestionDialog extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Добавление вопроса");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("/image/icon.png"));
         primaryStage.show();
     }
 }

@@ -16,10 +16,13 @@ public class RestTheme implements AbstractRest<Theme> {
     private HttpHeaders headers;
     private String url;
 
-    public RestTheme(HttpHeaders headers, String url) {
+    public RestTheme(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -60,7 +63,14 @@ public class RestTheme implements AbstractRest<Theme> {
 
     @Override
     public Theme get(Integer id) {
-        return null;
+        Theme theme = null;
+        try {
+            HttpEntity<Theme> request = new HttpEntity<>(headers);
+            theme = rest.exchange(url + URLThemeService.URL_THEME + "?id=" + id, HttpMethod.GET, request, Theme.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return theme;
     }
 
     @Override

@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
 import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
@@ -47,12 +48,8 @@ public class QuestionDialogController {
             buttons.getChildren().remove(deleteButton);
             question = new Question();
         } else {
-            try {
-                Question q = CreateQuesPanelController.getSelectedQuestion();
-                question = (Question) q.clone();
-            } catch (CloneNotSupportedException exc) {
-                exc.printStackTrace();
-            }
+            Question q = CreateQuesPanelController.getSelectedQuestion();
+            question = (Question) q.clone();
         }
         questionField.textProperty().bindBidirectional(question.textQuestionProperty());
         if (question.getTypeQuestion() == 0)
@@ -72,6 +69,17 @@ public class QuestionDialogController {
         question.setTheme(CreateQuesPanelController.getSelectedTheme());
         question.setUser(SecurityAES.USER_LOGIN);
         CreateQuesPanelController.setSelectedQuestion(question);
+        close((Node) event.getSource());
+    }
+
+    @FXML
+    public void deleteAction(ActionEvent event) {
+        RestConnection rest = new RestConnection();
+        question.initAnswers();
+        for (Answer answer : question.getAnswers())
+            rest.getRestAnswer().remove(answer);
+        rest.getRestQuestion().remove(question);
+        CreateQuesPanelController.setSelectedQuestion(null);
         close((Node) event.getSource());
     }
 

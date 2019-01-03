@@ -16,10 +16,13 @@ public class RestAnswer implements AbstractRest<Answer> {
     private HttpHeaders headers;
     private String url;
 
-    public RestAnswer(HttpHeaders headers, String url) {
+    public RestAnswer(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -60,12 +63,30 @@ public class RestAnswer implements AbstractRest<Answer> {
 
     @Override
     public Answer get(Integer id) {
-        return null;
+        Answer answer = null;
+        try {
+            HttpEntity<Answer> request = new HttpEntity<>(headers);
+            answer = rest.exchange(url + URLAnswerService.URL_ANSWER + "?id=" + id, HttpMethod.GET, request, Answer.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return answer;
     }
 
     @Override
     public ObservableList<Answer> getAll() {
-        return null;
+        ObservableList<Answer> answers = null;
+        try {
+            HttpEntity<Answer[]> request = new HttpEntity<>(headers);
+            Answer[] answersArray = rest.exchange(url + URLAnswerService.URL_ANSWERS, HttpMethod.GET, request, Answer[].class).getBody();
+            if (answersArray != null) {
+                answers = FXCollections.observableArrayList();
+                answers.addAll(answersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return answers;
     }
 
     public ObservableList<Answer> getAnswersByQuestion(Integer id) {

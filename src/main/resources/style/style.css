@@ -61,6 +61,12 @@
     -fx-font-family: 'Loto', arial, sans-serif;
 }
 
+.labelStyle {
+    -fx-text-fill: #728cb7;
+    -fx-font-size: 16;
+    -fx-font-family: 'Loto', arial, sans-serif;
+}
+
 .lineStyle {
     -fx-stroke-width: 3;
     -fx-stroke: radial-gradient(focus-distance -100%, center 50% 0%, radius 100%, #fff, #2292e4);
@@ -97,7 +103,9 @@
 }
 
 .buttonMain:disabled, .buttonTable:disabled {
-    -fx-opacity: 50;
+    -fx-background-color: rgba(166, 181, 201, 0.5),
+    linear-gradient(rgba(128, 128, 128, 0.5) 0%, rgba(62, 85, 119, 0.5) 20%, rgba(55, 80, 116, 0.51) 100%),
+    linear-gradient(rgba(118, 138, 165, 0.51) 0%, rgba(132, 156, 187, 0.5) 5%, rgba(88, 119, 162, 0.51) 50%, rgba(72, 106, 154, 0.5) 51%, #4a6c9b 100%);
 }
 
 .buttonMain:hover, .buttonTable:hover {
@@ -153,10 +161,14 @@
 
 .borderTest {
     -fx-background-color: white;
-    -fx-border-color: #4aa6ea;
+    -fx-border-color: #728cb7;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+}
+
+.scroll-pane {
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 .buttonMenu {
@@ -234,3 +246,47 @@
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;
 }
+
+.userLabel {
+    -fx-font-size: 12;
+    -fx-text-fill: #666666;
+    -fx-cursor: hand;
+}
+
+.userButton {
+    -fx-font-size: 11;
+    -fx-padding: 0px 2px 0px 2px;
+    -fx-background-color: white;
+    -fx-cursor: hand;
+}
+
+.userButton:hover {
+    -fx-background-color: #666666;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-text-fill: white;
+}
+
+.tableNoEditableStyle .table-row-cell:filled:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-table-cell-border-color: derive(-fx-color, 5%);
+}
+
+.tableNoEditableStyle .table-row-cell:odd:filled:selected {
+    -fx-background: -fx-control-inner-background-alt;
+}
+
+.timerStyle {
+    -fx-background-image: url("../image/timer_background.png");
+    -fx-background-size: 150;
+    -fx-border-color: grey;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.21), 10, 0, 0, 0);
+}
+
+.timeLabel {
+    -fx-font-size: 20;
+    -fx-text-fill: #728cb7;
+}
+

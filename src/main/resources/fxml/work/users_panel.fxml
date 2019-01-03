@@ -34,11 +34,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="idColumn" maxWidth="50" minWidth="50" resizable="false" text="ID">
-                <cellValueFactory>
-                    <PropertyValueFactory property="idUser"/>
-                </cellValueFactory>
-            </TableColumn>
+            <TableColumn fx:id="idColumn" maxWidth="50" minWidth="50" resizable="false" text="ID"/>
             <TableColumn fx:id="fioColumn" minWidth="100" onEditCommit="#fioEditCommit" text="ФИО">
                 <cellValueFactory>
                     <PropertyValueFactory property="fio"/>

@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="createQuesPanel" styleClass="borderMainStyle"
+          stylesheets="@../../style/style.css"
           GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/8.0.121"
           fx:controller="ru.kamchatgtu.studium.controller.work.CreateQuesPanelController">
     <GridPane.margin>
@@ -41,7 +42,7 @@
         <GridPane.margin>
             <Insets left="5" top="5"/>
         </GridPane.margin>
-        <Button fx:id="addThemeButton" onAction="#addNewThemeAction" style="-fx-padding: 5px 5px 5px 5px"
+        <Button fx:id="addThemeButton" onAction="#addThemeAction" style="-fx-padding: 5px 5px 5px 5px"
                 styleClass="buttonRound">
             <HBox.margin>
                 <Insets right="2"/>
@@ -70,7 +71,7 @@
         <GridPane.margin>
             <Insets left="5" top="5"/>
         </GridPane.margin>
-        <Button fx:id="addQuestionButton" onAction="#addNewQuestionAction" style="-fx-padding: 5px 5px 5px 5px"
+        <Button fx:id="addQuestionButton" onAction="#addQuestionAction" style="-fx-padding: 5px 5px 5px 5px"
                 disable="true"
                 styleClass="buttonRound">
             <HBox.margin>
@@ -118,7 +119,10 @@
             </columnConstraints>
         </GridPane>
     </ScrollPane>
-    <Button fx:id="addAnswerButton" onAction="#addNewAnswerAction" style="-fx-padding: 5px 5px 5px 5px;" visible="false"
+    <Label fx:id="labelAnswer" text="Здесь будут отображаться ответы на вопросы" styleClass="labelStyleGrey"
+           GridPane.columnIndex="1" GridPane.rowIndex="6"
+           GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
+    <Button fx:id="addAnswerButton" onAction="#addAnswerAction" style="-fx-padding: 5px 5px 5px 5px;" visible="false"
             styleClass="buttonRound" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
         <GridPane.margin>
             <Insets left="7"/>
@@ -126,6 +130,15 @@
         <graphic>
             <ImageView>
                 <Image url="@../../image/add-circular-button.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="importExcelButton" onAction="#importExcelAction" style="-fx-padding: 4px 3px 2px 3px;"
+            styleClass="buttonRound" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"
+            GridPane.halignment="RIGHT">
+        <graphic>
+            <ImageView>
+                <Image url="@../../image/excel.png"/>
             </ImageView>
         </graphic>
     </Button>

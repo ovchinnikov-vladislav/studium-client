@@ -16,25 +16,49 @@ public class RestPosition implements AbstractRest<Position> {
     private HttpHeaders headers;
     private String url;
 
-    public RestPosition(HttpHeaders headers, String url) {
+    public RestPosition(HttpHeaders headers) {
         this.headers = headers;
-        this.url = url;
         this.rest = new RestTemplate();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public Position add(Position position) {
-        return null;
+        Position newPosition = null;
+        try {
+            HttpEntity<Position> request = new HttpEntity<>(position, headers);
+            newPosition = rest.exchange(url + URLPositionService.URL_ADD, HttpMethod.POST, request, Position.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return newPosition;
     }
 
     @Override
     public Position update(Position position) {
-        return null;
+        Position updatePosition = null;
+        try {
+            HttpEntity<Position> request = new HttpEntity<>(position, headers);
+            updatePosition = rest.exchange(url + URLPositionService.URL_UPDATE, HttpMethod.PUT, request, Position.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return updatePosition;
     }
 
     @Override
     public Position remove(Position position) {
-        return null;
+        Position deletePosition = null;
+        try {
+            HttpEntity<Position> request = new HttpEntity<>(position, headers);
+            deletePosition = rest.exchange(url + URLPositionService.URL_DELETE, HttpMethod.DELETE, request, Position.class).getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return deletePosition;
     }
 
     @Override

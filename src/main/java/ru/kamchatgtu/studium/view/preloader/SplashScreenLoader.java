@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,6 +31,7 @@ public class SplashScreenLoader extends Preloader {
         stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/image/icon.png"));
         stage.show();
     }
 

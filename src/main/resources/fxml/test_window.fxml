@@ -1,9 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="ru.kamchatgtu.studium.controller.TestWindowController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml" styleClass="windowStyle"
+          fx:controller="ru.kamchatgtu.studium.controller.TestWindowController"
+          stylesheets="@../style/style.css">
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <GridPane styleClass="borderMainStyle">
+        <padding>
+            <Insets topRightBottomLeft="15"/>
+        </padding>
+        <rowConstraints>
+            <RowConstraints minHeight="40"/>
+            <RowConstraints minHeight="10"/>
+            <RowConstraints minHeight="15"/>
+            <RowConstraints/>
+            <RowConstraints prefHeight="20"/>
+            <RowConstraints/>
+            <RowConstraints prefHeight="15"/>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <Label fx:id="titleLabel" styleClass="labelStyleTitle" text="Тест: " GridPane.halignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+        <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"
+                   GridPane.columnSpan="2"/>
+        <GridPane styleClass="borderTest" GridPane.rowIndex="3" GridPane.columnSpan="2">
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <Label fx:id="questionLabel" style="-fx-font-size: 16; -fx-text-fill: #728cb7" wrapText="true"/>
+        </GridPane>
+        <GridPane GridPane.rowIndex="5" styleClass="borderTest">
+            <padding>
+                <Insets topRightBottomLeft="2"/>
+            </padding>
+            <!--ScrollPane fitToHeight="true" fitToWidth="true" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"-->
+            <padding>
+                <Insets topRightBottomLeft="5"/>
+            </padding>
+            <GridPane fx:id="answersPane" hgap="5" style="-fx-background-color: white" vgap="5" GridPane.vgrow="ALWAYS"
+                      GridPane.hgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="25" maxWidth="25"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints maxWidth="30"/>
+                </columnConstraints>
+            </GridPane>
+            <!--/ScrollPane-->
+        </GridPane>
+        <HBox GridPane.rowIndex="5" GridPane.columnIndex="1">
+            <GridPane.margin>
+                <Insets topRightBottomLeft="5"/>
+            </GridPane.margin>
+            <Button fx:id="prevButton" styleClass="buttonRound" style="-fx-padding: 5px 6px 5px 5px;"
+                    onAction="#prevQuestionAction">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../image/br_prev.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="nextButton" styleClass="buttonRound" style="-fx-padding: 5px 5px 5px 6px;"
+                    onAction="#nextQuestionAction">
+                <HBox.margin>
+                    <Insets left="2"/>
+                </HBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../image/br_next.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+        <GridPane minWidth="125" maxWidth="125" minHeight="60" maxHeight="60" styleClass="timerStyle"
+                  GridPane.rowIndex="7" GridPane.valignment="BOTTOM" alignment="BOTTOM_LEFT">
+            <padding>
+                <Insets top="6" left="5" bottom="4" right="5"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints minWidth="50" maxWidth="50"/>
+                <ColumnConstraints minWidth="13" maxWidth="13"/>
+                <ColumnConstraints minWidth="50" maxWidth="50"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="50" maxHeight="50"/>
+            </rowConstraints>
+            <GridPane minWidth="50" maxWidth="50" minHeight="50" maxHeight="50" styleClass="timerStyle"
+                      GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label fx:id="hoursLabel" styleClass="timeLabel" GridPane.halignment="CENTER"
+                       GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"/>
+            </GridPane>
+            <Label fx:id="timeLabel" text=":" styleClass="timeLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                   alignment="CENTER" GridPane.halignment="CENTER"/>
+            <GridPane minWidth="50" maxWidth="50" minHeight="50" maxHeight="50" styleClass="timerStyle"
+                      GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label fx:id="minutesLabel" styleClass="timeLabel" GridPane.valignment="CENTER"
+                       GridPane.halignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"/>
+            </GridPane>
+        </GridPane>
+        <Button text="Завершить тест" styleClass="buttonMain" onAction="#exitAction" GridPane.rowIndex="7"
+                GridPane.columnSpan="2" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT"/>
+    </GridPane>
+</GridPane>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPanel" styleClass="windowStyle"
           stylesheets="@../../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
-          fx:controller="ru.kamchatgtu.studium.controller.WorkWindowController">
+          fx:controller="ru.kamchatgtu.studium.controller.work.WorkWindowController">
     <rowConstraints>
         <RowConstraints minHeight="75" />
         <RowConstraints vgrow="ALWAYS" />
@@ -17,7 +17,7 @@
     <fx:include fx:id="resultsPanel" source="results_panel.fxml" GridPane.rowIndex="1"/>
     <fx:include fx:id="testsPanel" source="tests_panel.fxml" GridPane.rowIndex="1"/>
     <fx:include fx:id="usersPanel" source="users_panel.fxml" GridPane.rowIndex="1"/>
-    <fx:include fx:id="createQuesPanel" source="questions_panel.fxml" GridPane.rowIndex="1"/>
+    <fx:include fx:id="createQuesPanel" source="create_ques_panel.fxml" GridPane.rowIndex="1"/>
     <fx:include fx:id="createTestPanel" source="create_test_panel.fxml" GridPane.rowIndex="1"/>
     <GridPane alignment="CENTER_LEFT" hgap="5" styleClass="borderMenuStyle" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
         <Label text="Studium" styleClass="intro_min">
@@ -27,7 +27,7 @@
         </Label>
         <GridPane fx:id="menu" alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
             <GridPane.margin>
-                <Insets right="50" />
+                <Insets right="10"/>
             </GridPane.margin>
             <Button fx:id="resultMenu" onAction="#resultOpen" styleClass="buttonMenu" text="Результаты"
                     GridPane.columnIndex="0"/>
@@ -43,6 +43,17 @@
                     GridPane.columnIndex="5"/>
             <Button fx:id="systemInfoMenu" styleClass="buttonMenu" text="Системная информация (Недоступно)"
                     GridPane.columnIndex="6"/>
+            <HBox GridPane.columnIndex="7" GridPane.valignment="TOP">
+                <GridPane.margin>
+                    <Insets left="5"/>
+                </GridPane.margin>
+                <Label fx:id="nameLabel" styleClass="userLabel" onMouseClicked="#openMenuMouseClicked"/>
+                <Button text="v" styleClass="userButton" onAction="#openMenuAction">
+                    <HBox.margin>
+                        <Insets left="2"/>
+                    </HBox.margin>
+                </Button>
+            </HBox>
         </GridPane>
     </GridPane>
     <GridPane styleClass="borderMenuStyle" GridPane.rowIndex="2">
@@ -52,6 +63,7 @@
             </GridPane.margin>
             <Label style="-fx-text-fill: #2292e4" text="Прогресс: " />
             <ProgressBar fx:id="progressBar" maxWidth="100" minWidth="100" progress="0" />
+            <Label fx:id="taskLabel" style="-fx-text-fill: #2292e4"/>
         </HBox>
     </GridPane>
 </GridPane>

@@ -8,6 +8,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
+import java.util.Objects;
+
 public class Theme {
 
     private IntegerProperty idTheme;
@@ -53,5 +55,19 @@ public class Theme {
     @Override
     public String toString() {
         return theme.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Theme theme1 = (Theme) o;
+        return Objects.equals(idTheme.get(), theme1.idTheme.get()) &&
+                Objects.equals(theme.get(), theme1.theme.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTheme.get(), theme.get());
     }
 }

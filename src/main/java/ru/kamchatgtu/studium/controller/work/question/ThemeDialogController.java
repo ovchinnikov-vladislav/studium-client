@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
+import ru.kamchatgtu.studium.entity.Answer;
+import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.entity.Theme;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
@@ -55,6 +57,12 @@ public class ThemeDialogController {
     @FXML
     public void deleteAction(ActionEvent event) {
         if (theme != null) {
+            for (Question question : theme.getQuestions()) {
+                question.initAnswers();
+                for (Answer answer : question.getAnswers())
+                    rest.getRestAnswer().remove(answer);
+                rest.getRestQuestion().remove(question);
+            }
             rest.getRestTheme().remove(theme);
         }
         CreateQuesPanelController.setSelectedTheme(null);

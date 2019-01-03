@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="testsPanel" styleClass="borderMainStyle"
+          stylesheets="@../../style/style.css"
           GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/10.0.1"
           fx:controller="ru.kamchatgtu.studium.controller.work.TestsPanelController">
     <GridPane.margin>
@@ -29,11 +27,13 @@
     <Label styleClass="labelStyleTitle" text="Тесты" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
     <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
     <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
-    <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.rowIndex="4">
+    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="4" visible="false">
         <GridPane fx:id="testsPane" hgap="10" style="-fx-border-width: 0" styleClass="borderStyle" vgap="10">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS"/>
             </columnConstraints>
         </GridPane>
     </ScrollPane>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" maxWidth="50" maxHeight="50" GridPane.rowIndex="4"
+                       GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
 </GridPane>

@@ -1,12 +1,10 @@
 package ru.kamchatgtu.studium.entity;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import ru.kamchatgtu.studium.entity.user.User;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class ResultTest {
 
@@ -15,7 +13,7 @@ public class ResultTest {
     private ObjectProperty<Test> test;
     private ObjectProperty<Date> dateBegin;
     private ObjectProperty<Date> dateEnd;
-    private IntegerProperty mark;
+    private FloatProperty mark;
 
     public ResultTest() {
         idResult = new SimpleIntegerProperty();
@@ -23,7 +21,7 @@ public class ResultTest {
         test = new SimpleObjectProperty<>();
         dateBegin = new SimpleObjectProperty<>();
         dateEnd = new SimpleObjectProperty<>();
-        mark = new SimpleIntegerProperty();
+        mark = new SimpleFloatProperty();
     }
 
     public int getIdResult() {
@@ -86,15 +84,33 @@ public class ResultTest {
         this.dateEnd.set(dateEnd);
     }
 
-    public int getMark() {
+    public float getMark() {
         return mark.get();
     }
 
-    public IntegerProperty markProperty() {
+    public void setMark(float mark) {
+        this.mark.set(mark);
+    }
+
+    public FloatProperty markProperty() {
         return mark;
     }
 
-    public void setMark(int mark) {
-        this.mark.set(mark);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResultTest that = (ResultTest) o;
+        return Objects.equals(idResult.get(), that.idResult.get()) &&
+                Objects.equals(user.get(), that.user.get()) &&
+                Objects.equals(test.get(), that.test.get()) &&
+                Objects.equals(dateBegin.get(), that.dateBegin.get()) &&
+                Objects.equals(dateEnd.get(), that.dateEnd.get()) &&
+                Objects.equals(mark.get(), that.mark.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idResult.get(), user.get(), test.get(), dateBegin.get(), dateEnd.get(), mark.get());
     }
 }

@@ -4,22 +4,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javafx.beans.property.*;
 import ru.kamchatgtu.studium.entity.user.User;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Test {
 
     private IntegerProperty idTest;
     private StringProperty nameTest;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
     private ObjectProperty<Date> dateEdit;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss a z")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private ObjectProperty<Date> timer;
     private ObjectProperty<User> user;
     private ObjectProperty<Subject> subject;
+    private Set<Question> questions;
 
     public Test() {
         idTest = new SimpleIntegerProperty();
@@ -28,6 +27,7 @@ public class Test {
         timer = new SimpleObjectProperty<>();
         user = new SimpleObjectProperty<>();
         subject = new SimpleObjectProperty<>();
+        questions = new HashSet<>();
     }
 
     public int getIdTest() {
@@ -100,5 +100,32 @@ public class Test {
 
     public void setSubject(Subject subject) {
         this.subject.set(subject);
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Test test = (Test) o;
+        return Objects.equals(idTest.get(), test.idTest.get()) &&
+                Objects.equals(nameTest.get(), test.nameTest.get()) &&
+                Objects.equals(dateEdit.get(), test.dateEdit.get()) &&
+                Objects.equals(timer.get(), test.timer.get()) &&
+                Objects.equals(user.get(), test.user.get()) &&
+                Objects.equals(subject.get(), test.subject.get()) &&
+                Objects.equals(questions, test.questions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTest.get(), nameTest.get(), dateEdit.get(), timer.get(), user.get(), subject.get());
     }
 }

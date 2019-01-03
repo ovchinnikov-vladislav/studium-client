@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 public class Position {
 
     private IntegerProperty idPosition;
@@ -54,17 +56,22 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object position) {
-        if (position == null) return false;
-        if (!(position instanceof Position)) return false;
-
-        return ((Position) position).position.equals(this.position) &&
-                ((Position) position).access.equals(this.access) &&
-                ((Position) position).idPosition.equals(this.idPosition);
+    public String toString() {
+        return position.get();
     }
 
     @Override
-    public String toString() {
-        return position.get();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position1 = (Position) o;
+        return Objects.equals(idPosition.get(), position1.idPosition.get()) &&
+                Objects.equals(position.get(), position1.position.get()) &&
+                Objects.equals(access.get(), position1.access.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPosition.get(), position.get(), access.get());
     }
 }

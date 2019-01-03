@@ -2,6 +2,7 @@ package ru.kamchatgtu.studium.engine.thread;
 
 import com.victorlaerte.asynctask.AsyncTask;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
@@ -14,24 +15,26 @@ import ru.kamchatgtu.studium.view.work.WorkWindow;
 
 import java.io.IOException;
 
-public class LoginTask extends AsyncTask<Void, Void, Boolean> {
+public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
 
     private RestConnection rest;
     private Button loginButton;
     private ProgressIndicator progressIndicator;
+    private Label errorLabel;
     private String login;
     private String pass;
 
-    public LoginTask(Button loginButton, ProgressIndicator progressIndicator, String login, String pass) {
+    public LoginAsync(Button loginButton, ProgressIndicator progressIndicator, Label errorLabel, String login, String pass) {
         this.loginButton = loginButton;
         this.progressIndicator = progressIndicator;
+        this.errorLabel = errorLabel;
         this.login = login;
         this.pass = pass;
         this.rest = new RestConnection();
     }
 
     public static void checkAccess(RestConnection restConnection) {
-        int access = SecurityAES.USER_LOGIN.getPosition().getAccess();
+        int access = SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess();
         if (access == 3) {
 
         } else if (access == 2) {
@@ -54,7 +57,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         if (user == null)
             return false;
         SecurityAES.USER_LOGIN.setUser(user);
-        int access = SecurityAES.USER_LOGIN.getPosition().getAccess();
+        int access = SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess();
         checkAccess(rest);
         return true;
     }
@@ -77,6 +80,8 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
+        } else {
+            errorLabel.setVisible(true);
         }
     }
 

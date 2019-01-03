@@ -3,14 +3,11 @@ package ru.kamchatgtu.studium.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.thread.LoginTask;
+import ru.kamchatgtu.studium.engine.thread.LoginAsync;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.registration.RegistrationWindow;
 
@@ -26,6 +23,8 @@ public class LoginWindowController {
     private Button loginButton;
     @FXML
     private ProgressIndicator progressIndicator;
+    @FXML
+    private Label errorLabel;
 
     private RestConnection restConnection;
 
@@ -52,7 +51,7 @@ public class LoginWindowController {
     }
 
     private void login(String login, String pass) {
-        LoginTask task = new LoginTask(loginButton, progressIndicator, login, pass);
+        LoginAsync task = new LoginAsync(loginButton, progressIndicator, errorLabel, login, pass);
         task.execute();
     }
 
