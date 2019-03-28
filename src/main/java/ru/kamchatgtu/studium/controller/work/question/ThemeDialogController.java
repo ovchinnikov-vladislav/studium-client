@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ru.kamchatgtu.studium.component.AutoSizeTextArea;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
 import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
@@ -18,7 +19,7 @@ public class ThemeDialogController {
 
     private static boolean isAdd;
     @FXML
-    public TextField themeField;
+    public AutoSizeTextArea themeField;
     @FXML
     public HBox buttons;
     @FXML
@@ -45,9 +46,9 @@ public class ThemeDialogController {
 
     @FXML
     public void saveAction(ActionEvent event) {
-        if (isAdd && theme != null && theme.getTheme() != null && theme.getTheme().length() > 0) {
+        if (isAdd && theme != null && theme.getThemeText() != null && theme.getThemeText().length() > 0) {
             theme = rest.getRestTheme().add(theme);
-        } else if (theme != null && theme.getTheme() != null && theme.getTheme().length() > 0) {
+        } else if (theme != null && theme.getThemeText() != null && theme.getThemeText().length() > 0) {
             theme = rest.getRestTheme().update(theme);
         }
         CreateQuesPanelController.setSelectedTheme(theme);

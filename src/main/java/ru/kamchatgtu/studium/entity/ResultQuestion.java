@@ -2,7 +2,6 @@ package ru.kamchatgtu.studium.entity;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import ru.kamchatgtu.studium.entity.user.User;
 
 import java.util.Objects;
 
@@ -81,6 +80,6 @@ public class ResultQuestion {
 
     @Override
     public int hashCode() {
-        return Objects.hash(answer.get().getTextAnswer(), user.get().getLogin(), question.get().getTextQuestion(), resultTest.get().getIdResult());
+        return Objects.hash(answer.get().getAnswerText(), user.get().getLogin(), question.get().getQuestionText(), resultTest.get().getIdResult());
     }
 }

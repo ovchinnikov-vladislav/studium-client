@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-border-radius: 0px" styleClass="borderStyle"
-          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.ConnectWindowController">
     <padding>
         <Insets topRightBottomLeft="15"/>

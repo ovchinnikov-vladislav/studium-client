@@ -3,7 +3,6 @@ package ru.kamchatgtu.studium.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
-import ru.kamchatgtu.studium.entity.user.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
 import java.io.Serializable;
@@ -13,10 +12,10 @@ import java.util.Objects;
 public class Question implements Serializable, Cloneable {
 
     private IntegerProperty idQuestion;
-    private StringProperty textQuestion;
+    private StringProperty questionText;
     private ObjectProperty<Theme> theme;
     private ObjectProperty<Date> dateReg;
-    private IntegerProperty typeQuestion;
+    private IntegerProperty questionType;
     private StringProperty dirImage;
     private StringProperty dirAudio;
     private StringProperty dirVideo;
@@ -28,10 +27,10 @@ public class Question implements Serializable, Cloneable {
 
     public Question() {
         idQuestion = new SimpleIntegerProperty();
-        textQuestion = new SimpleStringProperty();
+        questionText = new SimpleStringProperty();
         theme = new SimpleObjectProperty<>();
         dateReg = new SimpleObjectProperty<>();
-        typeQuestion = new SimpleIntegerProperty();
+        questionType = new SimpleIntegerProperty();
         dirImage = new SimpleStringProperty();
         dirAudio = new SimpleStringProperty();
         dirVideo = new SimpleStringProperty();
@@ -51,16 +50,16 @@ public class Question implements Serializable, Cloneable {
         this.idQuestion.set(idQuestion);
     }
 
-    public String getTextQuestion() {
-        return textQuestion.get();
+    public String getQuestionText() {
+        return questionText.get();
     }
 
-    public StringProperty textQuestionProperty() {
-        return textQuestion;
+    public StringProperty questionTextProperty() {
+        return questionText;
     }
 
-    public void setTextQuestion(String textQuestion) {
-        this.textQuestion.set(textQuestion);
+    public void setQuestionText(String questionText) {
+        this.questionText.set(questionText);
     }
 
     public Theme getTheme() {
@@ -87,16 +86,16 @@ public class Question implements Serializable, Cloneable {
         this.dateReg.set(dateReg);
     }
 
-    public int getTypeQuestion() {
-        return typeQuestion.get();
+    public int getQuestionType() {
+        return questionType.get();
     }
 
-    public IntegerProperty typeQuestionProperty() {
-        return typeQuestion;
+    public IntegerProperty questionTypeProperty() {
+        return questionType;
     }
 
-    public void setTypeQuestion(int typeQuestion) {
-        this.typeQuestion.set(typeQuestion);
+    public void setQuestionType(int questionType) {
+        this.questionType.set(questionType);
     }
 
     public String getDirImage() {
@@ -174,20 +173,20 @@ public class Question implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return textQuestion.get();
+        return questionText.get();
     }
 
     @Override
     public Object clone() {
         Question question = new Question();
-        question.setTypeQuestion(getTypeQuestion());
+        question.setQuestionType(getQuestionType());
         question.setTheme(getTheme());
         question.setDateReg(getDateReg());
         question.setDirAudio(getDirAudio());
         question.setDirImage(getDirImage());
         question.setDirVideo(getDirVideo());
         question.setIdQuestion(getIdQuestion());
-        question.setTextQuestion(getTextQuestion());
+        question.setQuestionText(getQuestionText());
         question.setUser(getUser());
         return question;
     }
@@ -198,10 +197,10 @@ public class Question implements Serializable, Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
         return Objects.equals(idQuestion.get(), question.idQuestion.get()) &&
-                Objects.equals(textQuestion.get(), question.textQuestion.get()) &&
+                Objects.equals(questionText.get(), question.questionText.get()) &&
                 Objects.equals(theme.get(), question.theme.get()) &&
                 Objects.equals(dateReg.get(), question.dateReg.get()) &&
-                Objects.equals(typeQuestion.get(), question.typeQuestion.get()) &&
+                Objects.equals(questionType.get(), question.questionType.get()) &&
                 Objects.equals(dirImage.get(), question.dirImage.get()) &&
                 Objects.equals(dirAudio.get(), question.dirAudio.get()) &&
                 Objects.equals(dirVideo.get(), question.dirVideo.get()) &&
@@ -210,6 +209,6 @@ public class Question implements Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idQuestion.get(), textQuestion.get(), theme.get(), dateReg.get(), typeQuestion.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), user.get());
+        return Objects.hash(idQuestion.get(), questionText.get(), theme.get(), dateReg.get(), questionType.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), user.get());
     }
 }

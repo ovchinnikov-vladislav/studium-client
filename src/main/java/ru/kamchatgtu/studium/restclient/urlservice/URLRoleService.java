@@ -1,9 +1,9 @@
 package ru.kamchatgtu.studium.restclient.urlservice;
 
-public class URLPositionService {
-    private static final String URL = "/restful/position_service";
-    public static final String URL_POSITION = URL + "/position";
-    public static final String URL_POSITIONS = URL + "/positions";
+public class URLRoleService {
+    private static final String URL = "/restful/role_service";
+    public static final String URL_ROLE = URL + "/role";
+    public static final String URL_ROLES = URL + "/roles";
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";
     public static final String URL_UPDATE = URL + "/update";

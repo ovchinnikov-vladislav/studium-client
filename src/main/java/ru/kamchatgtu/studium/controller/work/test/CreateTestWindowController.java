@@ -25,7 +25,7 @@ public class CreateTestWindowController {
     private static Test selectedTest;
     private static Subject selectedSubject;
     private static boolean isAdd = false;
-    private ObservableList<Group> groups;
+    private ObservableList<Direction> directions;
     private ObservableList<Question> questions;
     @FXML
     private GridPane mainPanel;
@@ -48,13 +48,11 @@ public class CreateTestWindowController {
     private Button editSubjectButton;
 
     @FXML
-    private TableView<Group> groupsTable;
+    private TableView<Direction> directionsTable;
     @FXML
-    private TableColumn<Group, String> idGroupColumn;
+    private TableColumn<Direction, String> idDirectionColumn;
     @FXML
-    private TableColumn<Group, String> positionColumn;
-    @FXML
-    private TableColumn<Group, Boolean> checkSubjectColumn;
+    private TableColumn<Direction, Boolean> checkSubjectColumn;
 
     @FXML
     private TableView<Question> questionsTable;
@@ -99,10 +97,9 @@ public class CreateTestWindowController {
         subjects = rest.getRestSubject().getAll();
         subjectsBox.getItems().addAll(subjects);
         initSubjectBox();
-        groups = rest.getRestGroup().getAll();
-        groupsTable.setItems(groups);
+        directions = rest.getRestDirection().getAll();
+        directionsTable.setItems(directions);
         initIdGroupColumn();
-        initPositionColumn();
         initCheckSubjectColumn();
         questions = rest.getRestQuestion().getAll();
         questionsTable.setItems(questions);
@@ -130,11 +127,11 @@ public class CreateTestWindowController {
     }
 
     private Test createTest(Test test) {
-        selectedSubject.getGroups().removeAll(selectedSubject.getGroups());
-        for (int i = 0; i < groupsTable.getItems().size(); i++) {
-            Group group = groupsTable.getItems().get(i);
-            if (group.isInSubject())
-                selectedSubject.getGroups().add(group);
+        selectedSubject.getDirections().removeAll(selectedSubject.getDirections());
+        for (int i = 0; i < directionsTable.getItems().size(); i++) {
+            Direction direction = directionsTable.getItems().get(i);
+            if (direction.isInSubject())
+                selectedSubject.getDirections().add(direction);
         }
         Subject subject = rest.getRestSubject().update(selectedSubject);
         if (selectedTest != null)
@@ -144,7 +141,7 @@ public class CreateTestWindowController {
             if (question.isInTest())
                 test.getQuestions().add(question);
         }
-        test.setNameTest(nameTestField.getText());
+        test.setTestName(nameTestField.getText());
         test.setSubject(subject);
         Date date = new Date();
         date.setTime(0);
@@ -238,32 +235,21 @@ public class CreateTestWindowController {
     }
 
     private void initGroupTable() {
-        for (int i = 0; i < groupsTable.getItems().size(); i++) {
-            groupsTable.getItems().get(i).setInSubject(false);
+        for (int i = 0; i < directionsTable.getItems().size(); i++) {
+            directionsTable.getItems().get(i).setInSubject(false);
         }
-        for (int i = 0; i < groupsTable.getItems().size(); i++) {
-            for (Group group : selectedSubject.getGroups()) {
-                Group inTable = groupsTable.getItems().get(i);
-                if (inTable.equals(group))
+        for (int i = 0; i < directionsTable.getItems().size(); i++) {
+            for (Direction direction : selectedSubject.getDirections()) {
+                Direction inTable = directionsTable.getItems().get(i);
+                if (inTable.equals(direction))
                     inTable.setInSubject(true);
             }
         }
-        groupsTable.setItems(groups);
+        directionsTable.setItems(directions);
     }
 
     private void initIdGroupColumn() {
-        idGroupColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper(groupsTable.getItems().indexOf(param.getValue()) + 1));
-    }
-
-    private void initPositionColumn() {
-        positionColumn.setCellValueFactory(param -> {
-            Group group = param.getValue();
-            Position position = group.getPosition();
-            if (position != null) {
-                return position.positionProperty();
-            }
-            return null;
-        });
+        idDirectionColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper(directionsTable.getItems().indexOf(param.getValue()) + 1));
     }
 
     private void initCheckSubjectColumn() {
@@ -289,7 +275,7 @@ public class CreateTestWindowController {
     private void initTypeColumn() {
         typeColumn.setCellValueFactory(param -> {
             Question ques = param.getValue();
-            int type = ques.getTypeQuestion();
+            int type = ques.getQuestionType();
             if (type == 1)
                 return new SimpleStringProperty("С одним вариантом ответов");
             else if (type == 2)
@@ -306,7 +292,7 @@ public class CreateTestWindowController {
     }
 
     private void initUpdateTest() {
-        nameTestField.textProperty().bindBidirectional(selectedTest.nameTestProperty());
+        nameTestField.textProperty().bindBidirectional(selectedTest.testNameProperty());
         selectedSubject = selectedTest.getSubject();
         subjectsBox.getSelectionModel().select(selectedTest.getSubject());
         initGroupTable();

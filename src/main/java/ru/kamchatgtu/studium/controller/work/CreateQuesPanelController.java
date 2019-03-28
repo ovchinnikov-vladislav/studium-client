@@ -3,6 +3,7 @@ package ru.kamchatgtu.studium.controller.work;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,11 +23,13 @@ import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.message.Message;
 import ru.kamchatgtu.studium.view.work.question.QuestionDialog;
 import ru.kamchatgtu.studium.view.work.question.ThemeDialog;
+import ru.kamchatgtu.studium.component.CustomTextArea;
 
 import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class CreateQuesPanelController {
 
@@ -105,7 +108,7 @@ public class CreateQuesPanelController {
         initThemesEvent();
         initQuestionsEvent();
         groupAnswers = new ToggleGroup();
-        if (SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess() == 2) {
+        if (SecurityAES.USER_LOGIN.getRole().getAccess() == 2) {
             initPanel();
         }
     }
@@ -164,7 +167,7 @@ public class CreateQuesPanelController {
             answer.setUser(SecurityAES.USER_LOGIN);
             selectedQuestion.getAnswers().add(answer);
         }
-        int type = selectedQuestion.getTypeQuestion();
+        int type = selectedQuestion.getQuestionType();
         if (type == 1) {
             initOneAnswers();
         } else if (type == 2) {
@@ -191,24 +194,30 @@ public class CreateQuesPanelController {
     private void initOneAnswer(int row, Answer answer) {
         Label label = new Label();
         label.setText(row + 1 + ".");
-        TextField textField = new TextField();
-        textField.setPromptText("Ответ");
-        textField.textProperty().bindBidirectional(answer.textAnswerProperty());
+        GridPane.setValignment(label, VPos.TOP);
+        TextArea textArea = new CustomTextArea();
+        textArea.setPromptText("Ответ");
+        textArea.textProperty().bindBidirectional(answer.answerTextProperty());
         Button button = new Button();
         Image image = new Image(getClass().getResourceAsStream("/image/cross-circular-button-outline.png"));
         button.setGraphic(new ImageView(image));
         button.getStyleClass().add("buttonRound");
         button.setStyle("-fx-padding: 5px 5px 5px 5px");
+        GridPane.setValignment(button, VPos.TOP);
+        Tooltip tooltip = new Tooltip("Удалить ответ");
+        tooltip.setStyle("-fx-font-size: 12px");
+        button.setTooltip(tooltip);
         RadioButton radioButton = new RadioButton();
-        radioButton.selectedProperty().bindBidirectional(answer.rightProperty());
+        radioButton.selectedProperty().bindBidirectional(answer.correctProperty());
         radioButton.setToggleGroup(groupAnswers);
+        GridPane.setValignment(radioButton, VPos.TOP);
         answersPane.add(label, 0, row);
         answersPane.add(radioButton, 1, row);
-        answersPane.add(textField, 2, row);
+        answersPane.add(textArea, 2, row);
         answersPane.add(button, 3, row);
-        initChangeTextField(textField);
+        initChangeTextField(textArea);
         initChangeRadioButton(radioButton);
-        initDeleteAnswerButton(answer, button, textField, button, label, radioButton);
+        initDeleteAnswerButton(answer, button, textArea, button, label, radioButton);
     }
 
     private void initMultiAnswers() {
@@ -222,33 +231,39 @@ public class CreateQuesPanelController {
     private void initMultiAnswer(int row, Answer answer) {
         Label label = new Label();
         label.setText(row + 1 + ".");
-        TextField textField = new TextField();
-        textField.setPromptText("Ответ");
-        textField.textProperty().bindBidirectional(answer.textAnswerProperty());
+        GridPane.setValignment(label, VPos.TOP);
+        TextArea textArea = new CustomTextArea();
+        textArea.setPromptText("Ответ");
+        textArea.textProperty().bindBidirectional(answer.answerTextProperty());
         Button button = new Button();
         Image image = new Image(getClass().getResourceAsStream("/image/cross-circular-button-outline.png"));
         button.setGraphic(new ImageView(image));
         button.getStyleClass().add("buttonRound");
         button.setStyle("-fx-padding: 5px 5px 5px 5px");
+        GridPane.setValignment(button, VPos.TOP);
+        Tooltip tooltip = new Tooltip("Удалить ответ");
+        tooltip.setStyle("-fx-font-size: 12px");
+        button.setTooltip(tooltip);
         CheckBox checkBox = new CheckBox();
-        checkBox.selectedProperty().bindBidirectional(answer.rightProperty());
+        checkBox.selectedProperty().bindBidirectional(answer.correctProperty());
+        GridPane.setValignment(checkBox, VPos.TOP);
         answersPane.add(label, 0, row);
         answersPane.add(checkBox, 1, row);
-        answersPane.add(textField, 2, row);
+        answersPane.add(textArea, 2, row);
         answersPane.add(button, 3, row);
-        initChangeTextField(textField);
+        initChangeTextField(textArea);
         initChangeCheckBox(checkBox);
-        initDeleteAnswerButton(answer, button, textField, button, label, checkBox);
+        initDeleteAnswerButton(answer, button, textArea, button, label, checkBox);
     }
 
     private void initTextAnswers() {
         ObservableList<Answer> answers = selectedQuestion.getAnswers();
-        TextField textField = new TextField();
-        textField.setPromptText("Ответ");
-        textField.textProperty().bindBidirectional(answers.get(0).textAnswerProperty());
-        answersPane.add(textField, 2, 0);
+        TextArea textArea = new CustomTextArea();
+        textArea.setPromptText("Ответ");
+        textArea.textProperty().bindBidirectional(answers.get(0).answerTextProperty());
+        answersPane.add(textArea, 2, 0);
         addAnswerButton.setVisible(false);
-        initChangeTextField(textField);
+        initChangeTextField(textArea);
     }
 
     @FXML
@@ -277,7 +292,7 @@ public class CreateQuesPanelController {
         }
     }
 
-    private void initChangeTextField(TextField textField) {
+    private void initChangeTextField(TextArea textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             saveQuestionButton.setDisable(false);
         });
@@ -320,8 +335,6 @@ public class CreateQuesPanelController {
     @FXML
     public void editQuestionAction(ActionEvent event) {
         initQuestionWindow(false, "Редактирование вопроса");
-        questions = rest.getRestQuestion().getQuestionsByTheme(selectedTheme.getIdTheme());
-        questionBox.setItems(questions);
         questionBox.getSelectionModel().clearSelection();
         if (selectedQuestion != null) {
             questionBox.getSelectionModel().select(selectedQuestion);
@@ -385,9 +398,9 @@ public class CreateQuesPanelController {
     public void addAnswerAction(ActionEvent event) {
         ObservableList<Answer> answers = selectedQuestion.getAnswers();
         if (answers != null && answers.size() > 0 &&
-                answers.get(answers.size() - 1).getTextAnswer() != null &&
+                answers.get(answers.size() - 1).getAnswerText() != null &&
                 !answers.get(answers.size() - 1).equals("")) {
-            int type = selectedQuestion.getTypeQuestion();
+            int type = selectedQuestion.getQuestionType();
             Answer answer = new Answer();
             answer.setUser(SecurityAES.USER_LOGIN);
             if (type == 1) {

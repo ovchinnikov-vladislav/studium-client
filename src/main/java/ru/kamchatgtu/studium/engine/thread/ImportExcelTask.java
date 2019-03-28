@@ -38,7 +38,7 @@ public class ImportExcelTask extends Task<Boolean> {
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             Theme theme = new Theme();
-            theme.setTheme(sheet.getRow(0).getCell(0).getStringCellValue());
+            theme.setThemeText(sheet.getRow(0).getCell(0).getStringCellValue());
             theme = restConnection.getRestTheme().add(theme);
             for (int i = 3; i < count; i++) {
 
@@ -71,7 +71,6 @@ public class ImportExcelTask extends Task<Boolean> {
                     question = restConnection.getRestQuestion().add(question);
                     answerQues(row, question);
                 }
-                i++;
                 this.updateProgress(i - 3, count - 3);
             }
             return true;
@@ -112,7 +111,7 @@ public class ImportExcelTask extends Task<Boolean> {
             if (answer != null) {
                 cellRight = row.getCell(k);
                 if (cellRight != null && cellRight.getStringCellValue() != null && !cellRight.getStringCellValue().equals(""))
-                    answer.setRight(true);
+                    answer.setCorrect(true);
                 restConnection.getRestAnswer().add(answer);
             }
             j += 2;
@@ -122,11 +121,11 @@ public class ImportExcelTask extends Task<Boolean> {
 
     private Question initQuestion(String textQuestion, Theme theme) {
         Question question = new Question();
-        question.setTypeQuestion(2);
+        question.setQuestionType(2);
         question.setDateReg(new Date());
         question.setTheme(theme);
         question.setUser(SecurityAES.USER_LOGIN);
-        question.setTextQuestion(textQuestion);
+        question.setQuestionText(textQuestion);
         return question;
     }
 
@@ -135,7 +134,7 @@ public class ImportExcelTask extends Task<Boolean> {
         answer.setQuestion(question);
         answer.setDateEdit(new Date());
         answer.setUser(SecurityAES.USER_LOGIN);
-        answer.setTextAnswer(textAnswer);
+        answer.setAnswerText(textAnswer);
         return answer;
     }
 

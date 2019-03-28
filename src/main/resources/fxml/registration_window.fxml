@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600" prefWidth="600" styleClass="windowStyle"
-          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.RegistrationWindowController">
     <rowConstraints>
         <RowConstraints minHeight="75"/>
@@ -48,7 +48,7 @@
                                GridPane.rowIndex="6" GridPane.valignment="BOTTOM"/>
         </children>
     </GridPane>
-    <GridPane fx:id="borderReg" maxWidth="550" maxHeight="450" styleClass="borderMainStyle" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+    <GridPane fx:id="borderReg" maxWidth="550" maxHeight="520" styleClass="borderMainStyle" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
               GridPane.rowIndex="1">
         <padding>
             <Insets left="50" right="50"/>
@@ -56,6 +56,10 @@
         <rowConstraints>
             <RowConstraints minHeight="40"/>
             <RowConstraints minHeight="10"/>
+            <RowConstraints prefHeight="35"/>
+            <RowConstraints prefHeight="20"/>
+            <RowConstraints prefHeight="35"/>
+            <RowConstraints prefHeight="20"/>
             <RowConstraints prefHeight="35"/>
             <RowConstraints prefHeight="20"/>
             <RowConstraints prefHeight="35"/>
@@ -84,18 +88,24 @@
                        GridPane.rowIndex="4"/>
             <PasswordField fx:id="passRegField" onKeyReleased="#passRegKeyReleased" prefHeight="35" promptText="Пароль"
                            GridPane.rowIndex="6"/>
-            <ComboBox fx:id="groupBox" prefHeight="35" prefWidth="200" promptText="Группа" GridPane.halignment="LEFT"
+            <ComboBox fx:id="facultyBox" prefHeight="35" promptText="Факультет" GridPane.hgrow="ALWAYS" prefWidth="450"
                       GridPane.rowIndex="8"/>
+            <ComboBox fx:id="directionBox" prefHeight="35" promptText="Направление подготовки" prefWidth="450"
+                      GridPane.rowIndex="10" disable="true"/>
+            <ComboBox fx:id="groupBox" prefHeight="35" maxWidth="200" promptText="Группа" GridPane.halignment="LEFT"
+                      GridPane.rowIndex="12" disable="true"/>
             <CheckBox fx:id="groupCheckBox" prefHeight="35" text="Группы нет в списке" GridPane.halignment="RIGHT"
-                      GridPane.rowIndex="8"/>
+                      GridPane.rowIndex="12" disable="true"/>
+            <TextField fx:id="groupRegField" prefHeight="35" maxWidth="200" promptText="Введите группу" GridPane.halignment="LEFT"
+                       GridPane.rowIndex="12" visible="false"/>
             <TextField fx:id="emailRegField" onKeyReleased="#emailRegKeyReleased" prefHeight="35"
-                       promptText="E-mail (Пример: ivanov@mail.ru)" GridPane.rowIndex="10"/>
+                       promptText="E-mail (Пример: ivanov@mail.ru)" GridPane.rowIndex="14"/>
             <TextField fx:id="phoneField" onKeyReleased="#phoneKeyReleased" prefHeight="35"
-                       promptText="Телефон (Пример: 8-914-000-00-00)" GridPane.rowIndex="12"/>
+                       promptText="Телефон (Пример: 8-914-000-00-00)" GridPane.rowIndex="16"/>
             <Button fx:id="regButton" onAction="#regButtonAction" styleClass="buttonMain" text="Зарегистрироваться"
-                    GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM"/>
+                    GridPane.halignment="CENTER" GridPane.rowIndex="18" GridPane.valignment="BOTTOM"/>
             <ProgressIndicator fx:id="progressRegIndicator" visible="false" GridPane.halignment="CENTER"
-                               GridPane.rowIndex="14" GridPane.valignment="BOTTOM"/>
+                               GridPane.rowIndex="18" GridPane.valignment="BOTTOM"/>
         </children>
     </GridPane>
     <GridPane alignment="CENTER" hgap="5" styleClass="borderMenuStyle" GridPane.rowIndex="0">

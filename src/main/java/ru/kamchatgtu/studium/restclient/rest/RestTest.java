@@ -103,4 +103,19 @@ public class RestTest implements AbstractRest<Test> {
         }
         return tests;
     }
+
+    public ObservableList<Test> getTestsByUser(Integer idUser) {
+        ObservableList<Test> tests = null;
+        try {
+            HttpEntity<Test[]> request = new HttpEntity<>(headers);
+            Test[] testsArray = rest.exchange(url + URLTestService.URL_TESTS_BY_USER + "?id=" + idUser, HttpMethod.GET, request, Test[].class).getBody();
+            if (testsArray != null) {
+                tests = FXCollections.observableArrayList();
+                tests.addAll(testsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return tests;
+    }
 }

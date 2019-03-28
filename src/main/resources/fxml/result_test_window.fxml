@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns:fx="http://javafx.com/fxml" styleClass="windowStyle"
+          fx:controller="ru.kamchatgtu.studium.controller.ResultTestWindowController"
+          stylesheets="@../style/style.css" minWidth="800" minHeight="600">
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <GridPane styleClass="borderMainStyle">
+        <padding>
+            <Insets topRightBottomLeft="15"/>
+        </padding>
+        <rowConstraints>
+            <RowConstraints minHeight="40"/>
+            <RowConstraints minHeight="10"/>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints minHeight="30"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <Label styleClass="labelStyleTitle" text="Результат" GridPane.halignment="CENTER"
+               GridPane.rowIndex="0" textAlignment="CENTER"/>
+        <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+        <Label fx:id="testLabel" styleClass="labelStyle" text="Тест: " GridPane.rowIndex="2" wrapText="true"/>
+        <Label fx:id="nameStudentLabel" styleClass="labelStyle" text="Студент: " GridPane.rowIndex="3" wrapText="true"/>
+        <Label fx:id="groupStudentLabel" styleClass="labelStyle" text="Группа: " GridPane.rowIndex="4" wrapText="true"/>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane" GridPane.rowIndex="5">
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <GridPane fx:id="questionsPane" GridPane.hgrow="ALWAYS" hgap="5" vgap="5" style="-fx-background-color: white" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="40"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+            </GridPane>
+        </ScrollPane>
+        <ProgressIndicator fx:id="progressIndicator" maxWidth="50" maxHeight="50" GridPane.rowIndex="5"
+                           GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
+        <Label fx:id="countMistakeLabel" styleClass="labelStyle" text="Количество ошибок: 0" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" wrapText="true"/>
+        <Label fx:id="markLabel" styleClass="labelStyle" text="Количество баллов: " GridPane.rowIndex="7" wrapText="true"/>
+    </GridPane>
+</GridPane>

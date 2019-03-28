@@ -14,15 +14,15 @@ import java.util.Set;
 public class Subject {
 
     private IntegerProperty idSubject;
-    private StringProperty nameSubject;
-    private Set<Group> groups;
+    private StringProperty subjectName;
+    private Set<Direction> directions;
     @JsonIgnore
     private ObservableList<Test> tests;
 
     public Subject() {
         idSubject = new SimpleIntegerProperty();
-        nameSubject = new SimpleStringProperty();
-        groups = new HashSet<Group>();
+        subjectName = new SimpleStringProperty();
+        directions = new HashSet<>();
     }
 
     public int getIdSubject() {
@@ -37,24 +37,24 @@ public class Subject {
         this.idSubject.set(idSubject);
     }
 
-    public String getNameSubject() {
-        return nameSubject.get();
+    public String getSubjectName() {
+        return subjectName.get();
     }
 
-    public StringProperty nameSubjectProperty() {
-        return nameSubject;
+    public StringProperty subjectNameProperty() {
+        return subjectName;
     }
 
-    public void setNameSubject(String nameSubject) {
-        this.nameSubject.set(nameSubject);
+    public void setSubjectName(String subjectName) {
+        this.subjectName.set(subjectName);
     }
 
-    public Set<Group> getGroups() {
-        return groups;
+    public synchronized Set<Direction> getDirections() {
+        return directions;
     }
 
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
+    public void setDirections(Set<Direction> directions) {
+        this.directions = directions;
     }
 
     public ObservableList<Test> getTests() {
@@ -67,7 +67,7 @@ public class Subject {
 
     @Override
     public String toString() {
-        return nameSubject.get();
+        return subjectName.get();
     }
 
     @Override
@@ -76,12 +76,12 @@ public class Subject {
         if (o == null || getClass() != o.getClass()) return false;
         Subject subject = (Subject) o;
         return Objects.equals(idSubject.get(), subject.idSubject.get()) &&
-                Objects.equals(nameSubject.get(), subject.nameSubject.get()) &&
-                Objects.equals(groups, subject.groups);
+                Objects.equals(subjectName.get(), subject.subjectName.get()) &&
+                Objects.equals(directions, subject.directions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idSubject.get(), nameSubject.get());
+        return Objects.hash(idSubject.get(), subjectName.get());
     }
 }

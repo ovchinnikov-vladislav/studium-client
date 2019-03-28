@@ -1,8 +1,7 @@
-package ru.kamchatgtu.studium.entity.user;
+package ru.kamchatgtu.studium.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
-import ru.kamchatgtu.studium.entity.Group;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +18,9 @@ public class User implements Serializable {
     private StringProperty phone;
     private StringProperty email;
     private IntegerProperty status;
+    private ObjectProperty<Role> role;
     private ObjectProperty<Group> group;
+    private ObjectProperty<Direction> direction;
 
     public User() {
         idUser = new SimpleIntegerProperty();
@@ -31,8 +32,9 @@ public class User implements Serializable {
         phone = new SimpleStringProperty();
         email = new SimpleStringProperty();
         status = new SimpleIntegerProperty();
+        role = new SimpleObjectProperty<>();
         group = new SimpleObjectProperty<>();
-        group.setValue(new Group());
+        direction = new SimpleObjectProperty<>();
     }
 
     @JsonIgnore
@@ -44,7 +46,9 @@ public class User implements Serializable {
         setDateAuth(user.getDateAuth());
         setEmail(user.getEmail());
         setPhone(user.getPhone());
+        setRole(user.getRole());
         setGroup(user.getGroup());
+        setDirection(user.getDirection());
         setPassword(user.getPassword());
         setStatus(user.getStatus());
     }
@@ -157,6 +161,18 @@ public class User implements Serializable {
         return status;
     }
 
+    public Role getRole() {
+        return role.get();
+    }
+
+    public ObjectProperty<Role> roleProperty() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role.set(role);
+    }
+
     public Group getGroup() {
         return group.get();
     }
@@ -169,6 +185,17 @@ public class User implements Serializable {
         this.group.set(group);
     }
 
+    public Direction getDirection() {
+        return direction.get();
+    }
+
+    public ObjectProperty<Direction> directionProperty() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction.set(direction);
+    }
 
     @Override
     public String toString() {
@@ -192,11 +219,13 @@ public class User implements Serializable {
                 Objects.equals(phone.get(), user.phone.get()) &&
                 Objects.equals(email.get(), user.email.get()) &&
                 Objects.equals(status.get(), user.status.get()) &&
-                Objects.equals(group.get(), user.group.get());
+                Objects.equals(role.get(), user.role.get()) &&
+                Objects.equals(group.get(), user.group.get()) &&
+                Objects.equals(direction.get(), user.direction.get());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser.get(), fio.get(), login.get(), password.get(), dateReg.get(), dateAuth.get(), phone.get(), email.get(), status.get(), group.get());
+        return Objects.hash(idUser.get(), fio.get(), login.get(), password.get(), dateReg.get(), dateAuth.get(), phone.get(), email.get(), status.get(), role.get(), group.get(), direction.get());
     }
 }

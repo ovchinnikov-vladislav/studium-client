@@ -3,7 +3,7 @@ package ru.kamchatgtu.studium.engine;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.keygen.KeyGenerators;
-import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.entity.User;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

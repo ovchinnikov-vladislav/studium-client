@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml" styleClass="windowStyle"
           fx:controller="ru.kamchatgtu.studium.controller.TestWindowController"
-          stylesheets="@../style/style.css">
+          stylesheets="@../style/style.css" minHeight="600" minWidth="800">
     <padding>
         <Insets topRightBottomLeft="10"/>
     </padding>
@@ -27,16 +27,17 @@
             <RowConstraints minHeight="15"/>
             <RowConstraints/>
             <RowConstraints prefHeight="20"/>
-            <RowConstraints/>
-            <RowConstraints prefHeight="15"/>
             <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints prefHeight="15"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints/>
         </rowConstraints>
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS"/>
             <ColumnConstraints/>
         </columnConstraints>
         <Label fx:id="titleLabel" styleClass="labelStyleTitle" text="Тест: " GridPane.halignment="CENTER"
-               GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+               GridPane.rowIndex="0" GridPane.columnSpan="2" wrapText="true" textAlignment="CENTER"/>
         <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"
                    GridPane.columnSpan="2"/>
         <GridPane styleClass="borderTest" GridPane.rowIndex="3" GridPane.columnSpan="2">
@@ -45,24 +46,22 @@
             </padding>
             <Label fx:id="questionLabel" style="-fx-font-size: 16; -fx-text-fill: #728cb7" wrapText="true"/>
         </GridPane>
-        <GridPane GridPane.rowIndex="5" styleClass="borderTest">
-            <padding>
-                <Insets topRightBottomLeft="2"/>
-            </padding>
-            <!--ScrollPane fitToHeight="true" fitToWidth="true" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"-->
+        <ScrollPane fitToWidth="true" GridPane.rowIndex="5">
             <padding>
                 <Insets topRightBottomLeft="5"/>
             </padding>
-            <GridPane fx:id="answersPane" hgap="5" style="-fx-background-color: white" vgap="5" GridPane.vgrow="ALWAYS"
-                      GridPane.hgrow="ALWAYS">
+            <GridPane fx:id="answersPane" hgap="5" vgap="5" styleClass="borderTest" style="-fx-background-color: white"
+                      alignment="CENTER">
+                <padding>
+                    <Insets topRightBottomLeft="5"/>
+                </padding>
                 <columnConstraints>
-                    <ColumnConstraints minWidth="25" maxWidth="25"/>
-                    <ColumnConstraints hgrow="ALWAYS"/>
-                    <ColumnConstraints maxWidth="30"/>
+                    <ColumnConstraints minWidth="35" maxWidth="35"/>
+                    <ColumnConstraints maxWidth="600"/>
+                    <ColumnConstraints minWidth="75" maxWidth="150" halignment="RIGHT"/>
                 </columnConstraints>
             </GridPane>
-            <!--/ScrollPane-->
-        </GridPane>
+        </ScrollPane>
         <HBox GridPane.rowIndex="5" GridPane.columnIndex="1">
             <GridPane.margin>
                 <Insets topRightBottomLeft="5"/>
@@ -112,8 +111,16 @@
                 <Label fx:id="minutesLabel" styleClass="timeLabel" GridPane.valignment="CENTER"
                        GridPane.halignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"/>
             </GridPane>
+            <GridPane.margin>
+                <Insets bottom="5"/>
+            </GridPane.margin>
         </GridPane>
         <Button text="Завершить тест" styleClass="buttonMain" onAction="#exitAction" GridPane.rowIndex="7"
-                GridPane.columnSpan="2" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT"/>
+                GridPane.columnSpan="2" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT">
+            <GridPane.margin>
+                <Insets bottom="5"/>
+            </GridPane.margin>
+        </Button>
+        <FlowPane fx:id="questionCheckPanel" GridPane.rowIndex="8" GridPane.columnSpan="2"/>
     </GridPane>
 </GridPane>

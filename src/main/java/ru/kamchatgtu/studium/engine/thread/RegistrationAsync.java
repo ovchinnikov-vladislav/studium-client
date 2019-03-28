@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
 import ru.kamchatgtu.studium.controller.work.UsersPanelController;
 import ru.kamchatgtu.studium.engine.SecurityAES;
-import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
 
@@ -37,7 +37,7 @@ public class RegistrationAsync extends AsyncTask<Void, Void, Boolean> {
     public Boolean doInBackground(Void... voids) {
         User newUser = rest.getRestUser().add(user);
         UsersPanelController.setUsers(rest.getRestUser().getAll());
-        UsersPanelController.setPositions(rest.getRestPosition().getAll());
+        UsersPanelController.setRoles(rest.getRestRole().getAll());
         CreateQuesPanelController.setThemes(rest.getRestTheme().getAll());
         SecurityAES.USER_LOGIN.setUser(user);
         LoginAsync.checkAccess(rest);

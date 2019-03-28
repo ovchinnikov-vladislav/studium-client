@@ -1,6 +1,7 @@
 package ru.kamchatgtu.studium.controller.work;
 
 import com.victorlaerte.asynctask.AsyncTask;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -44,7 +45,7 @@ public class TestsPanelController {
             try {
                 TestWindowController.setSelectedTest(test);
                 Stage stage = TestWindow.getStage();
-                stage.setTitle(test.getNameTest());
+                stage.setTitle(test.getTestName());
                 stage.initOwner(hyperlink.getScene().getWindow());
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.showAndWait();
@@ -66,7 +67,12 @@ public class TestsPanelController {
 
         @Override
         public ObservableList<Subject> doInBackground(Void... voids) {
-            ObservableList<Subject> subjects = restConnection.getRestSubject().getByGroup(SecurityAES.USER_LOGIN.getGroup());
+            ObservableList<Subject> subjects = FXCollections.observableArrayList();
+            int access = SecurityAES.USER_LOGIN.getRole().getAccess();
+            if (access == 3)
+                subjects = restConnection.getRestSubject().getByDirection(SecurityAES.USER_LOGIN.getDirection());
+            else if (access == 2)
+                subjects = restConnection.getRestSubject().getByUser(SecurityAES.USER_LOGIN.getIdUser());
             for (Subject subject : subjects) {
                 subject.setTests(restConnection.getRestTest().getTestsBySubject(subject.getIdSubject()));
             }
@@ -101,7 +107,7 @@ public class TestsPanelController {
 
                 gridPane.getColumnConstraints().add(column);
 
-                Label label = new Label((rowSubject + 1) + ". " + subject.getNameSubject());
+                Label label = new Label((rowSubject + 1) + ". " + subject.getSubjectName());
                 label.setStyle("-fx-text-fill: #728cb7; -fx-font-size: 16; -fx-font-weight: bold");
                 GridPane.setMargin(label, new Insets(5));
                 Separator separator = new Separator();
@@ -110,10 +116,12 @@ public class TestsPanelController {
                 gridPane.add(label, 0, rowTest++);
                 gridPane.add(separator, 0, rowTest++);
                 for (Test test : tests) {
-                    Hyperlink hyperlink = new Hyperlink(test.getNameTest());
-                    hyperlink.setStyle("-fx-font-size: 14");
-                    openTestInit(hyperlink, test);
-                    gridPane.add(hyperlink, 0, rowTest++);
+                    if (test.getQuestions().size() != 0) {
+                        Hyperlink hyperlink = new Hyperlink(test.getTestName());
+                        hyperlink.setStyle("-fx-font-size: 14");
+                        openTestInit(hyperlink, test);
+                        gridPane.add(hyperlink, 0, rowTest++);
+                    }
                 }
                 testsPane.add(gridPane, 0, rowSubject++);
             }

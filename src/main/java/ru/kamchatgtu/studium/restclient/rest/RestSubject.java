@@ -6,8 +6,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
+import ru.kamchatgtu.studium.entity.Direction;
 import ru.kamchatgtu.studium.entity.Group;
 import ru.kamchatgtu.studium.entity.Subject;
+import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
 import ru.kamchatgtu.studium.restclient.urlservice.URLSubjectService;
 
@@ -90,11 +92,26 @@ public class RestSubject implements AbstractRest<Subject> {
         return subjects;
     }
 
-    public ObservableList<Subject> getByGroup(Group group) {
+    public ObservableList<Subject> getByUser(Integer id) {
         ObservableList<Subject> subjects = null;
         try {
-            HttpEntity<Group> request = new HttpEntity<>(group, headers);
-            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_BY_GROUP, HttpMethod.POST, request, Subject[].class).getBody();
+            HttpEntity<Subject> request = new HttpEntity<>(headers);
+            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_BY_USER + "?id=" + id, HttpMethod.GET, request, Subject[].class).getBody();
+            if (subjectsArray != null) {
+                subjects = FXCollections.observableArrayList();
+                subjects.addAll(subjectsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return subjects;
+    }
+
+    public ObservableList<Subject> getByDirection(Direction direction) {
+        ObservableList<Subject> subjects = null;
+        try {
+            HttpEntity<Direction> request = new HttpEntity<>(direction, headers);
+            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_BY_DIRECTION, HttpMethod.POST, request, Subject[].class).getBody();
             if (subjectsArray != null) {
                 subjects = FXCollections.observableArrayList();
                 subjects.addAll(subjectsArray);

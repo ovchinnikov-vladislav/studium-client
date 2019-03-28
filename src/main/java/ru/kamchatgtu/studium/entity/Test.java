@@ -2,7 +2,6 @@ package ru.kamchatgtu.studium.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javafx.beans.property.*;
-import ru.kamchatgtu.studium.entity.user.User;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,7 +11,7 @@ import java.util.Set;
 public class Test {
 
     private IntegerProperty idTest;
-    private StringProperty nameTest;
+    private StringProperty testName;
     private ObjectProperty<Date> dateEdit;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private ObjectProperty<Date> timer;
@@ -22,7 +21,7 @@ public class Test {
 
     public Test() {
         idTest = new SimpleIntegerProperty();
-        nameTest = new SimpleStringProperty();
+        testName = new SimpleStringProperty();
         dateEdit = new SimpleObjectProperty<>();
         timer = new SimpleObjectProperty<>();
         user = new SimpleObjectProperty<>();
@@ -42,16 +41,16 @@ public class Test {
         this.idTest.set(idTest);
     }
 
-    public String getNameTest() {
-        return nameTest.get();
+    public String getTestName() {
+        return testName.get();
     }
 
-    public StringProperty nameTestProperty() {
-        return nameTest;
+    public StringProperty testNameProperty() {
+        return testName;
     }
 
-    public void setNameTest(String nameTest) {
-        this.nameTest.set(nameTest);
+    public void setTestName(String testName) {
+        this.testName.set(testName);
     }
 
     public Date getDateEdit() {
@@ -116,7 +115,7 @@ public class Test {
         if (o == null || getClass() != o.getClass()) return false;
         Test test = (Test) o;
         return Objects.equals(idTest.get(), test.idTest.get()) &&
-                Objects.equals(nameTest.get(), test.nameTest.get()) &&
+                Objects.equals(testName.get(), test.testName.get()) &&
                 Objects.equals(dateEdit.get(), test.dateEdit.get()) &&
                 Objects.equals(timer.get(), test.timer.get()) &&
                 Objects.equals(user.get(), test.user.get()) &&
@@ -126,6 +125,6 @@ public class Test {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTest.get(), nameTest.get(), dateEdit.get(), timer.get(), user.get(), subject.get());
+        return Objects.hash(idTest.get(), testName.get(), dateEdit.get(), timer.get(), user.get(), subject.get());
     }
 }

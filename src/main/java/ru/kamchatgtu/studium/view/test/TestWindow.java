@@ -10,14 +10,16 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.TestWindowController;
 
+import java.io.IOException;
+
 public class TestWindow extends Application {
 
-    public static Stage getStage() throws Exception {
+    public static Stage getStage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(TestWindow.class.getResource("/fxml/test_window.fxml"));
         Parent root = loader.load();
-        int width = 600;
-        int height = 480;
+        int width = 800;
+        int height = 680;
 
         Stage primaryStage = new Stage();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -40,8 +42,8 @@ public class TestWindow extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/test_window.fxml"));
         Parent root = loader.load();
-        int width = 600;
-        int height = 480;
+        int width = 800;
+        int height = 680;
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX((screenBounds.getWidth() - width) / 2);

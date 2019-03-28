@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ru.kamchatgtu.studium.component.AutoSizeTextArea;
 import ru.kamchatgtu.studium.entity.Subject;
 import ru.kamchatgtu.studium.entity.Test;
 import ru.kamchatgtu.studium.restclient.RestConnection;
@@ -17,7 +18,7 @@ public class SubjectDialogController {
 
     private static boolean isAdd;
     @FXML
-    public TextField subjectField;
+    public AutoSizeTextArea subjectField;
     @FXML
     public HBox buttons;
     @FXML
@@ -40,14 +41,14 @@ public class SubjectDialogController {
         } else {
             subject = CreateTestWindowController.getSelectedSubject();
         }
-        subjectField.textProperty().bindBidirectional(subject.nameSubjectProperty());
+        subjectField.textProperty().bindBidirectional(subject.subjectNameProperty());
     }
 
     @FXML
     public void saveAction(ActionEvent event) {
-        if (isAdd && subject != null && subject.getNameSubject() != null && subject.getNameSubject().length() > 0) {
+        if (isAdd && subject != null && subject.getSubjectName() != null && subject.getSubjectName().length() > 0) {
             subject = rest.getRestSubject().add(subject);
-        } else if (subject != null && subject.getNameSubject() != null && subject.getNameSubject().length() > 0) {
+        } else if (subject != null && subject.getSubjectName() != null && subject.getSubjectName().length() > 0) {
             subject = rest.getRestSubject().update(subject);
         }
         CreateTestWindowController.setSelectedSubject(subject);

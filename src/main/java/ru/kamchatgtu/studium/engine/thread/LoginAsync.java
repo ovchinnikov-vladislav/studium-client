@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
 import ru.kamchatgtu.studium.controller.work.UsersPanelController;
 import ru.kamchatgtu.studium.engine.SecurityAES;
-import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 import ru.kamchatgtu.studium.view.login.NewPassWindow;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
@@ -34,14 +34,14 @@ public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
     }
 
     public static void checkAccess(RestConnection restConnection) {
-        int access = SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess();
+        int access = SecurityAES.USER_LOGIN.getGroup().getRole().getAccess();
         if (access == 3) {
 
         } else if (access == 2) {
             CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
         } else if (access == 1) {
             UsersPanelController.setUsers(restConnection.getRestUser().getAll());
-            UsersPanelController.setPositions(restConnection.getRestPosition().getAll());
+            UsersPanelController.setRoles(restConnection.getRestRole().getAll());
         }
     }
 
@@ -57,7 +57,7 @@ public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
         if (user == null)
             return false;
         SecurityAES.USER_LOGIN.setUser(user);
-        int access = SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess();
+        int access = SecurityAES.USER_LOGIN.getGroup().getRole().getAccess();
         checkAccess(rest);
         return true;
     }

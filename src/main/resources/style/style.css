@@ -67,6 +67,15 @@
     -fx-font-family: 'Loto', arial, sans-serif;
 }
 
+.labelBorder {
+    -fx-border-width: 1px;
+    -fx-padding: 0px 3px 0px 5px;
+    -fx-border-radius: 2px;
+    -fx-border-color: rgba(17,17,17,0.49);
+    -fx-text-fill: #728cb7;
+    -fx-font-size: 16;
+}
+
 .lineStyle {
     -fx-stroke-width: 3;
     -fx-stroke: radial-gradient(focus-distance -100%, center 50% 0%, radius 100%, #fff, #2292e4);
@@ -80,9 +89,23 @@
     -fx-border-color: #fff;
 }
 
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
 .scroll-pane {
-    -fx-background-color: #fff;
-    -fx-border-color: #fff;
+    -fx-background-color: transparent;
+}
+
+.borderScrollTest > .viewport {
+    -fx-background-color: transparent;
+}
+
+.borderScrollTest {
+    -fx-background-color: white;
+    -fx-border-color: #728cb7;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 .borderMainStyle {
@@ -211,17 +234,40 @@
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
     -fx-border-radius: 3;
+}
+
+.text-area {
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.57);
+    -fx-font-family: Arial;
+    -fx-font-size: 14;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area:focused {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area .content {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
+    -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+    -fx-border-radius: 3;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 1, 0, 1, 1);
 }
 
-.text-field:focused, .combo-box > .text-field:focused, .password-field:focused {
+.text-area:focused .content {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 10%, rgb(225, 225, 225), rgba(255, 249, 249, 249));
+    -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+}
+
+.text-field:focused, .text-area:focused, .combo-box > .text-field:focused, .password-field:focused {
     -fx-background-color: linear-gradient(from 50% 0% to 50% 50%, rgb(225, 225, 225), rgba(255, 249, 249, 249));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
 }
 
 .combo-box {
     -fx-font-family: Arial;
-    -fx-prompt-text-fill: #8B8989;
     -fx-font-size: 14;
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
     -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
@@ -232,7 +278,8 @@
     -fx-font-family: Arial;
     -fx-font-size: 14;
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, rgba(255, 249, 249, 249), rgb(225, 225, 225));
-    -fx-border-width: 0;
+    -fx-border-width: 0px;
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.57);
 }
 
 .table-view {
@@ -251,6 +298,11 @@
     -fx-font-size: 12;
     -fx-text-fill: #666666;
     -fx-cursor: hand;
+}
+
+.userLabel:hover {
+    -fx-border-color: #666666;
+    -fx-border-width: 0px 0px 1px 0px;
 }
 
 .userButton {
@@ -289,4 +341,118 @@
     -fx-font-size: 20;
     -fx-text-fill: #728cb7;
 }
+
+.checkBoxTest .box {
+    -fx-background-color: white;
+    -fx-border-color: rgba(17,17,17,0.49);
+    -fx-border-radius: 3px;
+}
+
+.checkBoxTest .box .mark {
+    -fx-padding: 10px;
+}
+
+.checkBoxTest:selected .mark {
+    -fx-background-color: white;
+    -fx-background-size: 25px;
+}
+
+.checkBoxTest:selected .box {
+    -fx-background-color: rgba(114,140,183,0.63);
+}
+
+.checkBoxTestMark .box {
+    -fx-background-color: white;
+    -fx-border-color: rgba(17,17,17,0.49);
+    -fx-border-radius: 3px;
+}
+
+.checkBoxTestMark .box .mark {
+    -fx-padding: 10px;
+}
+
+.checkBoxTestMark .mark {
+    -fx-padding: 10px;
+    -fx-background-color: grey;
+}
+
+.checkBoxTestMark:selected .mark {
+    -fx-background-color: white;
+    -fx-background-size: 25px;
+}
+
+.checkBoxTestMark:selected .box {
+    -fx-background-color: rgba(114,140,183,0.63);
+}
+
+.radioButtonTest .radio {
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+    -fx-border-color: rgba(17,17,17,0.49);
+    -fx-border-radius: 15px;
+    -fx-padding: 4px;
+}
+
+.radioButtonTest .dot {
+    -fx-background-radius: 15px;
+    -fx-padding: 8px;
+}
+
+.radioButtonTest:selected .dot {
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-background-color: rgba(114,140,183,0.63);
+}
+
+.radioButtonTestDot .radio {
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+    -fx-border-color: rgba(17,17,17,0.49);
+    -fx-border-radius: 15px;
+    -fx-padding: 4px;
+}
+
+.radioButtonTestDot .dot {
+    -fx-background-radius: 15px;
+    -fx-padding: 8px;
+    -fx-background-color: grey;
+}
+
+.radioButtonTestDot:selected .dot {
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-background-color: rgba(114,140,183,0.63);
+}
+
+.circleTest {
+    -fx-fill: white;
+    -fx-stroke: grey;
+    -fx-stroke-width: 1px;
+}
+
+.circleTest:hover {
+    -fx-fill: #728cb7;
+}
+
+.circleTest_last {
+    -fx-fill: #5b64b7;
+    -fx-stroke: grey;
+    -fx-stroke-width: 1px;
+}
+
+.circleTest_last:hover {
+    -fx-fill: #728cb7;
+}
+
+.circleTest_ans {
+    -fx-fill: #8db7e1;
+    -fx-stroke: grey;
+    -fx-stroke-width: 1px;
+}
+
+.circleTest_ans:hover {
+    -fx-fill: #728cb7;
+}
+
+
 

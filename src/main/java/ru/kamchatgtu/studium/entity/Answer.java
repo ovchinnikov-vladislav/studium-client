@@ -1,7 +1,7 @@
 package ru.kamchatgtu.studium.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
-import ru.kamchatgtu.studium.entity.user.User;
 
 import java.util.Date;
 import java.util.Objects;
@@ -9,25 +9,29 @@ import java.util.Objects;
 public class Answer {
 
     private IntegerProperty idAnswer;
-    private StringProperty textAnswer;
+    private StringProperty answerText;
     private ObjectProperty<Date> dateEdit;
     private StringProperty dirImage;
     private StringProperty dirAudio;
     private StringProperty dirVideo;
-    private BooleanProperty right;
+    private BooleanProperty correct;
     private ObjectProperty<User> user;
     private ObjectProperty<Question> question;
 
+    @JsonIgnore
+    private BooleanProperty mark;
+
     public Answer() {
         idAnswer = new SimpleIntegerProperty();
-        textAnswer = new SimpleStringProperty();
+        answerText = new SimpleStringProperty();
         dateEdit = new SimpleObjectProperty<>();
         dirImage = new SimpleStringProperty();
         dirAudio = new SimpleStringProperty();
         dirVideo = new SimpleStringProperty();
-        right = new SimpleBooleanProperty();
-        user = new SimpleObjectProperty<>();
+        correct = new SimpleBooleanProperty();
         question = new SimpleObjectProperty<>();
+        user = new SimpleObjectProperty<>();
+        mark = new SimpleBooleanProperty();
     }
 
     public int getIdAnswer() {
@@ -42,16 +46,16 @@ public class Answer {
         this.idAnswer.set(idAnswer);
     }
 
-    public String getTextAnswer() {
-        return textAnswer.get();
+    public String getAnswerText() {
+        return answerText.get();
     }
 
-    public StringProperty textAnswerProperty() {
-        return textAnswer;
+    public StringProperty answerTextProperty() {
+        return answerText;
     }
 
-    public void setTextAnswer(String textAnswer) {
-        this.textAnswer.set(textAnswer);
+    public void setAnswerText(String answerText) {
+        this.answerText.set(answerText);
     }
 
     public Date getDateEdit() {
@@ -102,16 +106,16 @@ public class Answer {
         this.dirVideo.set(dirVideo);
     }
 
-    public boolean getRight() {
-        return right.get();
+    public boolean isCorrect() {
+        return correct.get();
     }
 
-    public void setRight(boolean right) {
-        this.right.set(right);
+    public BooleanProperty correctProperty() {
+        return correct;
     }
 
-    public BooleanProperty rightProperty() {
-        return right;
+    public void setCorrect(boolean correct) {
+        this.correct.set(correct);
     }
 
     public User getUser() {
@@ -138,23 +142,35 @@ public class Answer {
         this.question.set(question);
     }
 
+    public boolean isMark() {
+        return mark.get();
+    }
+
+    public BooleanProperty markProperty() {
+        return mark;
+    }
+
+    public void setMark(boolean mark) {
+        this.mark.set(mark);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Answer answer = (Answer) o;
         return Objects.equals(idAnswer.get(), answer.idAnswer.get()) &&
-                Objects.equals(textAnswer.get(), answer.textAnswer.get()) &&
+                Objects.equals(answerText.get(), answer.answerText.get()) &&
                 Objects.equals(dateEdit.get(), answer.dateEdit.get()) &&
                 Objects.equals(dirImage.get(), answer.dirImage.get()) &&
                 Objects.equals(dirAudio.get(), answer.dirAudio.get()) &&
                 Objects.equals(dirVideo.get(), answer.dirVideo.get()) &&
-                Objects.equals(right.get(), answer.right.get()) &&
+                Objects.equals(correct.get(), answer.correct.get()) &&
                 Objects.equals(user.get(), answer.user.get());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAnswer.get(), textAnswer.get(), dateEdit.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), right.get(), user.get());
+        return Objects.hash(idAnswer.get(), answerText.get(), dateEdit.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), correct.get(), user.get());
     }
 }

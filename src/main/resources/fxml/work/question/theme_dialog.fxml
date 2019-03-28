@@ -3,9 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import ru.kamchatgtu.studium.component.AutoSizeTextArea?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="300" maxWidth="560" minHeight="300"
           styleClass="windowStyle" stylesheets="@../../../style/style.css"
-          xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.work.question.ThemeDialogController">
     <padding>
         <Insets bottom="5" left="25" right="25" top="5"/>
@@ -24,7 +25,7 @@
         <Label styleClass="labelStyleTitle" text="Тема вопроса" GridPane.halignment="CENTER"
                GridPane.rowIndex="0"/>
         <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-        <TextField fx:id="themeField" prefHeight="35" promptText="Тема вопроса"
+        <AutoSizeTextArea fx:id="themeField" prefHeight="35" promptText="Тема вопроса"
                    GridPane.rowIndex="2"/>
         <HBox fx:id="buttons" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"
               alignment="CENTER">

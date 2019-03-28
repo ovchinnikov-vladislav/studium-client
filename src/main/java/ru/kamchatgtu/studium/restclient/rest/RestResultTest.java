@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import ru.kamchatgtu.studium.entity.ResultTest;
-import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
 import ru.kamchatgtu.studium.restclient.urlservice.URLResultTestService;
 

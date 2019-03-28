@@ -1,7 +1,6 @@
 package ru.kamchatgtu.studium.entity;
 
 import javafx.beans.property.*;
-import ru.kamchatgtu.studium.entity.user.User;
 
 import java.util.Date;
 import java.util.Objects;
@@ -9,19 +8,19 @@ import java.util.Objects;
 public class ResultTest {
 
     private IntegerProperty idResult;
-    private ObjectProperty<User> user;
-    private ObjectProperty<Test> test;
     private ObjectProperty<Date> dateBegin;
     private ObjectProperty<Date> dateEnd;
     private FloatProperty mark;
+    private ObjectProperty<User> user;
+    private ObjectProperty<Test> test;
 
     public ResultTest() {
         idResult = new SimpleIntegerProperty();
-        user = new SimpleObjectProperty<>();
-        test = new SimpleObjectProperty<>();
         dateBegin = new SimpleObjectProperty<>();
         dateEnd = new SimpleObjectProperty<>();
         mark = new SimpleFloatProperty();
+        user = new SimpleObjectProperty<>();
+        test = new SimpleObjectProperty<>();
     }
 
     public int getIdResult() {

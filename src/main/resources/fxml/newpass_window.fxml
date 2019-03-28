@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="300" maxWidth="560" minHeight="300"
           style="-fx-border-radius: 0px" styleClass="borderStyle" stylesheets="@../style/style.css"
-          xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.PassWindowController">
     <padding>
         <Insets bottom="5" left="25" right="25" top="5"/>

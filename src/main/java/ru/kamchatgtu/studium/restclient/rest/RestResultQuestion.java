@@ -2,10 +2,9 @@ package ru.kamchatgtu.studium.restclient.rest;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.entity.ResultQuestion;
 import ru.kamchatgtu.studium.entity.ResultTest;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
@@ -27,7 +26,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public synchronized ResultQuestion add(ResultQuestion resultQuestion) {
+    public ResultQuestion add(ResultQuestion resultQuestion) {
         ResultQuestion newResultQuestion = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(resultQuestion, headers);
@@ -39,7 +38,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public synchronized ResultQuestion update(ResultQuestion resultQuestion) {
+    public ResultQuestion update(ResultQuestion resultQuestion) {
         ResultQuestion updateResultQuestion = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(resultQuestion, headers);
@@ -51,7 +50,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public synchronized ResultQuestion remove(ResultQuestion resultQuestion) {
+    public ResultQuestion remove(ResultQuestion resultQuestion) {
         ResultQuestion deleteResultQuestion = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(resultQuestion, headers);
@@ -63,7 +62,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public synchronized ResultQuestion get(Integer id) {
+    public ResultQuestion get(Integer id) {
         ResultQuestion resultQuestion = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(headers);
@@ -75,7 +74,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public synchronized ObservableList<ResultQuestion> getAll() {
+    public ObservableList<ResultQuestion> getAll() {
         ObservableList<ResultQuestion> resultQuestions = null;
         try {
             HttpEntity<ResultQuestion[]> request = new HttpEntity<>(headers);
@@ -90,7 +89,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
         return resultQuestions;
     }
 
-    public synchronized ObservableList<ResultQuestion> getByResultTest(ResultTest resultTest) {
+    public ObservableList<ResultQuestion> getByResultTest(ResultTest resultTest) {
         ObservableList<ResultQuestion> resultQuestions = null;
         try {
             HttpEntity<ResultTest> request = new HttpEntity<>(resultTest, headers);
@@ -105,11 +104,28 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
         return resultQuestions;
     }
 
-    public synchronized ObservableList<ResultQuestion> getByResultQuestion(ResultQuestion resultQuestion) {
+    public ObservableList<ResultQuestion> getByResultQuestion(ResultQuestion resultQuestion) {
         ObservableList<ResultQuestion> resultQuestions = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(resultQuestion, headers);
-            ResultQuestion[] resultArray = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_RESULT_QUESTION, HttpMethod.POST, request, ResultQuestion[].class).getBody();
+            ResponseEntity<ResultQuestion[]> responseEntity = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_RESULT_QUESTION, HttpMethod.PUT, request, ResultQuestion[].class);
+            ResultQuestion[] resultArray = responseEntity.getBody();
+            if (resultArray != null) {
+                resultQuestions = FXCollections.observableArrayList();
+                resultQuestions.addAll(resultArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return resultQuestions;
+    }
+
+    public ObservableList<ResultQuestion> getByQuestionAndResultTest(Integer idQuestion, Integer idResult) {
+        ObservableList<ResultQuestion> resultQuestions = null;
+        try {
+            HttpEntity<Question> request = new HttpEntity<>(headers);
+            ResponseEntity<ResultQuestion[]> responseEntity = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_QUESTION_AND_RESULT_TEST+"?idQuestion=" + idQuestion + "&&idResult="+idResult, HttpMethod.GET, request, ResultQuestion[].class);
+            ResultQuestion[] resultArray = responseEntity.getBody();
             if (resultArray != null) {
                 resultQuestions = FXCollections.observableArrayList();
                 resultQuestions.addAll(resultArray);

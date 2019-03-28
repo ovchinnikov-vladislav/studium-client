@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import ru.kamchatgtu.studium.engine.SecurityAES;
-import ru.kamchatgtu.studium.entity.user.User;
+import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
 import ru.kamchatgtu.studium.restclient.urlservice.URLUserService;
 
@@ -94,7 +94,7 @@ public class RestUser implements AbstractRest<User> {
         ObservableList<User> users = null;
         try {
             HttpEntity<User> request = new HttpEntity<>(user, headers);
-            User[] usersArray = rest.exchange(url + URLUserService.URL_SEARCH, HttpMethod.POST, request, User[].class).getBody();
+            User[] usersArray = rest.exchange(url + URLUserService.URL_SEARCH, HttpMethod.PUT, request, User[].class).getBody();
             if (usersArray != null) {
                 users = FXCollections.observableArrayList();
                 users.addAll(usersArray);

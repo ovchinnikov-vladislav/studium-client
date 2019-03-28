@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ru.kamchatgtu.studium.component.AutoSizeTextArea;
+import ru.kamchatgtu.studium.component.CustomTextArea;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
 import ru.kamchatgtu.studium.engine.SecurityAES;
 import ru.kamchatgtu.studium.entity.Answer;
@@ -22,7 +24,7 @@ public class QuestionDialogController {
     private RestConnection rest;
     private Question question;
     @FXML
-    private TextField questionField;
+    private AutoSizeTextArea questionField;
     @FXML
     private ToggleGroup answersToggle;
     @FXML
@@ -51,10 +53,10 @@ public class QuestionDialogController {
             Question q = CreateQuesPanelController.getSelectedQuestion();
             question = (Question) q.clone();
         }
-        questionField.textProperty().bindBidirectional(question.textQuestionProperty());
-        if (question.getTypeQuestion() == 0)
-            question.setTypeQuestion(1);
-        int type = question.getTypeQuestion();
+        questionField.textProperty().bindBidirectional(question.questionTextProperty());
+        if (question.getQuestionType() == 0)
+            question.setQuestionType(1);
+        int type = question.getQuestionType();
         if (type == 1)
             oneAnswer.setSelected(true);
         else if (type == 2)
@@ -98,11 +100,11 @@ public class QuestionDialogController {
         answersToggle.selectedToggleProperty().addListener((observalbe, old_tog, new_tog) -> {
             if (answersToggle.getSelectedToggle() != null) {
                 if (oneAnswer.isSelected())
-                    question.setTypeQuestion(1);
+                    question.setQuestionType(1);
                 else if (multiAnswer.isSelected())
-                    question.setTypeQuestion(2);
+                    question.setQuestionType(2);
                 else if (textAnswer.isSelected())
-                    question.setTypeQuestion(3);
+                    question.setQuestionType(3);
             }
         });
     }

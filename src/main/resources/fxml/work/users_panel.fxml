@@ -5,7 +5,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
-          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/8.0.121"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.work.UsersPanelController">
     <GridPane.margin>
         <Insets topRightBottomLeft="10"/>
@@ -34,7 +34,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="idColumn" maxWidth="50" minWidth="50" resizable="false" text="ID"/>
+            <TableColumn fx:id="idColumn" maxWidth="50" minWidth="50" resizable="false" text="ID">
+                <cellValueFactory>
+                    <PropertyValueFactory property="idUser"/>
+                </cellValueFactory>
+            </TableColumn>
             <TableColumn fx:id="fioColumn" minWidth="100" onEditCommit="#fioEditCommit" text="ФИО">
                 <cellValueFactory>
                     <PropertyValueFactory property="fio"/>
@@ -64,8 +68,8 @@
                 </cellValueFactory>
             </TableColumn>
             <TableColumn fx:id="positionColumn" minWidth="100" onEditCommit="#positionEditCommit" text="Должность"/>
+            <TableColumn fx:id="directionColumn" minWidth="100" onEditCommit="#directionEditCommit" text="Направление подготовки"/>
             <TableColumn fx:id="groupColumn" minWidth="100" onEditCommit="#groupEditCommit" text="Группа"/>
-            <TableColumn fx:id="resetPass" maxWidth="74" minWidth="74"/>
         </columns>
     </TableView>
     <GridPane alignment="CENTER" hgap="5" GridPane.rowIndex="6">

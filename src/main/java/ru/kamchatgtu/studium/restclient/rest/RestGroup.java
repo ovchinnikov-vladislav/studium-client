@@ -89,11 +89,26 @@ public class RestGroup implements AbstractRest<Group> {
         return groups;
     }
 
-    public ObservableList<Group> getGroupsByPosition(int id) {
+    public ObservableList<Group> getGroupsByRole(int id) {
         ObservableList<Group> groups = null;
         try {
             HttpEntity<Group[]> request = new HttpEntity<>(headers);
-            Group[] groupsArray = rest.exchange(url + URLGroupService.URL_GROUPS_BY_POSITION + "?id=" + id, HttpMethod.GET, request, Group[].class).getBody();
+            Group[] groupsArray = rest.exchange(url + URLGroupService.URL_GROUPS_BY_ROLE + "?id=" + id, HttpMethod.GET, request, Group[].class).getBody();
+            if (groupsArray != null) {
+                groups = FXCollections.observableArrayList();
+                groups.addAll(groupsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return groups;
+    }
+
+    public ObservableList<Group> getGroupsByDirection(int id) {
+        ObservableList<Group> groups = null;
+        try {
+            HttpEntity<Group[]> request = new HttpEntity<>(headers);
+            Group[] groupsArray = rest.exchange(url + URLGroupService.URL_GROUPS_BY_DIRECTION + "?id=" + id, HttpMethod.GET, request, Group[].class).getBody();
             if (groupsArray != null) {
                 groups = FXCollections.observableArrayList();
                 groups.addAll(groupsArray);

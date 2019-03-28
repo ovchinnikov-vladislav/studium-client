@@ -60,7 +60,7 @@ public class WorkWindowController {
         testsPanel.setVisible(false);
         createQuesPanel.setVisible(false);
         createTestPanel.setVisible(false);
-        int access = SecurityAES.USER_LOGIN.getGroup().getPosition().getAccess();
+        int access = SecurityAES.USER_LOGIN.getRole().getAccess();
         if (access == 3)
             setStudent();
         else if (access == 2)
