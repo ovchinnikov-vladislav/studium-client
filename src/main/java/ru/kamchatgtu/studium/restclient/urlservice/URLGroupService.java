@@ -9,4 +9,6 @@ public class URLGroupService {
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";
     public static final String URL_UPDATE = URL + "/update";
+    public static final String URL_STUDENT_GROUPS = URL + "/student_groups";
+    public static final String URL_TEACHER_GROUPS = URL + "/teacher_groups";
 }

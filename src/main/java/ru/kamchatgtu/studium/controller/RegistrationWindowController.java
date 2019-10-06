@@ -7,8 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.component.TextFieldTooltipPattern;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.engine.thread.LoginAsync;
 import ru.kamchatgtu.studium.engine.thread.RegistrationAsync;
 import ru.kamchatgtu.studium.engine.thread.TestEmailAsync;
@@ -18,6 +18,7 @@ import ru.kamchatgtu.studium.restclient.RestConnection;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class RegistrationWindowController {
 
@@ -65,13 +66,16 @@ public class RegistrationWindowController {
     @FXML
     private ProgressIndicator progressRegIndicator;
 
+    private Tooltip loginRegTooltip, emailRegTooltip, fioRegTooltip;
+
     @FXML
     public void initialize() {
         setGroupCheckBoxHandler();
         initFaculties();
         initDirections();
-        initLoginRegField();
-        initEmailRegField();
+       // initFioRegField();
+     //   initLoginRegField();
+       // initEmailRegField();
     }
 
     private void initFaculties() {
@@ -112,18 +116,43 @@ public class RegistrationWindowController {
         });
     }
 
+    private void initFioRegField() {
+        Pattern pattern = Pattern.compile("[A-zА-я]");
+        fioRegTooltip = new Tooltip("ФИО может состоять только\nиз символов алфавита");
+        TextFieldTooltipPattern.initField(fioRegField, fioRegTooltip, pattern);
+    }
+
     private void initLoginRegField() {
-        loginRegField.textProperty().addListener(((observable, oldValue, newValue) -> {
-            TestLoginAsync testLoginAsync = new TestLoginAsync(loginRegField);
-            testLoginAsync.execute();
-        }));
+        Pattern pattern = Pattern.compile("[A-z0-9]{0,16}");
+        loginRegTooltip = new Tooltip("Логин может состоять только из символов латинского\nалфавита и цифр (максимальная длина 16)");
+        initField(loginRegField, loginRegTooltip, pattern);
     }
 
     private void initEmailRegField() {
-        emailRegField.textProperty().addListener(((observable, oldValue, newValue) -> {
-            TestEmailAsync testEmailAsync = new TestEmailAsync(emailRegField);
-            testEmailAsync.execute();
-        }));
+        Pattern pattern = Pattern.compile("^([a-z0-9_.-]*)@([a-z0-9_.-]*).([a-z.]{2,6})$");
+        emailRegTooltip = new Tooltip("Электронный адрес должен соответствовать\nформату: email@address.domain");
+        initField(emailRegField, emailRegTooltip, pattern);
+    }
+
+    public void initField(TextField textField, Tooltip tooltip, Pattern pattern) {
+        tooltip.setWrapText(true);
+        textField.focusedProperty().addListener(observable -> tooltip.hide());
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!pattern.matcher(newValue).matches()) {
+                
+                tooltip.show(textField,
+                        textField.getScene().getWindow().getX() + textField.getLayoutX() + textField.getWidth() + 10,
+                        textField.getScene().getWindow().getY() + textField.getLayoutY() + textField.getHeight());
+            } else {
+                if (textField.equals(emailRegField)) {
+                    TestEmailAsync testEmailAsync = new TestEmailAsync(textField);
+                    testEmailAsync.execute();
+                } else if (textField.equals(loginRegField)) {
+                    TestLoginAsync testLoginAsync = new TestLoginAsync(loginRegField);
+                    testLoginAsync.execute();
+                }
+            }
+        });
     }
 
     @FXML
@@ -194,7 +223,7 @@ public class RegistrationWindowController {
         newUser.setStatus(3);
         newUser.setFio(fioRegField.getText());
         newUser.setLogin(loginRegField.getText());
-        newUser.setPassword(SecurityAES.encryptPass(passRegField.getText()));
+        newUser.setPassword(Security.encryptPass(passRegField.getText()+loginRegField.getText()));
         newUser.setEmail(emailRegField.getText());
         newUser.setPhone(phoneField.getText());
         newUser.setDirection(direction);

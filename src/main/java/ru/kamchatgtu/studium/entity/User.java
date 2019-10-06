@@ -1,13 +1,14 @@
 package ru.kamchatgtu.studium.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javafx.beans.property.*;
 
-import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User {
 
     private IntegerProperty idUser;
     private StringProperty fio;
@@ -21,6 +22,10 @@ public class User implements Serializable {
     private ObjectProperty<Role> role;
     private ObjectProperty<Group> group;
     private ObjectProperty<Direction> direction;
+    @JsonIgnore
+    private DoubleProperty rating;
+    @JsonIgnore
+    private BooleanProperty inSubject;
 
     public User() {
         idUser = new SimpleIntegerProperty();
@@ -35,6 +40,8 @@ public class User implements Serializable {
         role = new SimpleObjectProperty<>();
         group = new SimpleObjectProperty<>();
         direction = new SimpleObjectProperty<>();
+        rating = new SimpleDoubleProperty();
+        inSubject = new SimpleBooleanProperty();
     }
 
     @JsonIgnore
@@ -197,6 +204,30 @@ public class User implements Serializable {
         this.direction.set(direction);
     }
 
+    public boolean isInSubject() {
+        return inSubject.get();
+    }
+
+    public BooleanProperty inSubjectProperty() {
+        return inSubject;
+    }
+
+    public double getRating() {
+        return rating.get();
+    }
+
+    public DoubleProperty ratingProperty() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating.set(rating);
+    }
+
+    public void setInSubject(boolean inSubject) {
+        this.inSubject.set(inSubject);
+    }
+
     @Override
     public String toString() {
         return "idUser: " + idUser + "\n" +
@@ -219,13 +250,11 @@ public class User implements Serializable {
                 Objects.equals(phone.get(), user.phone.get()) &&
                 Objects.equals(email.get(), user.email.get()) &&
                 Objects.equals(status.get(), user.status.get()) &&
-                Objects.equals(role.get(), user.role.get()) &&
-                Objects.equals(group.get(), user.group.get()) &&
-                Objects.equals(direction.get(), user.direction.get());
+                Objects.equals(role.get().getIdRole(), user.role.get().getIdRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser.get(), fio.get(), login.get(), password.get(), dateReg.get(), dateAuth.get(), phone.get(), email.get(), status.get(), role.get(), group.get(), direction.get());
+        return Objects.hash(idUser.get(), fio.get(), login.get(), password.get(), dateReg.get(), dateAuth.get(), phone.get(), email.get(), status.get(), role.get().getIdRole());
     }
 }

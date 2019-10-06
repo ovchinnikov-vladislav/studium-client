@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="300" maxWidth="560" minHeight="300"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="loginPane" alignment="CENTER" maxHeight="300" maxWidth="560" minHeight="300"
           styleClass="windowStyle" stylesheets="@../style/style.css"
           xmlns="http://javafx.com/javafx"
           fx:controller="ru.kamchatgtu.studium.controller.LoginWindowController">

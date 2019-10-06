@@ -6,7 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.entity.Theme;
@@ -122,9 +122,9 @@ public class ImportExcelTask extends Task<Boolean> {
     private Question initQuestion(String textQuestion, Theme theme) {
         Question question = new Question();
         question.setQuestionType(2);
-        question.setDateReg(new Date());
+        question.setDateEdit(new Date());
         question.setTheme(theme);
-        question.setUser(SecurityAES.USER_LOGIN);
+        question.setUser(Security.USER_LOGIN);
         question.setQuestionText(textQuestion);
         return question;
     }
@@ -133,7 +133,7 @@ public class ImportExcelTask extends Task<Boolean> {
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setDateEdit(new Date());
-        answer.setUser(SecurityAES.USER_LOGIN);
+        answer.setUser(Security.USER_LOGIN);
         answer.setAnswerText(textAnswer);
         return answer;
     }

@@ -62,7 +62,7 @@ public class RestQuestion implements AbstractRest<Question> {
     }
 
     @Override
-    public Question get(Integer id) {
+    public Question get(int id) {
         Question question = null;
         try {
             HttpEntity<Question> request = new HttpEntity<>(headers);
@@ -94,6 +94,21 @@ public class RestQuestion implements AbstractRest<Question> {
         try {
             HttpEntity<Question[]> request = new HttpEntity<>(headers);
             Question[] questionsArray = rest.exchange(url + URLQuestionService.URL_QUESTIONS_BY_THEME + "?id=" + id, HttpMethod.GET, request, Question[].class).getBody();
+            if (questionsArray != null) {
+                questions = FXCollections.observableArrayList();
+                questions.addAll(questionsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return questions;
+    }
+
+    public ObservableList<Question> search(Question question) {
+        ObservableList<Question> questions = null;
+        try {
+            HttpEntity<Question> request = new HttpEntity<>(question, headers);
+            Question[] questionsArray = rest.exchange(url + URLQuestionService.URL_SEARCH, HttpMethod.PUT, request, Question[].class).getBody();
             if (questionsArray != null) {
                 questions = FXCollections.observableArrayList();
                 questions.addAll(questionsArray);

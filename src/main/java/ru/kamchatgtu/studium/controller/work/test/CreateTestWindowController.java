@@ -1,5 +1,6 @@
 package ru.kamchatgtu.studium.controller.work.test;
 
+import com.victorlaerte.asynctask.AsyncTask;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -9,12 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.*;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.work.test.SubjectDialog;
 
 import java.util.Date;
 
@@ -23,9 +22,8 @@ public class CreateTestWindowController {
     private static RestConnection rest;
     private static ObservableList<Subject> subjects;
     private static Test selectedTest;
-    private static Subject selectedSubject;
+    private Subject selectedSubject;
     private static boolean isAdd = false;
-    private ObservableList<Direction> directions;
     private ObservableList<Question> questions;
     @FXML
     private GridPane mainPanel;
@@ -42,18 +40,9 @@ public class CreateTestWindowController {
 
     @FXML
     private ComboBox<Subject> subjectsBox;
-    @FXML
-    private Button addSubjectButton;
-    @FXML
-    private Button editSubjectButton;
 
     @FXML
-    private TableView<Direction> directionsTable;
-    @FXML
-    private TableColumn<Direction, String> idDirectionColumn;
-    @FXML
-    private TableColumn<Direction, Boolean> checkSubjectColumn;
-
+    private TextField searchResultsTextField;
     @FXML
     private TableView<Question> questionsTable;
     @FXML
@@ -65,14 +54,6 @@ public class CreateTestWindowController {
     @FXML
     private TableColumn<Question, Boolean> checkQuestionColumn;
 
-    public static Subject getSelectedSubject() {
-        return selectedSubject;
-    }
-
-    public static void setSelectedSubject(Subject subject) {
-        subjects = rest.getRestSubject().getAll();
-        selectedSubject = subject;
-    }
 
     public static Test getSelectedTest() {
         return selectedTest;
@@ -94,19 +75,16 @@ public class CreateTestWindowController {
     public void initialize() {
         initTimeBox();
         rest = new RestConnection();
-        subjects = rest.getRestSubject().getAll();
-        subjectsBox.getItems().addAll(subjects);
+        subjects = rest.getRestSubject().getByUser(Security.USER_LOGIN.getIdUser());
+        subjectsBox.setItems(subjects);
         initSubjectBox();
-        directions = rest.getRestDirection().getAll();
-        directionsTable.setItems(directions);
-        initIdGroupColumn();
-        initCheckSubjectColumn();
         questions = rest.getRestQuestion().getAll();
         questionsTable.setItems(questions);
         initIdQuestionColumn();
         initThemeColumn();
         initTypeColumn();
         initCheckQuestionColumn();
+        initSearchQuestions();
         if (selectedTest != null) {
             initUpdateTest();
         }
@@ -127,13 +105,13 @@ public class CreateTestWindowController {
     }
 
     private Test createTest(Test test) {
-        selectedSubject.getDirections().removeAll(selectedSubject.getDirections());
+       /* selectedSubject.getDirections().removeAll(selectedSubject.getDirections());
         for (int i = 0; i < directionsTable.getItems().size(); i++) {
             Direction direction = directionsTable.getItems().get(i);
             if (direction.isInSubject())
                 selectedSubject.getDirections().add(direction);
         }
-        Subject subject = rest.getRestSubject().update(selectedSubject);
+        Subject subject = rest.getRestSubject().update(selectedSubject);*/
         if (selectedTest != null)
             selectedTest.getQuestions().removeAll(selectedTest.getQuestions());
         for (int i = 0; i < questionsTable.getItems().size(); i++) {
@@ -142,14 +120,14 @@ public class CreateTestWindowController {
                 test.getQuestions().add(question);
         }
         test.setTestName(nameTestField.getText());
-        test.setSubject(subject);
+        test.setSubject(selectedSubject);
         Date date = new Date();
         date.setTime(0);
         date.setHours(Integer.parseInt(hoursBox.getValue()));
         date.setMinutes(Integer.parseInt(minutesBox.getValue()));
         date.setSeconds(Integer.parseInt(secondsBox.getValue()));
         test.setTimer(date);
-        test.setUser(SecurityAES.USER_LOGIN);
+        test.setUser(Security.USER_LOGIN);
         return test;
     }
 
@@ -158,42 +136,6 @@ public class CreateTestWindowController {
         if (!isIsAdd())
             rest.getRestTest().remove(selectedTest);
         ((Stage) nameTestField.getScene().getWindow()).close();
-    }
-
-    @FXML
-    public void addSubjectAction(ActionEvent event) {
-        try {
-            Stage primaryStage = (Stage) addSubjectButton.getScene().getWindow();
-            SubjectDialogController.setIsAdd(true);
-            Stage dialog = SubjectDialog.getStage();
-            dialog.setTitle("Добавление дисциплины");
-            dialog.initOwner(primaryStage);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.showAndWait();
-            subjects = rest.getRestSubject().getAll();
-            subjectsBox.setItems(subjects);
-            subjectsBox.getSelectionModel().select(selectedSubject);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void editSubjectAction(ActionEvent event) {
-        try {
-            Stage primaryStage = (Stage) editSubjectButton.getScene().getWindow();
-            SubjectDialogController.setIsAdd(false);
-            Stage dialog = SubjectDialog.getStage();
-            dialog.setTitle("Редактирование дисциплины");
-            dialog.initOwner(primaryStage);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.showAndWait();
-            subjects = rest.getRestSubject().getAll();
-            subjectsBox.setItems(subjects);
-            subjectsBox.getSelectionModel().select(selectedSubject);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }
     }
 
     private void initTimeBox() {
@@ -228,33 +170,8 @@ public class CreateTestWindowController {
         subjectsBox.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
             if (subjectsBox.getSelectionModel().getSelectedIndex() != -1) {
                 selectedSubject = subjects.get(subjectsBox.getSelectionModel().getSelectedIndex());
-                editSubjectButton.setDisable(false);
-                initGroupTable();
             }
         }));
-    }
-
-    private void initGroupTable() {
-        for (int i = 0; i < directionsTable.getItems().size(); i++) {
-            directionsTable.getItems().get(i).setInSubject(false);
-        }
-        for (int i = 0; i < directionsTable.getItems().size(); i++) {
-            for (Direction direction : selectedSubject.getDirections()) {
-                Direction inTable = directionsTable.getItems().get(i);
-                if (inTable.equals(direction))
-                    inTable.setInSubject(true);
-            }
-        }
-        directionsTable.setItems(directions);
-    }
-
-    private void initIdGroupColumn() {
-        idDirectionColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper(directionsTable.getItems().indexOf(param.getValue()) + 1));
-    }
-
-    private void initCheckSubjectColumn() {
-        checkSubjectColumn.setCellValueFactory(param -> param.getValue().inSubjectProperty());
-        checkSubjectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkSubjectColumn));
     }
 
     private void initIdQuestionColumn() {
@@ -295,7 +212,6 @@ public class CreateTestWindowController {
         nameTestField.textProperty().bindBidirectional(selectedTest.testNameProperty());
         selectedSubject = selectedTest.getSubject();
         subjectsBox.getSelectionModel().select(selectedTest.getSubject());
-        initGroupTable();
         initQuestionsTable();
         int hours = selectedTest.getTimer().getHours();
         int minutes = selectedTest.getTimer().getMinutes();
@@ -326,5 +242,51 @@ public class CreateTestWindowController {
             }
         }
         questionsTable.setItems(questions);
+    }
+
+    private void initSearchQuestions() {
+        searchResultsTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            SearchTask searchTask = new SearchTask(newValue);
+            searchTask.execute();
+        }));
+    }
+
+    private class SearchTask extends AsyncTask<Void, Void, ObservableList<Question>> {
+
+        private String newValue;
+
+        private SearchTask(String value) {
+            this.newValue = value;
+        }
+
+
+        @Override
+        public void onPreExecute() {
+
+        }
+
+        @Override
+        public ObservableList<Question> doInBackground(Void... voids) {
+            if (newValue != null) {
+                Question question = new Question();
+                question.setQuestionText(newValue);
+                Theme theme = new Theme();
+                theme.setThemeText(newValue);
+                question.setTheme(theme);
+                return new RestConnection().getRestQuestion().search(question);
+            } else {
+                return new RestConnection().getRestQuestion().getAll();
+            }
+        }
+
+        @Override
+        public void onPostExecute(ObservableList<Question> questions) {
+            questionsTable.setItems(questions);
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
+        }
     }
 }

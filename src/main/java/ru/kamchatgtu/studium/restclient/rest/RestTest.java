@@ -62,7 +62,7 @@ public class RestTest implements AbstractRest<Test> {
     }
 
     @Override
-    public Test get(Integer id) {
+    public Test get(int id) {
         Test test = null;
         try {
             HttpEntity<Test> request = new HttpEntity<>(headers);

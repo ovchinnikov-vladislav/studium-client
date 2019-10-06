@@ -1,5 +1,6 @@
 package ru.kamchatgtu.studium.controller;
 
+import com.victorlaerte.asynctask.AsyncTask;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -8,29 +9,23 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import ru.kamchatgtu.studium.controller.work.WorkWindowController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.engine.thread.AnswerQuesTask;
-import ru.kamchatgtu.studium.engine.thread.CheckConnectTask;
 import ru.kamchatgtu.studium.entity.*;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.message.Message;
-import ru.kamchatgtu.studium.view.result.ResultTestWindow;
-import ru.kamchatgtu.studium.view.test.TestWindow;
-import ru.kamchatgtu.studium.view.work.WorkWindow;
+import ru.kamchatgtu.studium.view.Message;
+import ru.kamchatgtu.studium.view.work.test.ResultTestWindow;
 
 import java.io.IOException;
 import java.util.*;
@@ -46,7 +41,10 @@ public class TestWindowController {
     private ArrayList<Set<ResultQuestion>> resultQuestionsAll;
     private Set<ResultQuestion> resultQuestions;
     private int numberQuestion;
+    private static boolean isViewMode;
 
+    @FXML
+    private ProgressIndicator progressIndicator;
     @FXML
     private Label titleLabel;
     @FXML
@@ -74,6 +72,7 @@ public class TestWindowController {
     private EventHandler<WindowEvent> closeEventHandler = new EventHandler<WindowEvent>() {
         @Override
         public void handle(WindowEvent event) {
+            TestWindowController.setIsViewMode(false);
             event.consume();
             if (timeLine.getStatus() != Animation.Status.STOPPED)
                 initCloseMessage((Stage) event.getSource());
@@ -100,27 +99,55 @@ public class TestWindowController {
     }
 
     private void initTest() {
-        numberQuestion = 0;
-        questionList = new ArrayList<>();
-        questionList.addAll(selectedTest.getQuestions());
-        for (Question question : questionList)
-            question.initAnswers();
-        if (questionList.size() == 0)
-            nextButton.setDisable(true);
-        Collections.shuffle(questionList);
-        resultTest = new ResultTest();
-        resultTest.setDateBegin(new Date());
-        resultTest.setDateEnd(new Date(selectedTest.getTimer().getTime() + resultTest.getDateBegin().getTime()));
-        resultTest.setUser(SecurityAES.USER_LOGIN);
-        resultTest.setTest(selectedTest);
-        resultTest = rest.getRestResultTest().add(resultTest);
-        resultQuestionsAll = new ArrayList<>();
-        questionList.forEach(action -> resultQuestionsAll.add(new HashSet<>()));
-        initQuestion();
-        initQuestionCheckPanel();
-        testStart();
+        DownloadTestAsync async = new DownloadTestAsync();
+        async.execute();
         //CheckConnectTask checkConnectTask = new CheckConnectTask(titleLabel);
         //checkConnectTask.execute();
+    }
+
+    private class DownloadTestAsync extends AsyncTask<Void, Void, Test> {
+        @Override
+        public void onPreExecute() {
+            progressIndicator.setVisible(true);
+            nextButton.setDisable(true);
+            numberQuestion = 0;
+            questionList = new ArrayList<>();
+            questionList.addAll(selectedTest.getQuestions());
+            if (questionList.size() == 0)
+                nextButton.setDisable(true);
+        }
+
+        @Override
+        public Test doInBackground(Void... voids) {
+            for (Question question : questionList)
+                question.initAnswers();
+            Collections.shuffle(questionList);
+            resultTest = new ResultTest();
+            resultTest.setDateBegin(new Date());
+            Date date = new Date(selectedTest.getTimer().getTime() + resultTest.getDateBegin().getTime());
+            date.setHours(date.getHours()+13);
+            resultTest.setDateEnd(date);
+            resultTest.setUser(Security.USER_LOGIN);
+            resultTest.setTest(selectedTest);
+            resultTest = rest.getRestResultTest().add(resultTest);
+            resultQuestionsAll = new ArrayList<>();
+            questionList.forEach(action -> resultQuestionsAll.add(new HashSet<>()));
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(Test test) {
+            initQuestion();
+            initQuestionCheckPanel();
+            testStart();
+            progressIndicator.setVisible(false);
+            nextButton.setDisable(false);
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
+        }
     }
 
     private void initQuestionCheckPanel() {
@@ -213,7 +240,6 @@ public class TestWindowController {
     }
 
     private void finishedTime() {
-        fixResult();
         try {
             ResultTestWindowController.setResultTest(rest.getRestResultTest().get(resultTest.getIdResult()));
             Stage stage = ResultTestWindow.getStage();
@@ -239,9 +265,9 @@ public class TestWindowController {
         if (numberQuestion < questionList.size() - 1) {
             numberQuestion++;
             if (resultQuestions.size() > 0)
-                circles.get(numberQuestion-1).getStyleClass().setAll("circleTest_ans");
+                circles.get(numberQuestion - 1).getStyleClass().setAll("circleTest_ans");
             else
-                circles.get(numberQuestion-1).getStyleClass().setAll("circleTest");
+                circles.get(numberQuestion - 1).getStyleClass().setAll("circleTest");
             circles.get(numberQuestion).getStyleClass().setAll("circleTest_last");
             initQuestion();
             if (numberQuestion == questionList.size() - 1)
@@ -257,9 +283,9 @@ public class TestWindowController {
         if (numberQuestion > 0) {
             numberQuestion--;
             if (resultQuestions.size() > 0)
-                circles.get(numberQuestion+1).getStyleClass().setAll("circleTest_ans");
+                circles.get(numberQuestion + 1).getStyleClass().setAll("circleTest_ans");
             else
-                circles.get(numberQuestion+1).getStyleClass().setAll("circleTest");
+                circles.get(numberQuestion + 1).getStyleClass().setAll("circleTest");
             circles.get(numberQuestion).getStyleClass().setAll("circleTest_last");
             initQuestion();
             if (numberQuestion == 0)
@@ -286,7 +312,7 @@ public class TestWindowController {
         isLoad = true;
         clearAnswers();
         Question question = questionList.get(numberQuestion);
-      //  question.initAnswers();
+        //  question.initAnswers();
         ObservableList<Answer> answers = questionList.get(numberQuestion).getAnswers();
         Collections.shuffle(answers);
         for (Answer answer : answers)
@@ -327,8 +353,8 @@ public class TestWindowController {
         GridPane.setValignment(numberLabel, VPos.TOP);
         RadioButton radioButton = new RadioButton();
         radioButton.selectedProperty().bindBidirectional(answer.markProperty());
-        int access = SecurityAES.USER_LOGIN.getRole().getAccess();
-        if ((access == 1 || access == 2) && answer.isCorrect())
+        int access = Security.USER_LOGIN.getRole().getAccess();
+        if ((access == 1 || access == 2) && answer.isCorrect() && isViewMode)
             radioButton.getStyleClass().add("radioButtonTestDot");
         else
             radioButton.getStyleClass().add("radioButtonTest");
@@ -379,8 +405,8 @@ public class TestWindowController {
         GridPane.setValignment(numberLabel, VPos.TOP);
         CheckBox checkBox = new CheckBox();
         checkBox.selectedProperty().bindBidirectional(answer.markProperty());
-        int access = SecurityAES.USER_LOGIN.getRole().getAccess();
-        if ((access == 1 || access == 2) && answer.isCorrect())
+        int access = Security.USER_LOGIN.getRole().getAccess();
+        if ((access == 1 || access == 2) && answer.isCorrect() && isViewMode)
             checkBox.getStyleClass().add("checkBoxTestMark");
         else
             checkBox.getStyleClass().add("checkBoxTest");
@@ -421,7 +447,7 @@ public class TestWindowController {
         if (!isLoad) {
             ResultQuestion resultQuestion = new ResultQuestion();
             resultQuestion.setResultTest(resultTest);
-            resultQuestion.setUser(SecurityAES.USER_LOGIN);
+            resultQuestion.setUser(Security.USER_LOGIN);
             resultQuestion.setAnswer(answer);
             resultQuestion.setQuestion(questionList.get(numberQuestion));
             if (isSelect && checkBox) {
@@ -447,22 +473,12 @@ public class TestWindowController {
         answersPane.add(textField, 2, 0);
     }
 
-    private void fixResult() {
-        resultTest.setDateEnd(new Date());
-        rest.getRestResultTest().fixResult(resultTest);
-    }
-
     public EventHandler<WindowEvent> getCloseEventHandler() {
         return closeEventHandler;
     }
 
     private void initCloseMessage(Stage stage) {
-       /*ButtonType closeTest = new ButtonType("Завершить");
-        ButtonType cancel = new ButtonType("Отменить");*/
-
         Message message = new Message(Alert.AlertType.CONFIRMATION);
-       /*message.getButtonTypes().clear();
-        message.getButtonTypes().addAll(closeTest, cancel);*/
         message.setTitle("Завершение теста");
         message.setHeaderText("Завершение теста");
         message.setContentText("Вы действительно хотите завершить тестирование?");
@@ -470,7 +486,6 @@ public class TestWindowController {
         Optional<ButtonType> option = message.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            fixResult();
             timeLine.stop();
             openResult(rest.getRestResultTest().get(resultTest.getIdResult()));
             stage.close();
@@ -489,5 +504,9 @@ public class TestWindowController {
         } catch (IOException exc) {
             exc.printStackTrace();
         }
+    }
+
+    public static void setIsViewMode(boolean isViewMode) {
+        TestWindowController.isViewMode = isViewMode;
     }
 }

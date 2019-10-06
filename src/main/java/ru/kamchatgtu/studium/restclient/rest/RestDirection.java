@@ -62,7 +62,7 @@ public class RestDirection implements AbstractRest<Direction> {
     }
 
     @Override
-    public Direction get(Integer id) {
+    public Direction get(int id) {
         Direction direction = null;
         try {
             HttpEntity<Direction> request = new HttpEntity<>(headers);

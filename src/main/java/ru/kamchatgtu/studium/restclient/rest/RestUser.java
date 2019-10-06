@@ -6,7 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.AbstractRest;
 import ru.kamchatgtu.studium.restclient.urlservice.URLUserService;
@@ -63,7 +63,7 @@ public class RestUser implements AbstractRest<User> {
     }
 
     @Override
-    public User get(Integer id) {
+    public User get(int id) {
         User user = null;
         try {
             HttpEntity<User> request = new HttpEntity<>(headers);
@@ -123,7 +123,7 @@ public class RestUser implements AbstractRest<User> {
             user = rest.exchange(url + URLUserService.URL_SIGN_IN + "?login=" + login, HttpMethod.GET, request, User.class).getBody();
             if (user != null) {
                 String passUser = user.getPassword();
-                passUser = SecurityAES.decryptPass(passUser);
+                password = Security.encryptPass(password+user.getLogin());
                 if (!passUser.equals(password))
                     user = null;
             }
@@ -153,5 +153,65 @@ public class RestUser implements AbstractRest<User> {
             exc.printStackTrace();
         }
         return user;
+    }
+
+    public ObservableList<User> getByGroup(int id) {
+        ObservableList<User> users = null;
+        try {
+            HttpEntity<User[]> request = new HttpEntity<>(headers);
+            User[] usersArray = rest.exchange(url + URLUserService.URL_USERS_BY_GROUP + "?id=" +id, HttpMethod.GET, request, User[].class).getBody();
+            if (usersArray != null) {
+                users = FXCollections.observableArrayList();
+                users.addAll(usersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return users;
+    }
+
+    public ObservableList<User> getStudents() {
+        ObservableList<User> users = null;
+        try {
+            HttpEntity<User[]> request = new HttpEntity<>(headers);
+            User[] usersArray = rest.exchange(url + URLUserService.URL_STUDENTS, HttpMethod.GET, request, User[].class).getBody();
+            if (usersArray != null) {
+                users = FXCollections.observableArrayList();
+                users.addAll(usersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return users;
+    }
+
+    public ObservableList<User> getTeachers() {
+        ObservableList<User> users = null;
+        try {
+            HttpEntity<User[]> request = new HttpEntity<>(headers);
+            User[] usersArray = rest.exchange(url + URLUserService.URL_TEACHERS, HttpMethod.GET, request, User[].class).getBody();
+            if (usersArray != null) {
+                users = FXCollections.observableArrayList();
+                users.addAll(usersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return users;
+    }
+
+    public ObservableList<User> getAdministrators() {
+        ObservableList<User> users = null;
+        try {
+            HttpEntity<User[]> request = new HttpEntity<>(headers);
+            User[] usersArray = rest.exchange(url + URLUserService.URL_ADMINISTRATORS, HttpMethod.GET, request, User[].class).getBody();
+            if (usersArray != null) {
+                users = FXCollections.observableArrayList();
+                users.addAll(usersArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return users;
     }
 }

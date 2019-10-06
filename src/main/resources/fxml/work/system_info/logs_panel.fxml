@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="logsPane" styleClass="borderMainStyle"
+          stylesheets="@../../../style/style.css"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="ru.kamchatgtu.studium.controller.work.system_info.LogsPanelController">
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <padding>
+        <Insets bottom="25" left="25" right="25"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints minHeight="35"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="10"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Системная информация: Логи (журнал изменений в БД)" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+    <TextField fx:id="searchLogsTextField" maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+    <TableView fx:id="logsTable" GridPane.rowIndex="4">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn fx:id="idColumn" minWidth="50" maxWidth="50" text="ID" resizable="false">
+                <cellValueFactory>
+                    <PropertyValueFactory property="idLog"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="codeQueryColumn" minWidth="100" maxWidth="100" resizable="false" text="Код запроса">
+                <cellValueFactory>
+                    <PropertyValueFactory property="codeQuery"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="typeQueryColumn" minWidth="100" maxWidth="100" resizable="false" text="Тип запроса">
+                <cellValueFactory>
+                    <PropertyValueFactory property="typeQuery"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="dateQueryColumn" minWidth="100" text="Дата и время запроса">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dateQuery"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tableColumn" minWidth="100" text="Имя таблицы">
+                <cellValueFactory>
+                    <PropertyValueFactory property="tableName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="textQueryColumn" minWidth="100" text="Запрос">
+                <cellValueFactory>
+                    <PropertyValueFactory property="textQuery"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    <ProgressIndicator fx:id="progressIndicator" maxWidth="50" maxHeight="50" GridPane.rowIndex="4"
+                       GridPane.valignment="CENTER" GridPane.halignment="CENTER" visible="false"/>
+</GridPane>

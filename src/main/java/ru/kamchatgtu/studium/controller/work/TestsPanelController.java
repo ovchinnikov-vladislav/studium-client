@@ -7,19 +7,24 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.TestWindowController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.Subject;
 import ru.kamchatgtu.studium.entity.Test;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.test.TestWindow;
+import ru.kamchatgtu.studium.view.work.test.TestWindow;
 
 public class TestsPanelController {
+
+    @FXML
+    private TextField searchResultsTextField;
 
     @FXML
     private ScrollPane scrollPane;
@@ -41,6 +46,46 @@ public class TestsPanelController {
     }
 
     private void openTestInit(Hyperlink hyperlink, Test test) {
+        if (Security.USER_LOGIN.getRole().getAccess() != 3) {
+            final ContextMenu cm = new ContextMenu();
+            final MenuItem firstMenuItem = new MenuItem("Запуск в обычном режиме");
+            cm.getItems().add(firstMenuItem);
+            final MenuItem secondMenuItem = new MenuItem("Запуск в режиме просмотра");
+            cm.getItems().add(secondMenuItem);
+
+            hyperlink.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    cm.show(hyperlink, event.getScreenX(), event.getScreenY());
+                } else {
+                    cm.hide();
+                }
+                firstMenuItem.setOnAction(event1 -> {
+                    try {
+                        TestWindowController.setSelectedTest(test);
+                        Stage stage = TestWindow.getStage();
+                        stage.setTitle(test.getTestName());
+                        stage.initOwner(hyperlink.getScene().getWindow());
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
+                });
+                secondMenuItem.setOnAction(event1 -> {
+                    try {
+                        TestWindowController.setIsViewMode(true);
+                        TestWindowController.setSelectedTest(test);
+                        Stage stage = TestWindow.getStage();
+                        stage.setTitle(test.getTestName());
+                        stage.initOwner(hyperlink.getScene().getWindow());
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
+                });
+            });
+        }
         hyperlink.setOnAction(event -> {
             try {
                 TestWindowController.setSelectedTest(test);
@@ -68,11 +113,11 @@ public class TestsPanelController {
         @Override
         public ObservableList<Subject> doInBackground(Void... voids) {
             ObservableList<Subject> subjects = FXCollections.observableArrayList();
-            int access = SecurityAES.USER_LOGIN.getRole().getAccess();
+            int access = Security.USER_LOGIN.getRole().getAccess();
             if (access == 3)
-                subjects = restConnection.getRestSubject().getByDirection(SecurityAES.USER_LOGIN.getDirection());
+                subjects = restConnection.getRestSubject().getByDirection(Security.USER_LOGIN.getDirection().getIdDirection());
             else if (access == 2)
-                subjects = restConnection.getRestSubject().getByUser(SecurityAES.USER_LOGIN.getIdUser());
+                subjects = restConnection.getRestSubject().getSubjectsWithTestsByUser(Security.USER_LOGIN.getIdUser());
             for (Subject subject : subjects) {
                 subject.setTests(restConnection.getRestTest().getTestsBySubject(subject.getIdSubject()));
             }

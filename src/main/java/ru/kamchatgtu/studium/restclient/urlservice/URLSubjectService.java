@@ -5,6 +5,7 @@ public class URLSubjectService {
     public static final String URL_SUBJECT = URL + "/subject";
     public static final String URL_SUBJECTS = URL + "/subjects";
     public static final String URL_SUBJECTS_BY_USER = URL + "/subjects_by_user";
+    public static final String URL_SUBJECTS_WITH_TESTS_BY_USER = URL + "/subjects_with_tests_by_user";
     public static final String URL_SUBJECTS_BY_DIRECTION = URL + "/subjects_by_direction";
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";

@@ -50,7 +50,7 @@
             <padding>
                 <Insets topRightBottomLeft="5"/>
             </padding>
-            <GridPane fx:id="answersPane" hgap="5" vgap="5" styleClass="borderTest" style="-fx-background-color: white"
+            <GridPane fx:id="answersPane" hgap="5" vgap="5" styleClass="borderTest"
                       alignment="CENTER">
                 <padding>
                     <Insets topRightBottomLeft="5"/>
@@ -123,4 +123,6 @@
         </Button>
         <FlowPane fx:id="questionCheckPanel" GridPane.rowIndex="8" GridPane.columnSpan="2"/>
     </GridPane>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" maxWidth="50" maxHeight="50"
+                       GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
 </GridPane>

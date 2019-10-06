@@ -1,5 +1,6 @@
 package ru.kamchatgtu.studium.controller.work;
 
+import com.victorlaerte.asynctask.AsyncTask;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,13 +15,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.question.QuestionDialogController;
 import ru.kamchatgtu.studium.controller.work.question.ThemeDialogController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.engine.thread.ImportExcelAsync;
 import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.entity.Theme;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.message.Message;
+import ru.kamchatgtu.studium.view.Message;
 import ru.kamchatgtu.studium.view.work.question.QuestionDialog;
 import ru.kamchatgtu.studium.view.work.question.ThemeDialog;
 import ru.kamchatgtu.studium.component.CustomTextArea;
@@ -29,7 +30,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 public class CreateQuesPanelController {
 
@@ -108,7 +108,7 @@ public class CreateQuesPanelController {
         initThemesEvent();
         initQuestionsEvent();
         groupAnswers = new ToggleGroup();
-        if (SecurityAES.USER_LOGIN.getRole().getAccess() == 2) {
+        if (Security.USER_LOGIN.getRole().getAccess() == 2) {
             initPanel();
         }
     }
@@ -128,20 +128,13 @@ public class CreateQuesPanelController {
     }
 
     private void initThemes() {
-        themes = rest.getRestTheme().getAll();
-        themeBox.setItems(themes);
-        clearQuestions();
+        DownloadThemesTask downloadThemesTask = new DownloadThemesTask();
+        downloadThemesTask.execute();
     }
 
     private void initQuestions() {
-        if (selectedTheme != null) {
-            addQuestionButton.setDisable(false);
-            editQuestionButton.setDisable(false);
-            questionBox.setDisable(false);
-            questions = selectedTheme.getQuestions();
-            questionBox.setItems(questions);
-        }
-        clearAnswers();
+        DownloadQuestionsTask downloadQuestionsTask = new DownloadQuestionsTask();
+        downloadQuestionsTask.execute();
     }
 
     private void clearQuestions() {
@@ -164,7 +157,7 @@ public class CreateQuesPanelController {
         addAnswerButton.setVisible(false);
         if (selectedQuestion.getAnswers().size() == 0) {
             Answer answer = new Answer();
-            answer.setUser(SecurityAES.USER_LOGIN);
+            answer.setUser(Security.USER_LOGIN);
             selectedQuestion.getAnswers().add(answer);
         }
         int type = selectedQuestion.getQuestionType();
@@ -360,8 +353,8 @@ public class CreateQuesPanelController {
     @FXML
     public void saveQuestionAction(ActionEvent event) {
         Question question = null;
-        if (selectedQuestion.getDateReg() == null) {
-            selectedQuestion.setDateReg(new Date());
+        if (selectedQuestion.getDateEdit() == null) {
+            selectedQuestion.setDateEdit(new Date());
             question = rest.getRestQuestion().add(selectedQuestion);
         } else {
             question = rest.getRestQuestion().update(selectedQuestion);
@@ -402,7 +395,7 @@ public class CreateQuesPanelController {
                 !answers.get(answers.size() - 1).equals("")) {
             int type = selectedQuestion.getQuestionType();
             Answer answer = new Answer();
-            answer.setUser(SecurityAES.USER_LOGIN);
+            answer.setUser(Security.USER_LOGIN);
             if (type == 1) {
                 initOneAnswer(answers.size(), answer);
                 answers.add(answer);
@@ -468,6 +461,59 @@ public class CreateQuesPanelController {
             dialog.showAndWait();
         } catch (Exception exc) {
             exc.printStackTrace();
+        }
+    }
+
+    private class DownloadThemesTask extends AsyncTask<Void, Void, ObservableList<Theme>> {
+        @Override
+        public void onPreExecute() {
+        }
+
+        @Override
+        public ObservableList<Theme> doInBackground(Void... voids) {
+            themes = rest.getRestTheme().getAll();
+            return themes;
+        }
+
+        @Override
+        public void onPostExecute(ObservableList<Theme> themes) {
+            themeBox.setItems(themes);
+            clearQuestions();
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
+        }
+    }
+
+    private class DownloadQuestionsTask extends AsyncTask<Void, Void, ObservableList<Question>> {
+
+
+        @Override
+        public void onPreExecute() {
+            addQuestionButton.setDisable(false);
+            editQuestionButton.setDisable(false);
+            questionBox.setDisable(false);
+        }
+
+        @Override
+        public ObservableList<Question> doInBackground(Void... voids) {
+            if (selectedTheme != null) {
+                questions = rest.getRestQuestion().getQuestionsByTheme(selectedTheme.getIdTheme());
+            }
+            return questions;
+        }
+
+        @Override
+        public void onPostExecute(ObservableList<Question> questions) {
+            questionBox.setItems(questions);
+            clearAnswers();
+        }
+
+        @Override
+        public void progressCallback(Void... voids) {
+
         }
     }
 }

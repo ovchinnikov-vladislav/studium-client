@@ -6,6 +6,8 @@ public class URLResultTestService {
     public static final String URL_RESULT_TESTS = URL + "/result_tests";
     public static final String URL_RESULT_TESTS_BY_USER = URL + "/result_tests_by_user";
     public static final String URL_RESULT_TESTS_BY_USER_TESTS = URL + "/result_tests_by_user_tests";
+    public static final String URL_SEARCH_RESULT_TESTS_BY_USER = URL + "/search_result_tests_by_user";
+    public static final String URL_SEARCH_RESULT_TESTS_BY_USER_TESTS = URL + "/search_result_tests_by_user_tests";
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";
     public static final String URL_UPDATE = URL + "/update";

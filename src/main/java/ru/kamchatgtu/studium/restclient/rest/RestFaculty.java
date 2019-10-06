@@ -62,7 +62,7 @@ public class RestFaculty implements AbstractRest<Faculty> {
     }
 
     @Override
-    public Faculty get(Integer id) {
+    public Faculty get(int id) {
         Faculty faculty = null;
         try {
             HttpEntity<Faculty> request = new HttpEntity<>(headers);

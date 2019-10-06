@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import ru.kamchatgtu.studium.entity.Theme;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.message.Message;
+import ru.kamchatgtu.studium.view.Message;
 
 import java.io.File;
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPanel" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx" visible="false"
+          fx:controller="ru.kamchatgtu.studium.controller.work.SystemInfoPanelController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <!--TabPane fx:id="tabPane">
+        <Tab closable="false" text="Логи (журнал изменений в БД)" onSelectionChanged="#openLogsPane"-->
+            <fx:include fx:id="logsPane" source="system_info/logs_panel.fxml"/>
+        <!--/Tab>
+        <Tab closable="false" text="Статистика" onSelectionChanged="#openStatisticsPane">
+            <fx:include fx:id="statisticsPane" source="system_info/statistics_panel.fxml"/>
+        </Tab>
+    </TabPane-->
+</GridPane>

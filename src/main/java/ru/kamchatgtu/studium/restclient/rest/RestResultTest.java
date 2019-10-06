@@ -63,7 +63,7 @@ public class RestResultTest implements AbstractRest<ResultTest> {
     }
 
     @Override
-    public ResultTest get(Integer id) {
+    public ResultTest get(int id) {
         ResultTest resultTest = null;
         try {
             HttpEntity<ResultTest> request = new HttpEntity<>(headers);
@@ -90,11 +90,11 @@ public class RestResultTest implements AbstractRest<ResultTest> {
         return resultTests;
     }
 
-    public ObservableList<ResultTest> getByUser(User user) {
+    public ObservableList<ResultTest> getByUser(Integer id) {
         ObservableList<ResultTest> resultTests = null;
         try {
-            HttpEntity<User> request = new HttpEntity<>(user, headers);
-            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_RESULT_TESTS_BY_USER, HttpMethod.PUT, request, ResultTest[].class).getBody();
+            HttpEntity<ResultTest> request = new HttpEntity<>(headers);
+            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_RESULT_TESTS_BY_USER+"?id="+id, HttpMethod.GET, request, ResultTest[].class).getBody();
             if (resultArray != null) {
                 resultTests = FXCollections.observableArrayList();
                 resultTests.addAll(resultArray);
@@ -105,11 +105,41 @@ public class RestResultTest implements AbstractRest<ResultTest> {
         return resultTests;
     }
 
-    public ObservableList<ResultTest> getByUserTests(User user) {
+    public ObservableList<ResultTest> getByUserTests(Integer id) {
         ObservableList<ResultTest> resultTests = null;
         try {
-            HttpEntity<User> request = new HttpEntity<>(user, headers);
-            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_RESULT_TESTS_BY_USER_TESTS, HttpMethod.PUT, request, ResultTest[].class).getBody();
+            HttpEntity<ResultTest> request = new HttpEntity<>(headers);
+            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_RESULT_TESTS_BY_USER_TESTS+"?id="+id, HttpMethod.GET, request, ResultTest[].class).getBody();
+            if (resultArray != null) {
+                resultTests = FXCollections.observableArrayList();
+                resultTests.addAll(resultArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return resultTests;
+    }
+
+    public ObservableList<ResultTest> searchByUser(ResultTest resultTest) {
+        ObservableList<ResultTest> resultTests = null;
+        try {
+            HttpEntity<ResultTest> request = new HttpEntity<>(resultTest, headers);
+            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_SEARCH_RESULT_TESTS_BY_USER, HttpMethod.PUT, request, ResultTest[].class).getBody();
+            if (resultArray != null) {
+                resultTests = FXCollections.observableArrayList();
+                resultTests.addAll(resultArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return resultTests;
+    }
+
+    public ObservableList<ResultTest> searchByUserTests(ResultTest resultTest) {
+        ObservableList<ResultTest> resultTests = null;
+        try {
+            HttpEntity<ResultTest> request = new HttpEntity<>(resultTest, headers);
+            ResultTest[] resultArray = rest.exchange(url + URLResultTestService.URL_SEARCH_RESULT_TESTS_BY_USER_TESTS, HttpMethod.PUT, request, ResultTest[].class).getBody();
             if (resultArray != null) {
                 resultTests = FXCollections.observableArrayList();
                 resultTests.addAll(resultArray);

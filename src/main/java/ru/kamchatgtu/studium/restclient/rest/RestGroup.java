@@ -62,7 +62,7 @@ public class RestGroup implements AbstractRest<Group> {
     }
 
     @Override
-    public Group get(Integer id) {
+    public Group get(int id) {
         Group group = null;
         try {
             HttpEntity<Group> request = new HttpEntity<>(headers);
@@ -109,6 +109,36 @@ public class RestGroup implements AbstractRest<Group> {
         try {
             HttpEntity<Group[]> request = new HttpEntity<>(headers);
             Group[] groupsArray = rest.exchange(url + URLGroupService.URL_GROUPS_BY_DIRECTION + "?id=" + id, HttpMethod.GET, request, Group[].class).getBody();
+            if (groupsArray != null) {
+                groups = FXCollections.observableArrayList();
+                groups.addAll(groupsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return groups;
+    }
+
+    public ObservableList<Group> getStudentGroups() {
+        ObservableList<Group> groups = null;
+        try {
+            HttpEntity<Group[]> request = new HttpEntity<>(headers);
+            Group[] groupsArray = rest.exchange(url + URLGroupService.URL_STUDENT_GROUPS, HttpMethod.GET, request, Group[].class).getBody();
+            if (groupsArray != null) {
+                groups = FXCollections.observableArrayList();
+                groups.addAll(groupsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return groups;
+    }
+
+    public ObservableList<Group> getAdminAndTeacherGroups() {
+        ObservableList<Group> groups = null;
+        try {
+            HttpEntity<Group[]> request = new HttpEntity<>(headers);
+            Group[] groupsArray = rest.exchange(url + URLGroupService.URL_TEACHER_GROUPS, HttpMethod.GET, request, Group[].class).getBody();
             if (groupsArray != null) {
                 groups = FXCollections.observableArrayList();
                 groups.addAll(groupsArray);

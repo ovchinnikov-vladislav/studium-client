@@ -3,9 +3,8 @@ package ru.kamchatgtu.studium.engine.thread;
 import com.victorlaerte.asynctask.AsyncTask;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.message.Message;
+import ru.kamchatgtu.studium.view.Message;
 
 public class CheckConnectTask extends AsyncTask<Void, Void, Boolean> {
 

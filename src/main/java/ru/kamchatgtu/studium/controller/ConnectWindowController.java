@@ -9,9 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.login.LoginWindow;
+import ru.kamchatgtu.studium.view.input.LoginWindow;
 
 import java.io.IOException;
 
@@ -73,7 +73,7 @@ public class ConnectWindowController {
             progressIndicator.setVisible(false);
             if (aBoolean) {
                 try {
-                    SecurityAES.writeFile(url);
+                    Security.writeFile(url);
                     Stage stageOld = (Stage) connectButton.getScene().getWindow();
                     Stage stageNew = LoginWindow.getStage();
                     stageNew.show();

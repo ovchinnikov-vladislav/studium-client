@@ -1,18 +1,22 @@
 package ru.kamchatgtu.studium.entity;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.Objects;
 
 public class ResultQuestion {
 
+    private IntegerProperty idResultQuestion;
     private ObjectProperty<Answer> answer;
     private ObjectProperty<User> user;
     private ObjectProperty<Question> question;
     private ObjectProperty<ResultTest> resultTest;
 
     public ResultQuestion() {
+        idResultQuestion = new SimpleIntegerProperty();
         answer = new SimpleObjectProperty<>();
         user = new SimpleObjectProperty<>();
         question = new SimpleObjectProperty<>();
@@ -21,6 +25,18 @@ public class ResultQuestion {
 
     public Answer getAnswer() {
         return answer.get();
+    }
+
+    public int getIdResultQuestion() {
+        return idResultQuestion.get();
+    }
+
+    public IntegerProperty idResultQuestionProperty() {
+        return idResultQuestion;
+    }
+
+    public void setIdResultQuestion(int idResultQuestion) {
+        this.idResultQuestion.set(idResultQuestion);
     }
 
     public ObjectProperty<Answer> answerProperty() {

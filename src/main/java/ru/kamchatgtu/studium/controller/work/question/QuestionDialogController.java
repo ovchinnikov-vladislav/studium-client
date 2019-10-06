@@ -6,14 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.component.AutoSizeTextArea;
-import ru.kamchatgtu.studium.component.CustomTextArea;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.Answer;
 import ru.kamchatgtu.studium.entity.Question;
 import ru.kamchatgtu.studium.restclient.RestConnection;
@@ -69,7 +67,7 @@ public class QuestionDialogController {
     @FXML
     public void saveAction(ActionEvent event) {
         question.setTheme(CreateQuesPanelController.getSelectedTheme());
-        question.setUser(SecurityAES.USER_LOGIN);
+        question.setUser(Security.USER_LOGIN);
         CreateQuesPanelController.setSelectedQuestion(question);
         close((Node) event.getSource());
     }

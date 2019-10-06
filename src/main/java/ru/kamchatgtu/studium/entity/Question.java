@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Question implements Serializable, Cloneable {
+public class Question implements Cloneable {
 
     private IntegerProperty idQuestion;
     private StringProperty questionText;
     private ObjectProperty<Theme> theme;
-    private ObjectProperty<Date> dateReg;
+    private ObjectProperty<Date> dateEdit;
     private IntegerProperty questionType;
     private StringProperty dirImage;
     private StringProperty dirAudio;
@@ -29,7 +29,7 @@ public class Question implements Serializable, Cloneable {
         idQuestion = new SimpleIntegerProperty();
         questionText = new SimpleStringProperty();
         theme = new SimpleObjectProperty<>();
-        dateReg = new SimpleObjectProperty<>();
+        dateEdit = new SimpleObjectProperty<>();
         questionType = new SimpleIntegerProperty();
         dirImage = new SimpleStringProperty();
         dirAudio = new SimpleStringProperty();
@@ -74,16 +74,16 @@ public class Question implements Serializable, Cloneable {
         return theme;
     }
 
-    public Date getDateReg() {
-        return dateReg.get();
+    public Date getDateEdit() {
+        return dateEdit.get();
     }
 
-    public ObjectProperty<Date> dateRegProperty() {
-        return dateReg;
+    public ObjectProperty<Date> dateEditProperty() {
+        return dateEdit;
     }
 
-    public void setDateReg(Date dateReg) {
-        this.dateReg.set(dateReg);
+    public void setDateEdit(Date dateEdit) {
+        this.dateEdit.set(dateEdit);
     }
 
     public int getQuestionType() {
@@ -181,7 +181,7 @@ public class Question implements Serializable, Cloneable {
         Question question = new Question();
         question.setQuestionType(getQuestionType());
         question.setTheme(getTheme());
-        question.setDateReg(getDateReg());
+        question.setDateEdit(getDateEdit());
         question.setDirAudio(getDirAudio());
         question.setDirImage(getDirImage());
         question.setDirVideo(getDirVideo());
@@ -199,7 +199,7 @@ public class Question implements Serializable, Cloneable {
         return Objects.equals(idQuestion.get(), question.idQuestion.get()) &&
                 Objects.equals(questionText.get(), question.questionText.get()) &&
                 Objects.equals(theme.get(), question.theme.get()) &&
-                Objects.equals(dateReg.get(), question.dateReg.get()) &&
+                Objects.equals(dateEdit.get(), question.dateEdit.get()) &&
                 Objects.equals(questionType.get(), question.questionType.get()) &&
                 Objects.equals(dirImage.get(), question.dirImage.get()) &&
                 Objects.equals(dirAudio.get(), question.dirAudio.get()) &&
@@ -209,6 +209,6 @@ public class Question implements Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idQuestion.get(), questionText.get(), theme.get(), dateReg.get(), questionType.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), user.get());
+        return Objects.hash(idQuestion.get(), questionText.get(), theme.get(), dateEdit.get(), questionType.get(), dirImage.get(), dirAudio.get(), dirVideo.get(), user.get());
     }
 }

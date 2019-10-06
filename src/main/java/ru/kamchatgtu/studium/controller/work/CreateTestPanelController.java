@@ -5,23 +5,22 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.test.CreateTestWindowController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.Test;
 import ru.kamchatgtu.studium.restclient.RestConnection;
+import ru.kamchatgtu.studium.view.Message;
 import ru.kamchatgtu.studium.view.work.test.CreateTestWindow;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 public class CreateTestPanelController {
 
@@ -100,8 +99,9 @@ public class CreateTestPanelController {
             stage.initOwner(buttonsPane.getScene().getWindow());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            tests = rest.getRestTest().getTestsByUser(SecurityAES.USER_LOGIN.getIdUser());
+            tests = rest.getRestTest().getTestsByUser(Security.USER_LOGIN.getIdUser());
             testTable.setItems(tests);
+            testTable.refresh();
             testTable.getSelectionModel().select(CreateTestWindowController.getSelectedTest());
         } catch (IOException exc) {
             exc.printStackTrace();
@@ -121,8 +121,9 @@ public class CreateTestPanelController {
             stage.initOwner(buttonsPane.getScene().getWindow());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            tests = rest.getRestTest().getTestsByUser(SecurityAES.USER_LOGIN.getIdUser());
+            tests = rest.getRestTest().getTestsByUser(Security.USER_LOGIN.getIdUser());
             testTable.setItems(tests);
+            testTable.refresh();
             testTable.getSelectionModel().select(CreateTestWindowController.getSelectedTest());
         } catch (IOException exc) {
             exc.printStackTrace();
@@ -131,9 +132,16 @@ public class CreateTestPanelController {
 
     @FXML
     public void deleteTestAction(ActionEvent event) {
-        rest.getRestTest().remove(testTable.getSelectionModel().getSelectedItem());
-        tests = rest.getRestTest().getAll();
-        testTable.setItems(tests);
+        Message message = new Message(Alert.AlertType.CONFIRMATION);
+        message.setHeaderText("Удаление теста");
+        message.setTitle("Удаление теста");
+        message.setContentText("Вы действительно хотите удалить тест? После удаления результаты по данному тесту станут недоступны!");
+        Optional<ButtonType> optional = message.showAndWait();
+        if (optional.get() == ButtonType.OK) {
+            rest.getRestTest().remove(testTable.getSelectionModel().getSelectedItem());
+            tests = rest.getRestTest().getAll();
+            testTable.setItems(tests);
+        }
     }
 
     private void initId() {
@@ -197,7 +205,7 @@ public class CreateTestPanelController {
 
         @Override
         public ObservableList<Test> doInBackground(Void... voids) {
-            return rest.getRestTest().getTestsByUser(SecurityAES.USER_LOGIN.getIdUser());
+            return rest.getRestTest().getTestsByUser(Security.USER_LOGIN.getIdUser());
         }
 
         @Override

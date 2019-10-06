@@ -5,10 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
-import ru.kamchatgtu.studium.controller.work.UsersPanelController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
+import ru.kamchatgtu.studium.view.input.LoginWindow;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
 
 import java.io.IOException;
@@ -36,10 +36,8 @@ public class RegistrationAsync extends AsyncTask<Void, Void, Boolean> {
     @Override
     public Boolean doInBackground(Void... voids) {
         User newUser = rest.getRestUser().add(user);
-        UsersPanelController.setUsers(rest.getRestUser().getAll());
-        UsersPanelController.setRoles(rest.getRestRole().getAll());
         CreateQuesPanelController.setThemes(rest.getRestTheme().getAll());
-        SecurityAES.USER_LOGIN.setUser(user);
+        Security.USER_LOGIN.setUser(user);
         LoginAsync.checkAccess(rest);
         return newUser != null;
     }
@@ -51,8 +49,8 @@ public class RegistrationAsync extends AsyncTask<Void, Void, Boolean> {
         if (aBoolean) {
             try {
                 Stage thisStage = (Stage) regButton.getScene().getWindow();
-                Stage workStage = WorkWindow.getStage();
-                workStage.show();
+                Stage loginStage = LoginWindow.getStage();
+                loginStage.show();
                 thisStage.close();
             } catch (IOException exc) {
                 exc.printStackTrace();

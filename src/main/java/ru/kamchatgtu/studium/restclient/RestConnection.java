@@ -21,6 +21,7 @@ public class RestConnection {
     private RestTest restTest = null;
     private RestTheme restTheme = null;
     private RestUser restUser = null;
+    private RestLog restLog = null;
 
     public RestConnection() {
         headers = createHeaders("administrator", "hardpassword");
@@ -121,5 +122,12 @@ public class RestConnection {
             restUser = new RestUser(headers);
         restUser.setUrl(url);
         return restUser;
+    }
+
+    public synchronized RestLog getRestLog() {
+        if (restLog == null && url != null)
+            restLog = new RestLog(headers);
+        restLog.setUrl(url);
+        return restLog;
     }
 }

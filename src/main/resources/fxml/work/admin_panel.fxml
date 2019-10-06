@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="borderMainStyle" stylesheets="@../../style/style.css"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx"
+          fx:controller="ru.kamchatgtu.studium.controller.work.AdminPanelController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <TabPane fx:id="tabPane">
+        <Tab closable="false" text="Факультеты, направления подготовки и группы" onSelectionChanged="#openFacultiesDirectionsGroupsPane">
+            <fx:include fx:id="facultiesDirectionsGroupsPane" source="admin/faculties_directions_groups_panel.fxml"/>
+        </Tab>
+        <Tab closable="false" text="Кафедры" onSelectionChanged="#openDepartmentsPane">
+            <fx:include fx:id="departmentsPane" source="admin/departments_panel.fxml"/>
+        </Tab>
+        <Tab closable="false" text="Дисциплины" onSelectionChanged="#openSubjectsPane">
+            <fx:include fx:id="subjectsPane" source="admin/subjects_panel.fxml" />
+        </Tab>
+        <Tab closable="false" text="Студенты" onSelectionChanged="#openStudentsPane">
+           <fx:include fx:id="studentsPane" source="admin/students_panel.fxml"/>
+        </Tab>
+        <Tab closable="false" text="Преподаватели" onSelectionChanged="#openTeachersPane">
+            <fx:include fx:id="teachersPane" source="admin/teachers_panel.fxml"/>
+        </Tab>
+        <Tab closable="false" text="Администраторы" onSelectionChanged="#openAdministratorsPane">
+            <fx:include fx:id="administratorsPane" source="admin/administrators_panel.fxml"/>
+        </Tab>
+    </TabPane>
+</GridPane>

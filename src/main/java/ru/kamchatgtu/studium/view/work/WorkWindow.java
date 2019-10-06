@@ -1,54 +1,24 @@
 package ru.kamchatgtu.studium.view.work;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
+import ru.kamchatgtu.studium.view.Window;
 
 import java.io.IOException;
 
-public class WorkWindow extends Application {
+public class WorkWindow extends Window {
+
+    private static Stage stageWork;
 
     public static Stage getStage() throws IOException {
-        Parent root = FXMLLoader.load(WorkWindow.class.getResource("/fxml/work/work_window.fxml"));
-        double width = 1000;
-        double height = 600;
-
-        Stage stage = new Stage();
-
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenBounds.getWidth() - width) / 2);
-        stage.setY((screenBounds.getHeight() - height) / 2);
-
-        Scene scene = new Scene(root,width, height);
-        stage.setScene(scene);
-        stage.setMinWidth(1050);
-        stage.setMinHeight(600);
-        stage.setTitle("Studium");
-        stage.getIcons().add(new Image("/image/icon.png"));
-        stage.show();
-        return stage;
+        stageWork = new Stage();
+        initStage(stageWork, "/fxml/work_window.fxml", 1000, 600, 1000, 600, "Studium");
+        return stageWork;
     }
 
+    @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/work/work_window.fxml"));
-        double width = 1000;
-        double height = 600;
-
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenBounds.getWidth() - width) / 2);
-        stage.setY((screenBounds.getHeight() - height) / 2);
-
-        Scene scene = new Scene(root, 1000, 600);
-        stage.setScene(scene);
-        stage.setMinWidth(1050);
-        stage.setMinHeight(600);
-        stage.setTitle("Studium");
-        stage.getIcons().add(new Image("/image/icon.png"));
-        stage.show();
+        stageWork = stage;
+        initStage(stageWork, "/fxml/work_window.fxml", 1000, 600, 1000, 600, "Studium");
+        stageWork.show();
     }
 }

@@ -111,7 +111,7 @@
     <GridPane alignment="CENTER" hgap="5" styleClass="borderMenuStyle" GridPane.rowIndex="0">
         <Button onAction="#loginMenuClick" styleClass="buttonMenu" text="Войти" GridPane.columnIndex="1"/>
         <Button onAction="#regMenuClick" styleClass="buttonMenu" text="Регистрация" GridPane.columnIndex="2"/>
-        <Button styleClass="buttonMenu" text="Сброс пароля" GridPane.columnIndex="3"/>
+        <!--Button styleClass="buttonMenu" text="Сброс пароля" GridPane.columnIndex="3"/-->
         <columnConstraints>
             <ColumnConstraints/>
             <ColumnConstraints/>

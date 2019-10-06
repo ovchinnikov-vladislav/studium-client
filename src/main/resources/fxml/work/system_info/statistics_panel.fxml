@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import javafx.scene.chart.LineChart?>
+<GridPane fx:id="statisticsPane" styleClass="borderMainStyle" stylesheets="@../../../style/style.css" GridPane.rowIndex="1" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kamchatgtu.studium.controller.work.system_info.StatisticsPanelController">
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10" />
+    </GridPane.margin>
+    <padding>
+        <Insets bottom="25" left="25" right="25" />
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40.0" />
+        <RowConstraints minHeight="10.0" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints prefHeight="10.0" />
+      <RowConstraints />
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Системная информация: Статистика" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+    <TabPane fx:id="tabPane" side="LEFT" styleClass="tabPane" GridPane.rowIndex="2">
+        <Tab fx:id="facultiesTab" closable="false">
+
+        </Tab>
+        <Tab fx:id="subjectsTab" closable="false">
+            <GridPane fx:id="subjectsPane">
+                <padding>
+                    <Insets right="10" left="10"/>
+                </padding>
+                <rowConstraints>
+                    <RowConstraints minHeight="35"/>
+                    <RowConstraints minHeight="35"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                </rowConstraints>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label styleClass="labelStyle" GridPane.rowIndex="0" text="Количество записей в таблице subject: "/>
+                <Label styleClass="labelStyle" GridPane.rowIndex="1" text="Количество записей в таблице direction_subject: "/>
+            </GridPane>
+        </Tab>
+        <Tab fx:id="usersTab" closable="false">
+
+        </Tab>
+        <Tab fx:id="themesAndQuestionsTab" closable="false">
+
+        </Tab>
+        <Tab fx:id="testsTab" closable="false">
+
+        </Tab>
+        <Tab fx:id="resultsTab" closable="false">
+        </Tab>
+    </TabPane>
+    <ProgressIndicator fx:id="progressIndicator" maxHeight="50" maxWidth="50" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+</GridPane>

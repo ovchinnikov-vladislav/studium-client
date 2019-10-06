@@ -26,7 +26,7 @@
     </columnConstraints>
     <Label styleClass="labelStyleTitle" text="Результаты" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
     <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+    <TextField fx:id="searchResultsTextField" maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
     <TableView fx:id="resultTable" editable="true" GridPane.rowIndex="4">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -35,8 +35,8 @@
             <TableColumn fx:id="idColumn" minWidth="50" maxWidth="50" text="ID"/>
             <TableColumn fx:id="fioResultColumn" minWidth="100" text="ФИО"/>
             <TableColumn fx:id="nameTestResultColumn" minWidth="100" text="Тест"/>
-            <TableColumn fx:id="dateBeginColumn" minWidth="100" text="Время начала"/>
-            <TableColumn fx:id="dateEndColumn" minWidth="100" text="Время конца"/>
+            <TableColumn fx:id="dateColumn" minWidth="100" text="Дата"/>
+            <TableColumn fx:id="timeColumn" minWidth="100" text="Время"/>
             <TableColumn fx:id="markColumn" minWidth="100" text="Оценка"/>
         </columns>
     </TableView>

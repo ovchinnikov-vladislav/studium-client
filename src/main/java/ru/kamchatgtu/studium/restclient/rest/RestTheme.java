@@ -62,7 +62,7 @@ public class RestTheme implements AbstractRest<Theme> {
     }
 
     @Override
-    public Theme get(Integer id) {
+    public Theme get(int id) {
         Theme theme = null;
         try {
             HttpEntity<Theme> request = new HttpEntity<>(headers);
@@ -79,6 +79,21 @@ public class RestTheme implements AbstractRest<Theme> {
         try {
             HttpEntity<String[]> request = new HttpEntity<>(headers);
             Theme[] themesArray = rest.exchange(url + URLThemeService.URL_THEMES, HttpMethod.GET, request, Theme[].class).getBody();
+            if (themesArray != null) {
+                themes = FXCollections.observableArrayList();
+                themes.addAll(themesArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return themes;
+    }
+
+    public ObservableList<Theme> search(Theme theme) {
+        ObservableList<Theme> themes = null;
+        try {
+            HttpEntity<Theme> request = new HttpEntity<>(theme, headers);
+            Theme[] themesArray = rest.exchange(url + URLThemeService.URL_SEARCH, HttpMethod.PUT, request, Theme[].class).getBody();
             if (themesArray != null) {
                 themes = FXCollections.observableArrayList();
                 themes.addAll(themesArray);

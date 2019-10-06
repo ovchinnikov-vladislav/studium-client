@@ -62,7 +62,7 @@ public class RestAnswer implements AbstractRest<Answer> {
     }
 
     @Override
-    public Answer get(Integer id) {
+    public Answer get(int id) {
         Answer answer = null;
         try {
             HttpEntity<Answer> request = new HttpEntity<>(headers);

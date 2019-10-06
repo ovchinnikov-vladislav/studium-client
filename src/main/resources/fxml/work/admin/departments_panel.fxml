@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPanel" styleClass="borderMainStyle"
+          stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx"
+          fx:controller="ru.kamchatgtu.studium.controller.work.admin.DepartmentsPanelController">
+    <padding>
+        <Insets top="3" bottom="25" left="25" right="25"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints minHeight="35"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints prefHeight="35"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Администрирование: Кафедры" GridPane.halignment="CENTER"
+           GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+               GridPane.valignment="TOP"/>
+    <!--TextField fx:id="searchTextField" maxWidth="250" minHeight="35" promptText="Поиск" disable="true"
+               GridPane.halignment="RIGHT"
+               GridPane.rowIndex="2"/-->
+    <TableView fx:id="departmentsTable" GridPane.columnSpan="5" GridPane.rowIndex="2" GridPane.rowSpan="3" editable="true" disable="true" onKeyPressed="#deleteDepartmentKeyReleased">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn maxWidth="100" minWidth="100" resizable="false" text="ID группы">
+                <cellValueFactory>
+                    <PropertyValueFactory property="idGroup"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="departmentNameColumn" minWidth="100" onEditCommit="#departmentNameEditCommit" text="Наименование кафедры">
+                <cellValueFactory>
+                    <PropertyValueFactory property="groupName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="departmentTeachersColumn" minWidth="100" text="Список преподавателей"/>
+        </columns>
+    </TableView>
+    <GridPane alignment="CENTER" hgap="5" GridPane.rowIndex="6" GridPane.columnSpan="5">
+        <Button fx:id="addDepartmentButton" disable="true" onAction="#addDepartmentAction" styleClass="buttonMain" text="Добавить" GridPane.columnIndex="0"/>
+        <Button fx:id="deleteDepartmentButton" disable="true" onAction="#deleteDepartmentAction" styleClass="buttonMain" text="Удалить"
+                GridPane.columnIndex="1"/>
+        <Button fx:id="saveDepartmentButton" disable="true" onAction="#saveDepartmentAction" styleClass="buttonMain" text="Сохранить"
+                GridPane.columnIndex="2"/>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+        </rowConstraints>
+    </GridPane>
+    <ProgressIndicator fx:id="progressIndicator" visible="true" maxWidth="50" maxHeight="50" GridPane.rowSpan="7"
+                       GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
+</GridPane>

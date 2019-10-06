@@ -101,8 +101,8 @@ public class ResultTest {
         if (o == null || getClass() != o.getClass()) return false;
         ResultTest that = (ResultTest) o;
         return Objects.equals(idResult.get(), that.idResult.get()) &&
-                Objects.equals(user.get(), that.user.get()) &&
-                Objects.equals(test.get(), that.test.get()) &&
+                Objects.equals(user.get().getIdUser(), that.user.get().getIdUser()) &&
+                Objects.equals(test.get().getIdTest(), that.test.get().getIdTest()) &&
                 Objects.equals(dateBegin.get(), that.dateBegin.get()) &&
                 Objects.equals(dateEnd.get(), that.dateEnd.get()) &&
                 Objects.equals(mark.get(), that.mark.get());
@@ -110,6 +110,6 @@ public class ResultTest {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idResult.get(), user.get(), test.get(), dateBegin.get(), dateEnd.get(), mark.get());
+        return Objects.hash(idResult.get(), user.get().getIdUser(), test.get().getIdTest(), dateBegin.get(), dateEnd.get(), mark.get());
     }
 }

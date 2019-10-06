@@ -21,7 +21,7 @@ public class AnswerQuesTask implements Runnable {
 
     @Override
     public void run() {
-        ObservableList<ResultQuestion> oldResultQuestions = rest.getRestResultQuestion().getByResultQuestion(resultQuestion);
+        ObservableList<ResultQuestion> oldResultQuestions = rest.getRestResultQuestion().getByQuestionAndResultTest(resultQuestion.getQuestion().getIdQuestion(), resultQuestion.getResultTest().getIdResult());
         if (oldResultQuestions.size() > 0)
             oldResultQuestions.forEach(action -> rest.getRestResultQuestion().remove(action));
         if (resultQuestions.size() > 0)

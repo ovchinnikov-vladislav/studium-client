@@ -9,7 +9,7 @@ public interface AbstractRest<T> {
 
     T remove(T t);
 
-    T get(Integer id);
+    T get(int id);
 
     ObservableList<T> getAll();
 }

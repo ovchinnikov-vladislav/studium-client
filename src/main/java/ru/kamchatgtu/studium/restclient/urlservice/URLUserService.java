@@ -11,4 +11,8 @@ public class URLUserService {
     public static final String URL_SEARCH = URL + "/search";
     public static final String URL_USER_BY_EMAIL = URL + "/user_by_email";
     public static final String URL_USER_BY_LOGIN = URL + "/user_by_login";
+    public static final String URL_USERS_BY_GROUP = URL + "/users_by_group";
+    public static final String URL_STUDENTS = URL + "/students";
+    public static final String URL_TEACHERS = URL + "/teachers";
+    public static final String URL_ADMINISTRATORS = URL + "/administrators";
 }

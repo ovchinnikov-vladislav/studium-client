@@ -65,7 +65,7 @@ public class RestSubject implements AbstractRest<Subject> {
     }
 
     @Override
-    public Subject get(Integer id) {
+    public Subject get(int id) {
         Subject subject = null;
         try {
             HttpEntity<Subject> request = new HttpEntity<>(headers);
@@ -92,6 +92,21 @@ public class RestSubject implements AbstractRest<Subject> {
         return subjects;
     }
 
+    public ObservableList<Subject> getSubjectsWithTestsByUser(Integer id) {
+        ObservableList<Subject> subjects = null;
+        try {
+            HttpEntity<Subject> request = new HttpEntity<>(headers);
+            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_WITH_TESTS_BY_USER + "?id=" + id, HttpMethod.GET, request, Subject[].class).getBody();
+            if (subjectsArray != null) {
+                subjects = FXCollections.observableArrayList();
+                subjects.addAll(subjectsArray);
+            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return subjects;
+    }
+
     public ObservableList<Subject> getByUser(Integer id) {
         ObservableList<Subject> subjects = null;
         try {
@@ -107,11 +122,11 @@ public class RestSubject implements AbstractRest<Subject> {
         return subjects;
     }
 
-    public ObservableList<Subject> getByDirection(Direction direction) {
+    public ObservableList<Subject> getByDirection(Integer id) {
         ObservableList<Subject> subjects = null;
         try {
-            HttpEntity<Direction> request = new HttpEntity<>(direction, headers);
-            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_BY_DIRECTION, HttpMethod.POST, request, Subject[].class).getBody();
+            HttpEntity<Subject> request = new HttpEntity<>(headers);
+            Subject[] subjectsArray = rest.exchange(url + URLSubjectService.URL_SUBJECTS_BY_DIRECTION+"?id="+id, HttpMethod.GET, request, Subject[].class).getBody();
             if (subjectsArray != null) {
                 subjects = FXCollections.observableArrayList();
                 subjects.addAll(subjectsArray);

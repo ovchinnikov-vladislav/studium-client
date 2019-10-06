@@ -26,8 +26,7 @@
     </columnConstraints>
     <Label styleClass="labelStyleTitle" text="Тесты" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
     <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
-    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="4" visible="false">
+    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="2" visible="false" GridPane.rowSpan="3">
         <GridPane fx:id="testsPane" hgap="10" style="-fx-border-width: 0" styleClass="borderStyle" vgap="10">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS"/>

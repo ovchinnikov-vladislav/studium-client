@@ -62,7 +62,7 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
     }
 
     @Override
-    public ResultQuestion get(Integer id) {
+    public ResultQuestion get(int id) {
         ResultQuestion resultQuestion = null;
         try {
             HttpEntity<ResultQuestion> request = new HttpEntity<>(headers);
@@ -104,27 +104,11 @@ public class RestResultQuestion implements AbstractRest<ResultQuestion> {
         return resultQuestions;
     }
 
-    public ObservableList<ResultQuestion> getByResultQuestion(ResultQuestion resultQuestion) {
-        ObservableList<ResultQuestion> resultQuestions = null;
-        try {
-            HttpEntity<ResultQuestion> request = new HttpEntity<>(resultQuestion, headers);
-            ResponseEntity<ResultQuestion[]> responseEntity = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_RESULT_QUESTION, HttpMethod.PUT, request, ResultQuestion[].class);
-            ResultQuestion[] resultArray = responseEntity.getBody();
-            if (resultArray != null) {
-                resultQuestions = FXCollections.observableArrayList();
-                resultQuestions.addAll(resultArray);
-            }
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }
-        return resultQuestions;
-    }
-
     public ObservableList<ResultQuestion> getByQuestionAndResultTest(Integer idQuestion, Integer idResult) {
         ObservableList<ResultQuestion> resultQuestions = null;
         try {
             HttpEntity<Question> request = new HttpEntity<>(headers);
-            ResponseEntity<ResultQuestion[]> responseEntity = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_QUESTION_AND_RESULT_TEST+"?idQuestion=" + idQuestion + "&&idResult="+idResult, HttpMethod.GET, request, ResultQuestion[].class);
+            ResponseEntity<ResultQuestion[]> responseEntity = rest.exchange(url + URLResultQuestionService.URL_RESULT_QUESTIONS_BY_QUESTION_AND_RESULT_TEST+"?id_q=" + idQuestion + "&&id_r="+idResult, HttpMethod.GET, request, ResultQuestion[].class);
             ResultQuestion[] resultArray = responseEntity.getBody();
             if (resultArray != null) {
                 resultQuestions = FXCollections.observableArrayList();

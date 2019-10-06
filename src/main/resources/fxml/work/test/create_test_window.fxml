@@ -49,49 +49,7 @@
                    GridPane.valignment="TOP"/>
         <TextField fx:id="nameTestField" minHeight="35" promptText="Наименование теста" GridPane.columnIndex="1"
                    GridPane.rowIndex="2"/>
-        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS"/>
-                <ColumnConstraints/>
-            </columnConstraints>
-            <ComboBox fx:id="subjectsBox" editable="true" maxWidth="Infinity" minHeight="35" promptText="Дисциплина"/>
-            <HBox GridPane.columnIndex="1">
-                <GridPane.margin>
-                    <Insets left="5" top="5"/>
-                </GridPane.margin>
-                <Button fx:id="addSubjectButton" onAction="#addSubjectAction" style="-fx-padding: 5px 5px 5px 5px"
-                        styleClass="buttonRound">
-                    <tooltip>
-                        <Tooltip text="Добавить дисциплину" style="-fx-font-size: 12px"/>
-                    </tooltip>
-                    <HBox.margin>
-                        <Insets right="2"/>
-                    </HBox.margin>
-                    <graphic>
-                        <ImageView>
-                            <Image url="@../../../image/add-circular-button.png"/>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button fx:id="editSubjectButton" disable="true" onAction="#editSubjectAction"
-                        style="-fx-padding: 5px 5px 5px 5px" styleClass="buttonRound">
-                    <tooltip>
-                        <Tooltip text="Отредактировать дисциплину" style="-fx-font-size: 12px"/>
-                    </tooltip>
-                    <HBox.margin>
-                        <Insets right="2"/>
-                    </HBox.margin>
-                    <graphic>
-                        <ImageView>
-                            <Image url="@../../../image/edit.png"/>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </HBox>
-            <rowConstraints>
-                <RowConstraints/>
-            </rowConstraints>
-        </GridPane>
+        <ComboBox fx:id="subjectsBox" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" maxWidth="Infinity" minHeight="35" promptText="Дисциплина"/>
         <HBox GridPane.columnIndex="1" GridPane.rowIndex="6">
             <Label styleClass="labelStyle" text="Время тестирования">
                 <HBox.margin>
@@ -116,44 +74,6 @@
         </HBox>
         <TabPane style="-fx-border-color: #C8C8C8; -fx-border-width: 1px" GridPane.columnIndex="1"
                  GridPane.rowIndex="8">
-            <Tab closable="false" text="Направление подготовки">
-                <GridPane>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10"/>
-                        <RowConstraints minHeight="35"/>
-                        <RowConstraints minHeight="15"/>
-                        <RowConstraints vgrow="ALWAYS"/>
-                    </rowConstraints>
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                    </columnConstraints>
-                    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT"
-                               GridPane.rowIndex="1">
-                        <GridPane.margin>
-                            <Insets right="15"/>
-                        </GridPane.margin>
-                    </TextField>
-                    <TableView fx:id="directionsTable" editable="true" styleClass="tableNoEditableStyle"
-                               GridPane.rowIndex="3">
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                        </columnResizePolicy>
-                        <columns>
-                            <TableColumn fx:id="idDirectionColumn" maxWidth="50" minWidth="50" text="ID" resizable="false"/>
-                            <TableColumn text="Направление подготовки">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="directionName"/>
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="checkSubjectColumn" minWidth="25" maxWidth="25" resizable="false">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="inSubject"/>
-                                </cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </GridPane>
-            </Tab>
             <Tab closable="false" text="Вопросы">
                 <GridPane>
                     <rowConstraints>
@@ -165,7 +85,7 @@
                     <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS"/>
                     </columnConstraints>
-                    <TextField maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT"
+                    <TextField fx:id="searchResultsTextField" maxWidth="250" minHeight="35" promptText="Поиск" GridPane.halignment="RIGHT"
                                GridPane.rowIndex="1">
                         <GridPane.margin>
                             <Insets right="15"/>

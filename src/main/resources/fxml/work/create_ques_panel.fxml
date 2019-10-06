@@ -32,7 +32,7 @@
         <ColumnConstraints/>
         <ColumnConstraints/>
     </columnConstraints>
-    <Label styleClass="labelStyleTitle" text="Вопросы" GridPane.columnSpan="6" GridPane.halignment="CENTER"
+    <Label styleClass="labelStyleTitle" text="Создание вопроса" GridPane.columnSpan="6" GridPane.halignment="CENTER"
            GridPane.rowIndex="0"/>
     <Separator styleClass="lineStyle" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                GridPane.valignment="TOP"/>
@@ -153,7 +153,7 @@
     </Button>
     <Button fx:id="importExcelButton" onAction="#importExcelAction" style="-fx-padding: 4px 3px 2px 3px;"
             styleClass="buttonRound" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"
-            GridPane.halignment="RIGHT">
+            GridPane.halignment="RIGHT" visible="false">
         <tooltip>
             <Tooltip text="Импорт из Excel" style="-fx-font-size: 12px"/>
         </tooltip>

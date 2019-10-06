@@ -2,8 +2,12 @@ package ru.kamchatgtu.studium.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.*;
+import javafx.collections.ObservableList;
+import ru.kamchatgtu.studium.restclient.RestConnection;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Group {
 
@@ -11,12 +15,15 @@ public class Group {
     private StringProperty groupName;
     private ObjectProperty<Role> role;
     private ObjectProperty<Direction> direction;
+    @JsonIgnore
+    private Set<User> users;
 
     public Group() {
         this.idGroup = new SimpleIntegerProperty();
         this.groupName = new SimpleStringProperty();
         this.role = new SimpleObjectProperty<>();
         this.direction = new SimpleObjectProperty<>();
+        users = new HashSet<>();
     }
 
     public int getIdGroup() {
@@ -65,6 +72,19 @@ public class Group {
 
     public void setDirection(Direction direction) {
         this.direction.set(direction);
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public void initUsers() {
+        ObservableList<User> groupUsers = new RestConnection().getRestUser().getByGroup(getIdGroup());
+        users.addAll(groupUsers);
     }
 
     @Override

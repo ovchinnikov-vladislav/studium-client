@@ -23,11 +23,6 @@ public class EmailSender {
         properties.put("mail.smtp.port", "465");
     }
 
-    public static void main(String... args) {
-        EmailSender emailSender = new EmailSender("testaccaunt170797@gmail.com", "RabbitVlad");
-        emailSender.send("This is Subject", "This is message", "vladovchinnikov950@gmail.com");
-    }
-
     public void send(String subject, String text, String toEmail) {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override

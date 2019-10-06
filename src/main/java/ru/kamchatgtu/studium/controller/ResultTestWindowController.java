@@ -16,6 +16,7 @@ import ru.kamchatgtu.studium.entity.ResultQuestion;
 import ru.kamchatgtu.studium.entity.ResultTest;
 import ru.kamchatgtu.studium.restclient.RestConnection;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -35,13 +36,15 @@ public class ResultTestWindowController {
     @FXML
     public void initialize() {
         if (resultTest != null) {
-            testLabel.setText("Тест: " + resultTest.getTest().getTestName());
-            nameStudentLabel.setText("Студент: " + resultTest.getUser().getFio());
-            groupStudentLabel.setText("Группа: " + resultTest.getUser().getGroup().getGroupName());
-            markLabel.setText("Количество баллов: " + resultTest.getMark());
-            Set<Question> questions = resultTest.getTest().getQuestions();
-            DownloadQuestionAsync downloadQuestionAsync = new DownloadQuestionAsync(questions);
-            downloadQuestionAsync.execute();
+            int access = resultTest.getUser().getRole().getAccess();
+            if (access == 2 || access == 3) {
+                testLabel.setText("Тест: " + resultTest.getTest().getTestName());
+                nameStudentLabel.setText("Студент: " + resultTest.getUser().getFio());
+                groupStudentLabel.setText("Группа: " + resultTest.getUser().getGroup().getGroupName());
+                Set<Question> questions = resultTest.getTest().getQuestions();
+                DownloadQuestionAsync downloadQuestionAsync = new DownloadQuestionAsync(questions);
+                downloadQuestionAsync.execute();
+            }
         }
     }
 
@@ -113,6 +116,8 @@ public class ResultTestWindowController {
 
         @Override
         public Boolean doInBackground(Void... voids) {
+            fixResult();
+            resultTest = new RestConnection().getRestResultTest().get(resultTest.getIdResult());
             for (Question question : questions) {
                 question.initAnswers();
                 ObservableList<ResultQuestion> resultQuestions = new RestConnection().getRestResultQuestion().getByQuestionAndResultTest(question.getIdQuestion(), resultTest.getIdResult());
@@ -127,7 +132,7 @@ public class ResultTestWindowController {
                 progressIndicator.setVisible(false);
                 initAllQuestions(questions);
                 countMistakeLabel.setText("Количество ошибок: " + mistake);
-
+                markLabel.setText("Количество баллов: " + resultTest.getMark());
             }
         }
 
@@ -135,5 +140,12 @@ public class ResultTestWindowController {
         public void progressCallback(Void... voids) {
 
         }
+    }
+
+    private void fixResult() {
+        Date newDate = new Date();
+        if (newDate.getTime() < resultTest.getDateEnd().getTime())
+            resultTest.setDateEnd(newDate);
+        new RestConnection().getRestResultTest().fixResult(resultTest);
     }
 }

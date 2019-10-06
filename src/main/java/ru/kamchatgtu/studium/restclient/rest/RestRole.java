@@ -62,7 +62,7 @@ public class RestRole implements AbstractRest<Role> {
     }
 
     @Override
-    public Role get(Integer id) {
+    public Role get(int id) {
         Role role = null;
         try {
             HttpEntity<Role> request = new HttpEntity<>(headers);

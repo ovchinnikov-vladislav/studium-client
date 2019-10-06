@@ -13,12 +13,12 @@
     </padding>
     <rowConstraints>
         <RowConstraints prefHeight="30"/>
-        <RowConstraints prefHeight="20"/>
+        <RowConstraints minHeight="15"/>
         <RowConstraints maxHeight="100"/>
-        <RowConstraints prefHeight="15"/>
+        <RowConstraints minHeight="15"/>
         <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints prefHeight="10"/>
-        <RowConstraints prefHeight="35"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints minHeight="35"/>
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS"/>
@@ -29,7 +29,7 @@
         <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
         <AutoSizeTextArea fx:id="questionField" prefHeight="35" promptText="Вопрос"
                           GridPane.rowIndex="2"/>
-        <TitledPane collapsible="false" text="Тип вопроса" GridPane.rowIndex="4" GridPane.halignment="CENTER"
+        <TitledPane collapsible="false" text="Тип вопроса" GridPane.rowIndex="4" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM"
                     maxWidth="300">
             <fx:define>
                 <ToggleGroup fx:id="answersToggle"/>
@@ -47,11 +47,11 @@
                         <Insets topRightBottomLeft="3"/>
                     </VBox.margin>
                 </RadioButton>
-                <RadioButton fx:id="textAnswer" text="Вопрос с текстовым вариантом ответа" toggleGroup="$answersToggle">
+                <!--RadioButton fx:id="textAnswer" text="Вопрос с текстовым вариантом ответа" toggleGroup="$answersToggle">
                     <VBox.margin>
                         <Insets topRightBottomLeft="3"/>
                     </VBox.margin>
-                </RadioButton>
+                </RadioButton-->
             </VBox>
         </TitledPane>
         <HBox fx:id="buttons" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM"

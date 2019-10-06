@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="ratingStudentsPane" styleClass="borderMainStyle"
+          stylesheets="@../../style/style.css"
+          GridPane.rowIndex="1" xmlns="http://javafx.com/javafx"
+          fx:controller="ru.kamchatgtu.studium.controller.work.RatingStudentsPanelController">
+    <GridPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </GridPane.margin>
+    <padding>
+        <Insets bottom="25" left="25" right="25"/>
+    </padding>
+    <rowConstraints>
+        <RowConstraints minHeight="40"/>
+        <RowConstraints minHeight="10"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="10"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <Label styleClass="labelStyleTitle" text="Рейтинг" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
+    <Separator styleClass="lineStyle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+    <TableView fx:id="ratingStudentsTable" editable="false" GridPane.rowIndex="2">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn fx:id="idColumn" minWidth="50" maxWidth="50" text="ID"/>
+            <TableColumn fx:id="fioRatingColumn" minWidth="100" text="ФИО"/>
+            <TableColumn fx:id="groupColumn" minWidth="100" text="Группа"/>
+            <TableColumn fx:id="ratingColumn" minWidth="100" text="Рейтинг"/>
+        </columns>
+    </TableView>
+    <ProgressIndicator fx:id="progressIndicator" maxWidth="50" maxHeight="50" GridPane.rowIndex="2"
+                       GridPane.valignment="CENTER" GridPane.halignment="CENTER" visible="false"/>
+</GridPane>

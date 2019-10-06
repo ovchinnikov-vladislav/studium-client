@@ -5,12 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
-import ru.kamchatgtu.studium.controller.work.CreateQuesPanelController;
-import ru.kamchatgtu.studium.controller.work.UsersPanelController;
-import ru.kamchatgtu.studium.engine.SecurityAES;
+import ru.kamchatgtu.studium.engine.Security;
 import ru.kamchatgtu.studium.entity.User;
 import ru.kamchatgtu.studium.restclient.RestConnection;
-import ru.kamchatgtu.studium.view.login.NewPassWindow;
+import ru.kamchatgtu.studium.view.input.NewPassWindow;
 import ru.kamchatgtu.studium.view.work.WorkWindow;
 
 import java.io.IOException;
@@ -34,14 +32,13 @@ public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
     }
 
     public static void checkAccess(RestConnection restConnection) {
-        int access = SecurityAES.USER_LOGIN.getGroup().getRole().getAccess();
+        int access = Security.USER_LOGIN.getRole().getAccess();
         if (access == 3) {
 
         } else if (access == 2) {
-            CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
+            //CreateQuesPanelController.setThemes(restConnection.getRestTheme().getAll());
         } else if (access == 1) {
-            UsersPanelController.setUsers(restConnection.getRestUser().getAll());
-            UsersPanelController.setRoles(restConnection.getRestRole().getAll());
+
         }
     }
 
@@ -56,20 +53,19 @@ public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
         User user = rest.getRestUser().login(login, pass);
         if (user == null)
             return false;
-        SecurityAES.USER_LOGIN.setUser(user);
-        int access = SecurityAES.USER_LOGIN.getGroup().getRole().getAccess();
+        Security.USER_LOGIN.setUser(user);
+        int access = Security.USER_LOGIN.getRole().getAccess();
         checkAccess(rest);
         return true;
     }
 
     @Override
     public void onPostExecute(Boolean aBoolean) {
-        loginButton.setVisible(true);
-        progressIndicator.setVisible(false);
         if (aBoolean) {
             try {
                 Stage thisStage = (Stage) loginButton.getScene().getWindow();
-                if (SecurityAES.USER_LOGIN.getStatus() != 0) {
+                thisStage.hide();
+                if (Security.USER_LOGIN.getStatus() != 0) {
                     Stage workStage = WorkWindow.getStage();
                     workStage.show();
                 } else {
@@ -83,6 +79,8 @@ public class LoginAsync extends AsyncTask<Void, Void, Boolean> {
         } else {
             errorLabel.setVisible(true);
         }
+        loginButton.setVisible(true);
+        progressIndicator.setVisible(false);
     }
 
     @Override

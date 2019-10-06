@@ -16,6 +16,7 @@ public class Subject {
     private IntegerProperty idSubject;
     private StringProperty subjectName;
     private Set<Direction> directions;
+    private Set<User> users;
     @JsonIgnore
     private ObservableList<Test> tests;
 
@@ -63,6 +64,14 @@ public class Subject {
 
     public void setTests(ObservableList<Test> tests) {
         this.tests = tests;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

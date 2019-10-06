@@ -8,4 +8,5 @@ public class URLQuestionService {
     public static final String URL_ADD = URL + "/add";
     public static final String URL_DELETE = URL + "/delete";
     public static final String URL_UPDATE = URL + "/update";
+    public static final String URL_SEARCH = URL + "/search";
 }
